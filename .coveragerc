@@ -1,0 +1,9 @@
+[run]
+source = awesomeversion
+
+omit =
+    # omit setup
+    setup.py
+
+    # omit tests
+    tests/*
