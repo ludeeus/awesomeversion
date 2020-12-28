@@ -21,8 +21,8 @@ def test_semver():
     assert version_strategy("20.1.0") != AwesomeVersionStrategy.SEMVER
 
 
-def test_semver():
-    """Test semver."""
+def test_simplever():
+    """Test simplever."""
     assert version_strategy("1.2.3.4.5") == AwesomeVersionStrategy.SIMPLEVER
     assert version_strategy("20.1.0") != AwesomeVersionStrategy.SIMPLEVER
 
