@@ -108,7 +108,10 @@ class AwesomeVersion:
         """Compare two AwesomeVersion objects against eachother."""
         _LOGGER.debug("Comparing '%s' against '%s'", ver_a.string, ver_b.string)
         if ver_a.simple and ver_b.simple:
-            for section in [0, 1, 2, 3, 4, 5]:
+            biggest = (
+                ver_a.sections if ver_a.sections >= ver_b.sections else ver_b.sections
+            )
+            for section in range(0, biggest):
                 if ver_a.section(section) > ver_b.section(section):
                     return True
 

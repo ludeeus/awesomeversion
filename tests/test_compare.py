@@ -47,3 +47,4 @@ def test_compare():
 
     assert not AwesomeVersion("2019") > AwesomeVersion("2020")
     assert not AwesomeVersion("2021.1.0b0") > AwesomeVersion("2021.1.0")
+    assert AwesomeVersion("1.2.3.4.5.6.7.8.9") > AwesomeVersion("1")
