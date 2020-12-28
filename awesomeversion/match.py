@@ -3,13 +3,13 @@ import re
 
 from .strategy import AwesomeVersionStrategy
 
-RE_CALVER = re.compile(r"^(\d{2}|\d{4})\.\d{0,2}?\.?(\d+(\w+\d+)?)$")
-RE_SEMVER = re.compile(r"^(\d+)?\.?(\d+)?\.?(\d+(\w+\d+)?)$")
+RE_CALVER = re.compile(r"^(\d{2}|\d{4})\.\d{0,2}?\.?(\d*(\w+\d+)?)$")
+RE_SEMVER = re.compile(r"^(\d+)?\.?(\d+)?\.?(\d*(\w+\d+)?)$")
 RE_BUILDVER = re.compile(r"^\d*$")
 
 RE_SIMPLE = re.compile(r"^[v|V]?((\d+)?\.?)*$")
 
-RE_DIGIT = re.compile(r"(\d+)")
+RE_DIGIT = re.compile(r"[a-z]*(\d+)[a-z]*")
 RE_VERSION = re.compile(r"^[v|V]?(.*)$")
 RE_MODIFIER = re.compile(r"^\d+(\w+\d+)?$")
 

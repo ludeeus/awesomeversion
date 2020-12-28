@@ -54,7 +54,10 @@ class AwesomeVersion:
     @property
     def string(self) -> str:
         """Return a string representaion of the version."""
-        return RE_VERSION.match(str(self._version)).group(1)
+        version = RE_VERSION.match(str(self._version)).group(1)
+        if version.endswith("."):
+            version = version[:-1]
+        return version
 
     @property
     def alpha(self) -> bool:
@@ -84,7 +87,8 @@ class AwesomeVersion:
     @property
     def modifier(self) -> str:
         """Return the modifier of the version if any."""
-        return RE_MODIFIER.match(self.string.split(".")[self.sections - 1]).group(1)
+        match = RE_MODIFIER.match(self.string.split(".")[-1])
+        return match.group(1) if match else None
 
     @property
     def strategy(self) -> AwesomeVersionStrategy:
@@ -107,13 +111,18 @@ class AwesomeVersion:
     ) -> bool:
         """Compare two AwesomeVersion objects against eachother."""
         _LOGGER.debug("Comparing '%s' against '%s'", ver_a.string, ver_b.string)
+        a_last = ver_a.string.split(".")[-1]
+        b_last = ver_b.string.split(".")[-1]
+        biggest = ver_a.sections if ver_a.sections >= ver_b.sections else ver_b.sections
         if ver_a.simple and ver_b.simple:
-            biggest = (
-                ver_a.sections if ver_a.sections >= ver_b.sections else ver_b.sections
-            )
             for section in range(0, biggest):
                 if ver_a.section(section) > ver_b.section(section):
                     return True
+
+        if not a_last.startswith("dev") and b_last.startswith("dev"):
+            ver_b = AwesomeVersion(ver_b.string.replace(b_last, "0"))
+            if ver_a.string == ver_b.string:
+                return True
 
         if not ver_a.modifier and ver_b.modifier:
             new_version = AwesomeVersion(ver_b.string.replace(ver_b.modifier, ""))
@@ -124,5 +133,9 @@ class AwesomeVersion:
         if ver_a.modifier and not ver_b.modifier:
             new_version = AwesomeVersion(ver_a.string.replace(ver_a.modifier, ""))
             return self._a_is_greater_than_b(new_version, ver_b)
+
+        for section in range(0, biggest):
+            if ver_a.section(section) > ver_b.section(section):
+                return True
 
         return False
