@@ -23,7 +23,7 @@ setup(
     long_description_content_type="text/markdown",
     long_description=readme,
     name="awesomeversion",
-    packages=find_packages(include=["awesomeversion"]),
+    packages=find_packages(include=["awesomeversion", "awesomeversion.*"]),
     url="https://github.com/ludeeus/awesomeversion",
     version="main",
 )
