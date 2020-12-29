@@ -22,8 +22,9 @@ def test_awesomeversion():
     version = AwesomeVersion("2020.12.1rc0")
     assert version.release_candidate
 
-    version = AwesomeVersion("2020.12.1rc0")
+    version = AwesomeVersion("v2020.12.1rc0")
     version2 = AwesomeVersion(version)
     assert version == version2
 
-    assert str(version) == "<AwesomeVersion CalVer '2020.12.1rc0'>"
+    assert str(version) == "2020.12.1rc0"
+    assert repr(version) == "<AwesomeVersion CalVer '2020.12.1rc0'>"
