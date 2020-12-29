@@ -18,6 +18,12 @@ class AwesomeVersion:
         else:
             self._version = version
 
+    def __enter__(self) -> "AwesomeVersion":
+        return self
+
+    def __exit__(self, *exc_info) -> None:
+        pass
+
     def __repr__(self) -> str:
         return f"<AwesomeVersion {self.strategy} '{self.string}'>"
 

@@ -63,6 +63,15 @@ print(upstream > current)
 > True
 ```
 
+```python
+from awesomeversion import AwesomeVersion
+
+with AwesomeVersion("20.12.0") as current:
+    with AwesomeVersion("20.12.1") as upstream:
+        print(upstream > current)
+> True
+```
+
 ## Contribute
 
 **All** contributions are welcome!
