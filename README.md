@@ -1,5 +1,9 @@
 # AwesomeVersion
 
+[![codecov](https://codecov.io/gh/ludeeus/awesomeversion/branch/main/graph/badge.svg)](https://codecov.io/gh/ludeeus/awesomeversion)
+![PyPI](https://img.shields.io/pypi/v/awesomeversion)
+![Actions](https://github.com/ludeeus/awesomeversion/workflows/Actions/badge.svg?branch=main)
+
 _One version package to rule them all, One version package to find them, One version package to bring them all, and in the darkness bind them._
 
 Make anything a version object, and compare aginst a vast section of other version formats.
