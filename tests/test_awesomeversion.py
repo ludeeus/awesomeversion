@@ -28,3 +28,7 @@ def test_awesomeversion():
 
     assert str(version) == "2020.12.1rc0"
     assert repr(version) == "<AwesomeVersion CalVer '2020.12.1rc0'>"
+
+    with AwesomeVersion("20.12.0") as current:
+        with AwesomeVersion("20.12.1") as upstream:
+            assert upstream > current
