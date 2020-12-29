@@ -41,6 +41,8 @@ def test_compare():
     assert AwesomeVersion("2021.2.0") > AwesomeVersion("2021.1.0b0")
     assert AwesomeVersion("2021.2.0b0") > AwesomeVersion("2021.1.0")
     assert AwesomeVersion("2021.1.0") > AwesomeVersion("2021.1.0b1")
+    assert AwesomeVersion("2021.1.0b0") > AwesomeVersion("2021.1.0a0")
+    assert AwesomeVersion("2021.1.0b1") > AwesomeVersion("2021.1.0b0")
     assert AwesomeVersion("2021.1.0") > AwesomeVersion("2021.1.0dev20210101")
     assert AwesomeVersion("2020.12.dev1603") > AwesomeVersion("2020.12.dev1602")
     assert not AwesomeVersion("2020.12.dev1602") > AwesomeVersion("2020.12.dev1603")
