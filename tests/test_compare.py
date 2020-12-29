@@ -60,3 +60,11 @@ def test_compare():
     assert AwesomeVersion("dev") > AwesomeVersion("latest")
     assert AwesomeVersion("latest") > AwesomeVersion("beta")
     assert AwesomeVersion("beta") > AwesomeVersion("stable")
+
+    assert AwesomeVersion("1") >= AwesomeVersion("1")
+    assert AwesomeVersion("2") >= AwesomeVersion("1")
+
+    assert AwesomeVersion("1") <= AwesomeVersion("1")
+    assert AwesomeVersion("1") <= AwesomeVersion("2")
+
+    assert AwesomeVersion("2") != AwesomeVersion("1")

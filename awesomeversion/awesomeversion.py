@@ -60,6 +60,15 @@ class AwesomeVersion:
             )
         return self._a_is_greater_than_b(self, compareto)
 
+    def __ne__(self, compareto: "AwesomeVersion") -> bool:
+        return not self.__eq__(compareto)
+
+    def __le__(self, compareto: "AwesomeVersion") -> bool:
+        return self.__eq__(compareto) or self.__lt__(compareto)
+
+    def __ge__(self, compareto: "AwesomeVersion") -> bool:
+        return self.__eq__(compareto) or self.__gt__(compareto)
+
     @property
     def string(self) -> str:
         """Return a string representaion of the version."""
