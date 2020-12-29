@@ -52,7 +52,7 @@ jobs:
 
       - name: 📤 Upload coverage to Codecov
         if: ${{ matrix.python-version == '3.8' }}
-        run:
+        run: |
           make coverage
           curl -sfSL https://codecov.io/bash | bash -
 
