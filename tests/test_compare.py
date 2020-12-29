@@ -23,10 +23,10 @@ def test_invalid_compare():
         assert AwesomeVersion("2020.12.1") == "2020.12.0"
 
     with pytest.raises(AwesomeVersionCompare, match="Can't compare unknown"):
-        assert AwesomeVersion("2020.12.1") > AwesomeVersion("latest")
+        assert AwesomeVersion("2020.12.1") > AwesomeVersion("string")
 
     with pytest.raises(AwesomeVersionCompare, match="Can't compare unknown"):
-        assert AwesomeVersion("2020.12.1") < AwesomeVersion("latest")
+        assert AwesomeVersion("2020.12.1") < AwesomeVersion("string")
 
 
 def test_compare():
@@ -52,3 +52,9 @@ def test_compare():
     assert not AwesomeVersion("2019") > AwesomeVersion("2020")
     assert not AwesomeVersion("2021.1.0b0") > AwesomeVersion("2021.1.0")
     assert AwesomeVersion("1.2.3.4.5.6.7.8.9") > AwesomeVersion("1")
+
+    assert AwesomeVersion("2020.21.1") > AwesomeVersion("latest")
+    assert AwesomeVersion("latest") > AwesomeVersion("2020.21.1")
+    assert AwesomeVersion("dev") > AwesomeVersion("latest")
+    assert AwesomeVersion("latest") > AwesomeVersion("beta")
+    assert AwesomeVersion("beta") > AwesomeVersion("stable")

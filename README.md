@@ -2,6 +2,8 @@
 
 _One version package to rule them all, One version package to find them, One version package to bring them all, and in the darkness bind them._
 
+Make anything a version object, and compare aginst a vast section of other version formats.
+
 ## Installation
 
 ```bash
@@ -39,6 +41,26 @@ upstream = AwesomeVersion("2021.1.0b2")
 
 print(upstream > current)
 > False
+```
+
+```python
+from awesomeversion import AwesomeVersion
+
+current = AwesomeVersion("latest")
+upstream = AwesomeVersion("2021.1.0")
+
+print(upstream > current)
+> False
+```
+
+```python
+from awesomeversion import AwesomeVersion
+
+current = AwesomeVersion("latest")
+upstream = AwesomeVersion("dev")
+
+print(upstream > current)
+> True
 ```
 
 ## Contribute

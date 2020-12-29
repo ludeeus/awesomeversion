@@ -3,7 +3,7 @@ import logging
 
 from .exceptions import AwesomeVersionCompare
 from .match import RE_DIGIT, RE_MODIFIER, RE_VERSION, is_simple, version_strategy
-from .strategy import AwesomeVersionStrategy
+from .strategy import AwesomeVersionStrategy, SpecialHandlers
 
 _LOGGER: logging.Logger = logging.getLogger(__package__)
 
@@ -140,6 +140,16 @@ class AwesomeVersion:
         if ver_a.modifier and not ver_b.modifier:
             new_version = AwesomeVersion(ver_a.string.replace(ver_a.modifier, ""))
             return self._a_is_greater_than_b(new_version, ver_b)
+
+        if ver_a.strategy == AwesomeVersionStrategy.SPECIALCONTAINER:
+            if ver_b.strategy != AwesomeVersionStrategy.SPECIALCONTAINER:
+                return True
+            return (
+                SpecialHandlers.container.map[ver_a.string]
+                > SpecialHandlers.container.map[ver_b.string]
+            )
+        if ver_b.strategy == AwesomeVersionStrategy.SPECIALCONTAINER:
+            return True
 
         for section in range(0, biggest):
             if ver_a.section(section) == ver_b.section(section):
