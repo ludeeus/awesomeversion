@@ -21,6 +21,9 @@ class AwesomeVersion:
     def __repr__(self) -> str:
         return f"<AwesomeVersion {self.strategy} '{self.string}'>"
 
+    def __str__(self) -> str:
+        return self.string
+
     def __eq__(self, compareto: "AwesomeVersion") -> bool:
         """Check if equals to."""
         if not isinstance(compareto, AwesomeVersion):
