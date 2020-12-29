@@ -16,7 +16,7 @@ jobs:
       - name: 📥 Checkout the repository
         uses: actions/checkout@v2
 
-      - name: 🛠 Set up Python ${{ matrix.python-version }}
+      - name: 🛠 Set up Python 3
         uses: actions/setup-python@v2
         id: python
         with:
@@ -49,6 +49,12 @@ jobs:
 
       - name: 🏃 Run tests
         run:  make test
+
+      - name: 📤 Upload coverage to Codecov
+        if: ${{ matrix.python-version == '3.8' }}
+        run:
+          make coverage
+          curl -sfSL https://codecov.io/bash | bash -
 
   release-drafter:
     name: Release Drafter
