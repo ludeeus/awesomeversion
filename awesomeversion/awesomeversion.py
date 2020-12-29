@@ -122,15 +122,8 @@ class AwesomeVersion:
         _LOGGER.debug("Comparing '%s' against '%s'", ver_a.string, ver_b.string)
         a_last = ver_a.string.split(".")[-1]
         b_last = ver_b.string.split(".")[-1]
-        biggest = ver_a.sections if ver_a.sections >= ver_b.sections else ver_b.sections
         if ver_a.simple and ver_b.simple:
-            for section in range(0, biggest):
-                if ver_a.section(section) == ver_b.section(section):
-                    continue
-                if ver_a.section(section) > ver_b.section(section):
-                    return True
-                if ver_a.section(section) < ver_b.section(section):
-                    return False
+            return self.__compare_sections(ver_a, ver_b)
 
         if not a_last.startswith("dev") and b_last.startswith("dev"):
             ver_b = AwesomeVersion(ver_b.string.replace(b_last, "0"))
@@ -157,12 +150,27 @@ class AwesomeVersion:
         if ver_b.strategy == AwesomeVersionStrategy.SPECIALCONTAINER:
             return True
 
-        for section in range(0, biggest):
-            if ver_a.section(section) == ver_b.section(section):
-                continue
-            if ver_a.section(section) > ver_b.section(section):
-                return True
-            if ver_a.section(section) < ver_b.section(section):
-                return False
+        return self.__compare_sections(ver_a, ver_b)
 
+    @staticmethod
+    def __compare_sections(ver_a: "AwesomeVersion", ver_b: "AwesomeVersion") -> bool:
+        """Compare sections between two AwesomeVersion objects."""
+        biggest = ver_a.sections if ver_a.sections >= ver_b.sections else ver_b.sections
+        for section in range(0, biggest):
+            ver_a_section = ver_a.section(section)
+            ver_b_section = ver_b.section(section)
+            if ver_a_section == ver_b_section:
+                continue
+            if ver_a_section > ver_b_section:
+                return True
+            if ver_a_section < ver_b_section:
+                return False
+        if ver_a.modifier and ver_b.modifier:
+            ver_a_modifier = RE_MODIFIER.match(ver_a.string.split(".")[-1])
+            ver_b_modifier = RE_MODIFIER.match(ver_b.string.split(".")[-1])
+            ver_a_modifier_value = RE_DIGIT.match(ver_a_modifier.group(1)).group(1)
+            ver_b_modifier_value = RE_DIGIT.match(ver_b_modifier.group(1)).group(1)
+            if ver_a_modifier.group(2) == ver_b_modifier.group(2):
+                return ver_a_modifier_value > ver_b_modifier_value
+            return ver_a_modifier.group(2) > ver_b_modifier.group(2)
         return False
