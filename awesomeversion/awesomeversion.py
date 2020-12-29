@@ -119,8 +119,12 @@ class AwesomeVersion:
         biggest = ver_a.sections if ver_a.sections >= ver_b.sections else ver_b.sections
         if ver_a.simple and ver_b.simple:
             for section in range(0, biggest):
+                if ver_a.section(section) == ver_b.section(section):
+                    continue
                 if ver_a.section(section) > ver_b.section(section):
                     return True
+                if ver_a.section(section) < ver_b.section(section):
+                    return False
 
         if not a_last.startswith("dev") and b_last.startswith("dev"):
             ver_b = AwesomeVersion(ver_b.string.replace(b_last, "0"))
@@ -138,7 +142,11 @@ class AwesomeVersion:
             return self._a_is_greater_than_b(new_version, ver_b)
 
         for section in range(0, biggest):
+            if ver_a.section(section) == ver_b.section(section):
+                continue
             if ver_a.section(section) > ver_b.section(section):
                 return True
+            if ver_a.section(section) < ver_b.section(section):
+                return False
 
         return False
