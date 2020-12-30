@@ -22,7 +22,7 @@ class CompareHandlers:
 
     def check(self) -> bool:
         """Handler."""
-        _LOGGER.debug("Comparing '%s' against '%s'", self.ver_a, self.ver_b.string)
+        _LOGGER.debug("Comparing '%s' against '%s'", self.ver_a, self.ver_b)
         handlers = [
             ComparelHandlerSimple,
             ComparelHandlerDev,

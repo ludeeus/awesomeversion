@@ -1,11 +1,13 @@
 """Version matchers for AwesomeVersion."""
 import re
 
-from .strategy import AwesomeVersionStrategy, SpecialHandlers
+from .strategy import AwesomeVersionStrategy
 
 RE_CALVER = re.compile(r"^(\d{2}|\d{4})\.\d{0,2}?\.?(\d*(\w+\d+)?)$")
 RE_SEMVER = re.compile(r"^(\d+)?\.?(\d+)?\.?(\d*(\w+\d+)?)$")
 RE_BUILDVER = re.compile(r"^\d*$")
+
+RE_SPECIAL_CONTAINER = re.compile(r"^(latest|dev|stable|beta)$")
 
 RE_SIMPLE = re.compile(r"^[v|V]?((\d+)?\.?)*$")
 
@@ -34,9 +36,9 @@ def is_simple(version: str) -> bool:
     return RE_SIMPLE.match(version)
 
 
-def is_specialcontainer(version: str) -> bool:
+def is_special_container(version: str) -> bool:
     """Return True if the version is specialcontainer."""
-    return SpecialHandlers.container.re.match(version)
+    return RE_SPECIAL_CONTAINER.match(version)
 
 
 def version_strategy(version: str) -> AwesomeVersionStrategy:
@@ -47,7 +49,7 @@ def version_strategy(version: str) -> AwesomeVersionStrategy:
         return AwesomeVersionStrategy.CALVER
     if is_semver(version):
         return AwesomeVersionStrategy.SEMVER
-    if is_specialcontainer(version):
+    if is_special_container(version):
         return AwesomeVersionStrategy.SPECIALCONTAINER
     if is_simple(version):
         return AwesomeVersionStrategy.SIMPLEVER
