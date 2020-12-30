@@ -82,17 +82,17 @@ class AwesomeVersion:
     @property
     def beta(self) -> bool:
         """Return a bool to indicate beta version."""
-        return "b" in self.modifier if self.modifier else False
+        return "b" in self.modifier if self.modifier else "beta" in self.string
 
     @property
     def dev(self) -> bool:
         """Return a bool to indicate dev version."""
-        return "d" in self.modifier if self.modifier else False
+        return "d" in self.modifier if self.modifier else "dev" in self.string
 
     @property
     def release_candidate(self) -> bool:
         """Return a bool to indicate release candidate version."""
-        return "rc" in self.modifier if self.modifier else False
+        return "rc" in self.modifier if self.modifier else "rc" in self.string
 
     @property
     def sections(self) -> int:
