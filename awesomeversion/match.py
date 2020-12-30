@@ -3,7 +3,7 @@ import re
 
 from .strategy import AwesomeVersionStrategy
 
-RE_CALVER = re.compile(r"^(\d{2}|\d{4})\.\d{0,2}?\.?(\d*(\w+\d+)?)$")
+RE_CALVER = re.compile(r"^(\d{2}|\d{4})\.\d{0,2}?\.?(\d{0,2}?\.?)?(\d*(\w+\d+)?)$")
 RE_SEMVER = re.compile(r"^(\d+)?\.?(\d+)?\.?(\d*(\w+\d+)?)$")
 RE_BUILDVER = re.compile(r"^\d*$")
 
