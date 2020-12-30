@@ -33,7 +33,7 @@ def test_unknown():
     assert version_strategy("20.1.0") != AwesomeVersionStrategy.UNKNOWN
 
 
-def test_specialcontainer():
+def test_special_container():
     """Test specialcontainer."""
     assert version_strategy("latest") == AwesomeVersionStrategy.SPECIALCONTAINER
     assert version_strategy("stable") == AwesomeVersionStrategy.SPECIALCONTAINER
