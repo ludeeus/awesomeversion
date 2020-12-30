@@ -1,5 +1,9 @@
 """Exceptions for AwesomeVersion."""
 
 
-class AwesomeVersionCompare(Exception):
+class AwesomeVersionException(Exception):
+    """Base AwesomeVersion exception."""
+
+
+class AwesomeVersionCompare(AwesomeVersionException):
     """Thrown when compare is not possible."""
