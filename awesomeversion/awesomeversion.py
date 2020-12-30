@@ -1,4 +1,5 @@
 """AwesomeVersion."""
+from typing import Union
 from .exceptions import AwesomeVersionCompare
 from .handlers import CompareHandlers
 from .match import RE_DIGIT, RE_MODIFIER, RE_VERSION, is_simple, version_strategy
@@ -27,14 +28,18 @@ class AwesomeVersion:
     def __str__(self) -> str:
         return self.string
 
-    def __eq__(self, compareto: "AwesomeVersion") -> bool:
+    def __eq__(self, compareto: Union[str, int, "AwesomeVersion"]) -> bool:
         """Check if equals to."""
+        if isinstance(compareto, (str, int)):
+            compareto = AwesomeVersion(compareto)
         if not isinstance(compareto, AwesomeVersion):
             raise AwesomeVersionCompare("Not a valid AwesomeVersion object")
         return self.string == compareto.string
 
-    def __lt__(self, compareto: "AwesomeVersion") -> bool:
+    def __lt__(self, compareto: Union[str, int, "AwesomeVersion"]) -> bool:
         """Check if less than."""
+        if isinstance(compareto, (str, int)):
+            compareto = AwesomeVersion(compareto)
         if not isinstance(compareto, AwesomeVersion):
             raise AwesomeVersionCompare("Not a valid AwesomeVersion object")
         if (self.strategy == AwesomeVersionStrategy.UNKNOWN) or (
@@ -45,8 +50,10 @@ class AwesomeVersion:
             )
         return CompareHandlers(compareto, self).check()
 
-    def __gt__(self, compareto: "AwesomeVersion") -> bool:
+    def __gt__(self, compareto: Union[str, int, "AwesomeVersion"]) -> bool:
         """Check if greater than."""
+        if isinstance(compareto, (str, int)):
+            compareto = AwesomeVersion(compareto)
         if not isinstance(compareto, AwesomeVersion):
             raise AwesomeVersionCompare("Not a valid AwesomeVersion object")
         if (self.strategy == AwesomeVersionStrategy.UNKNOWN) or (

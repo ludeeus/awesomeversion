@@ -7,20 +7,21 @@ from awesomeversion.exceptions import AwesomeVersionCompare
 
 def test_invalid_compare():
     """Test invalid compare."""
+    invalid = None
     with pytest.raises(
         AwesomeVersionCompare, match="Not a valid AwesomeVersion object"
     ):
-        assert AwesomeVersion("2020.12.1") > "2020.12.0"
+        assert AwesomeVersion("2020.12.1") > invalid
 
     with pytest.raises(
         AwesomeVersionCompare, match="Not a valid AwesomeVersion object"
     ):
-        assert AwesomeVersion("2020.12.1") < "2020.12.0"
+        assert AwesomeVersion("2020.12.1") < invalid
 
     with pytest.raises(
         AwesomeVersionCompare, match="Not a valid AwesomeVersion object"
     ):
-        assert AwesomeVersion("2020.12.1") == "2020.12.0"
+        assert AwesomeVersion("2020.12.1") == invalid
 
     with pytest.raises(AwesomeVersionCompare, match="Can't compare unknown"):
         assert AwesomeVersion("2020.12.1") > AwesomeVersion("string")
@@ -32,6 +33,7 @@ def test_invalid_compare():
 def test_compare():
     """Test compare."""
     assert AwesomeVersion("2020.12.1") > AwesomeVersion("2020.12.0")
+    assert AwesomeVersion("2") > AwesomeVersion(1)
     assert AwesomeVersion("2020") > AwesomeVersion("2019")
     assert AwesomeVersion("1.2.3.4") > AwesomeVersion("1.2.3")
     assert AwesomeVersion("2020.1") > AwesomeVersion("2020")
@@ -67,3 +69,8 @@ def test_compare():
     assert AwesomeVersion("1") <= AwesomeVersion("2")
 
     assert AwesomeVersion("2") != AwesomeVersion("1")
+
+    assert AwesomeVersion("2") > "1"
+    assert AwesomeVersion("1") < 2
+    assert AwesomeVersion("2") == 2
+    assert AwesomeVersion("2") == "2"
