@@ -77,6 +77,14 @@ with AwesomeVersion("20.12.0") as current:
 > True
 ```
 
+```python
+from awesomeversion import AwesomeVersion
+
+with AwesomeVersion("20.12.0") as current:
+    print("2020.12.1" > current)
+> True
+```
+
 ## Contribute
 
 **All** contributions are welcome!
