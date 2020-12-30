@@ -1,7 +1,8 @@
 # AwesomeVersion
 
 [![codecov](https://codecov.io/gh/ludeeus/awesomeversion/branch/main/graph/badge.svg)](https://codecov.io/gh/ludeeus/awesomeversion)
-![PyPI](https://img.shields.io/pypi/v/awesomeversion)
+![python version](https://img.shields.io/badge/Python-3.6=><=3.10-blue.svg)
+[![PyPI](https://img.shields.io/pypi/v/awesomeversion)](https://pypi.org/project/awesomeversion)
 ![Actions](https://github.com/ludeeus/awesomeversion/workflows/Actions/badge.svg?branch=main)
 
 _One version package to rule them all, One version package to find them, One version package to bring them all, and in the darkness bind them._
