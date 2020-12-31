@@ -26,6 +26,9 @@ for line in body.split("\r\n"):
     else:
         content.append(line)
 
+if len(imports) == 0:
+    imports.append("from awesomeversion import AwesomeVersion")
+
 if len(content) == 0:
     sys.exit(1)
 
