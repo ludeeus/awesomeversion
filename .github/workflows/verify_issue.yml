@@ -1,0 +1,25 @@
+name: Verify issue
+
+on:
+  issues:
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout the repository
+        uses: actions/checkout@v2
+
+      - name: Generate test
+        run: python3 scripts/create_test_from_issue.py ${{github.event.issue.number}}
+
+      - name: Test the issue
+        id: test
+        run: |
+          python3 -m pytest/tests/issues/test_issue${{github.event.issue.number}}.py
+          result="$?"
+          echo "::set-output name=result::$result"
+
+      - name: Use the result
+        run: echo ${{steps.test.outputs.result}}
