@@ -6,7 +6,7 @@ from .match import RE_DIGIT, RE_MODIFIER, RE_VERSION, is_simple, version_strateg
 from .strategy import AwesomeVersionStrategy
 
 
-class AwesomeVersion:
+class AwesomeVersion(str):
     """AwesomeVersion class."""
 
     def __init__(self, version: any) -> None:
@@ -15,6 +15,7 @@ class AwesomeVersion:
             self._version = version.string
         else:
             self._version = version
+        str.__init__(self.string)
 
     def __enter__(self) -> "AwesomeVersion":
         return self
