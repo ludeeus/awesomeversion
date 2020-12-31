@@ -2,4 +2,4 @@ black==20.8b1
 pre-commit==2.9.3
 pytest-cov==2.10.1
 pytest==6.2.1
-requests==4.0.0
+requests==2.25.1

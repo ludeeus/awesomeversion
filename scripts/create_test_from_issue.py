@@ -26,6 +26,9 @@ for line in body.split("\r\n"):
     else:
         content.append(line)
 
+if len(content) == 0:
+    sys.exit(1)
+
 with open(f"./tests/issues/test_issue{issue_number}.py", "w") as target:
     target.write(
         ISSUE_CONTENT.format(
