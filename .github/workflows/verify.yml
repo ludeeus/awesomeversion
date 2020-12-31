@@ -20,14 +20,14 @@ jobs:
       - name: 📦 Install dependencies
         run:  make requirements
 
-      - name: Generate test
+      - name: 📝 Generate test
         run: python3 scripts/create_test_from_issue.py ${{github.event.issue.number}}
 
-      - name: Test the issue
+      - name: ✅ Test the issue
         id: test
         run: python3 -m pytest tests/issues/test_issue${{github.event.issue.number}}.py
 
-      - name: Add label
+      - name: 🏷️ Add label
         if: failure()
         uses: actions/github-script@v3
         with:
@@ -40,7 +40,7 @@ jobs:
               labels: ['reproduced']
             })
 
-      - name: Add comment
+      - name: 💬 Add comment
         if: failure()
         uses: actions/github-script@v3
         with:
@@ -50,5 +50,20 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: '🚀 The code example has been verified by the [GitHub action](https://github.com/${{github.repository}}/actions/runs/${{github.run_id}})'
+              body: '🚀 The code example has been verified by the [GitHub action](https://github.com/${{github.repository}}/runs/${{github.run_number}}?check_suite_focus=true)'
+            })
+
+      - name: 👷 Add assignee
+        if: failure()
+        uses: actions/github-script@v3
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              assignees: [
+                'ludeeus'
+              ]
             })
