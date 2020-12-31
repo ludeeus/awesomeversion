@@ -16,7 +16,12 @@ issue_number = sys.argv[1]
 imports = []
 content = []
 request = requests.get(URL.format(number=issue_number))
-body = request.json()["body"].split("```python")[1].split("```")[0]
+body = request.json()["body"]
+
+if "```python" not in body:
+    sys.exit(0)
+
+body = body.split("```python")[1].split("```")[0]
 
 for line in body.split("\r\n"):
     if "from " and " import " in line:
@@ -30,7 +35,7 @@ if len(imports) == 0:
     imports.append("from awesomeversion import AwesomeVersion")
 
 if len(content) == 0:
-    sys.exit(1)
+    sys.exit(0)
 
 with open(f"./tests/issues/test_issue{issue_number}.py", "w") as target:
     target.write(
