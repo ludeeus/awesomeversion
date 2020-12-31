@@ -1,4 +1,5 @@
 """Test awesomeversion."""
+import json
 from awesomeversion import AwesomeVersion
 
 
@@ -32,3 +33,12 @@ def test_awesomeversion():
     with AwesomeVersion("20.12.0") as current:
         with AwesomeVersion("20.12.1") as upstream:
             assert upstream > current
+
+
+def test_serialization():
+    """Test to and from JSON serialization."""
+    version = AwesomeVersion("20.12.1")
+    dumps = json.dumps({"version": version})
+    assert dumps == '{"version": "20.12.1"}'
+
+    assert json.loads(dumps)["version"] == version.string
