@@ -25,10 +25,30 @@ jobs:
 
       - name: Test the issue
         id: test
-        run: |
-          python3 -m pytest tests/issues/test_issue${{github.event.issue.number}}.py
-          result="$?"
-          echo "::set-output name=result::$result"
+        run: python3 -m pytest tests/issues/test_issue${{github.event.issue.number}}.py
 
-      - name: Use the result
-        run: echo ${{steps.test.outputs.result}}
+      - name: Add label
+        if: failure()
+        uses: actions/github-script@v3
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            github.issues.addLabels({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ['reproduced']
+            })
+
+      - name: Add comment
+        if: failure()
+        uses: actions/github-script@v3
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '🚀 The code example has been verified by the [GitHub action](https://github.com/${{github.repository}}/actions/runs/${{github.run_id}})'
+            })
