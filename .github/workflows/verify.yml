@@ -2,6 +2,8 @@ name: Verify
 
 on:
   issues:
+    types:
+      - opened
 
 jobs:
   lint:
