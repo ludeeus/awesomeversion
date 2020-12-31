@@ -50,7 +50,7 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: '🚀 The code example has been verified by the [GitHub action](https://github.com/${{github.repository}}/runs/${{github.run_id}}?check_suite_focus=true)'
+              body: 'The provided code example has been verified by the [GitHub action](https://github.com/${{github.repository}}/actions/runs/${{github.run_id}})'
             })
 
       - name: 👷 Add assignee
