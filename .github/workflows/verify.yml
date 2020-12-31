@@ -1,15 +1,24 @@
-name: Verify issue
+name: Verify
 
 on:
   issues:
 
 jobs:
   lint:
-    name: Lint
+    name: Verify issue
     runs-on: ubuntu-latest
     steps:
       - name: 📥 Checkout the repository
         uses: actions/checkout@v2
+
+      - name: 🛠 Set up Python 3
+        uses: actions/setup-python@v2
+        id: python
+        with:
+          python-version: 3.x
+
+      - name: 📦 Install dependencies
+        run:  make requirements
 
       - name: Generate test
         run: python3 scripts/create_test_from_issue.py ${{github.event.issue.number}}
