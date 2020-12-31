@@ -26,7 +26,7 @@ jobs:
       - name: Test the issue
         id: test
         run: |
-          python3 -m pytest/tests/issues/test_issue${{github.event.issue.number}}.py
+          python3 -m pytest tests/issues/test_issue${{github.event.issue.number}}.py
           result="$?"
           echo "::set-output name=result::$result"
 
