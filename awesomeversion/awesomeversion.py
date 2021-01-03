@@ -1,5 +1,6 @@
 """AwesomeVersion."""
-from typing import Union
+from typing import Optional, Union
+
 from .exceptions import AwesomeVersionCompare
 from .handlers import CompareHandlers
 from .match import RE_DIGIT, RE_MODIFIER, RE_VERSION, is_simple, version_strategy
@@ -9,7 +10,7 @@ from .strategy import AwesomeVersionStrategy
 class AwesomeVersion(str):
     """AwesomeVersion class."""
 
-    def __init__(self, version: any) -> None:
+    def __init__(self, version: Union[str, float, int, "AwesomeVersion"]) -> None:
         """Initialize AwesomeVersion."""
         if isinstance(version, AwesomeVersion):
             self._version = version.string
@@ -29,7 +30,7 @@ class AwesomeVersion(str):
     def __str__(self) -> str:
         return self.string
 
-    def __eq__(self, compareto: Union[str, int, "AwesomeVersion"]) -> bool:
+    def __eq__(self, compareto: Union[str, float, int, "AwesomeVersion"]) -> bool:
         """Check if equals to."""
         if isinstance(compareto, (str, int)):
             compareto = AwesomeVersion(compareto)
@@ -37,7 +38,7 @@ class AwesomeVersion(str):
             raise AwesomeVersionCompare("Not a valid AwesomeVersion object")
         return self.string == compareto.string
 
-    def __lt__(self, compareto: Union[str, int, "AwesomeVersion"]) -> bool:
+    def __lt__(self, compareto: Union[str, float, int, "AwesomeVersion"]) -> bool:
         """Check if less than."""
         if isinstance(compareto, (str, int)):
             compareto = AwesomeVersion(compareto)
@@ -51,7 +52,7 @@ class AwesomeVersion(str):
             )
         return CompareHandlers(compareto, self).check()
 
-    def __gt__(self, compareto: Union[str, int, "AwesomeVersion"]) -> bool:
+    def __gt__(self, compareto: Union[str, float, int, "AwesomeVersion"]) -> bool:
         """Check if greater than."""
         if isinstance(compareto, (str, int)):
             compareto = AwesomeVersion(compareto)
@@ -74,13 +75,24 @@ class AwesomeVersion(str):
     def __ge__(self, compareto: "AwesomeVersion") -> bool:
         return self.__eq__(compareto) or self.__gt__(compareto)
 
+    def section(self, idx: int) -> int:
+        """Return the value of the specified section of the version."""
+        if self.sections >= (idx + 1):
+            return int(RE_DIGIT.match(self.string.split(".")[idx]).group(1))
+        return 0
+
     @property
     def string(self) -> str:
         """Return a string representaion of the version."""
-        version = RE_VERSION.match(str(self._version)).group(1)
+        version = RE_VERSION.match(str(self._version)).group(2)
         if version.endswith("."):
             version = version[:-1]
         return version
+
+    @property
+    def prefix(self) -> Optional[str]:
+        """Return the version prefix if any"""
+        return RE_VERSION.match(str(self._version)).group(1)
 
     @property
     def alpha(self) -> bool:
@@ -122,9 +134,3 @@ class AwesomeVersion(str):
     def simple(self) -> bool:
         """Return True if the version string is simple."""
         return is_simple(self.string)
-
-    def section(self, idx: int) -> int:
-        """Return the value of the specified section of the version."""
-        if self.sections >= (idx + 1):
-            return int(RE_DIGIT.match(self.string.split(".")[idx]).group(1))
-        return 0

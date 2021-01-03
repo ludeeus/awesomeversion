@@ -1,5 +1,6 @@
 """Test awesomeversion."""
 import json
+
 from awesomeversion import AwesomeVersion
 
 
@@ -22,8 +23,11 @@ def test_awesomeversion():
 
     version = AwesomeVersion("2020.12.1rc0")
     assert version.release_candidate
+    assert version.prefix is None
 
     version = AwesomeVersion("v2020.12.1rc0")
+    assert version.prefix == "v"
+
     version2 = AwesomeVersion(version)
     assert version == version2
 
