@@ -12,7 +12,7 @@ RE_SPECIAL_CONTAINER = re.compile(r"^(latest|dev|stable|beta)$")
 RE_SIMPLE = re.compile(r"^[v|V]?((\d+)?\.?)*$")
 
 RE_DIGIT = re.compile(r"[a-z]*(\d+)[a-z]*")
-RE_VERSION = re.compile(r"^[v|V]?(.*)$")
+RE_VERSION = re.compile(r"^([v|V])?(.*)$")
 RE_MODIFIER = re.compile(r"^\d+(([a-z]+)\d+)?$")
 
 
