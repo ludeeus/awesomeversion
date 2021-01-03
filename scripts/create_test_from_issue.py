@@ -1,5 +1,7 @@
 """Generate test for github issue."""
+import subprocess
 import sys
+
 import requests
 
 URL = "https://api.github.com/repos/ludeeus/awesomeversion/issues/{number}"
@@ -45,3 +47,5 @@ with open(f"./tests/issues/test_issue{issue_number}.py", "w") as target:
             content="\n    ".join(content),
         )
     )
+
+subprocess.call(["make", "black"])

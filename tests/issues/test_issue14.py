@@ -1,7 +1,7 @@
 """Test for issue #14."""
 # https://github.com/ludeeus/awesomeversion/issues/14
-from awesomeversion.strategy import AwesomeVersionStrategy
 from awesomeversion import AwesomeVersion
+from awesomeversion.strategy import AwesomeVersionStrategy
 
 
 def test():

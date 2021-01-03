@@ -12,6 +12,7 @@ test: ## Run all tests
 	@python3 -m pytest tests -rxf -x -v -l --cov=./ --cov-report=xml
 
 black: ## Lint all files black
+	@python3 -m isort .
 	@python3 -m black --fast awesomeversion tests
 
 coverage: ## Check the coverage of the package
