@@ -7,7 +7,7 @@
 
 _One version package to rule them all, One version package to find them, One version package to bring them all, and in the darkness bind them._
 
-Make anything a version object, and compare aginst a vast section of other version formats.
+Make anything a version object, and compare against a vast section of other version formats.
 
 ## Installation
 
