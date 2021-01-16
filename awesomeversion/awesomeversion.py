@@ -16,6 +16,8 @@ class AwesomeVersion(str):
             self._version = version.string
         else:
             self._version = version
+        if isinstance(self._version, str):
+            self._version = self._version.strip()
         str.__init__(self.string)
 
     def __enter__(self) -> "AwesomeVersion":
