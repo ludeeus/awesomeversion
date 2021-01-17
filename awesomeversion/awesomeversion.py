@@ -13,12 +13,12 @@ class AwesomeVersion(str):
     def __init__(self, version: Union[str, float, int, "AwesomeVersion"]) -> None:
         """Initialize AwesomeVersion."""
         if isinstance(version, AwesomeVersion):
-            self._version = version.string
+            self._version = version.raw
         else:
             self._version = version
         if isinstance(self._version, str):
             self._version = self._version.strip()
-        str.__init__(str(self._version))
+        str.__init__(self._version)
 
     def __enter__(self) -> "AwesomeVersion":
         return self
@@ -82,6 +82,11 @@ class AwesomeVersion(str):
         if self.sections >= (idx + 1):
             return int(RE_DIGIT.match(self.string.split(".")[idx]).group(1))
         return 0
+
+    @property
+    def raw(self) -> str:
+        """Return raw representation of the version."""
+        return str(self._version)
 
     @property
     def string(self) -> str:

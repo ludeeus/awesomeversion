@@ -30,8 +30,10 @@ def test_awesomeversion():
 
     version2 = AwesomeVersion(version)
     assert version == version2
+    assert version.raw == version2.raw
 
     assert str(version) == "v2020.12.1rc0"
+    assert version.raw == "v2020.12.1rc0"
     assert version.string == "2020.12.1rc0"
     assert repr(version) == "<AwesomeVersion CalVer '2020.12.1rc0'>"
 
