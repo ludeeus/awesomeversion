@@ -18,7 +18,7 @@ class AwesomeVersion(str):
             self._version = version
         if isinstance(self._version, str):
             self._version = self._version.strip()
-        str.__init__(self.string)
+        str.__init__(str(self._version))
 
     def __enter__(self) -> "AwesomeVersion":
         return self
@@ -30,7 +30,7 @@ class AwesomeVersion(str):
         return f"<AwesomeVersion {self.strategy} '{self.string}'>"
 
     def __str__(self) -> str:
-        return self.string
+        return str(self._version)
 
     def __eq__(self, compareto: Union[str, float, int, "AwesomeVersion"]) -> bool:
         """Check if equals to."""
