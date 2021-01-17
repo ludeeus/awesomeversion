@@ -30,6 +30,7 @@ def test_awesomeversion():
 
     version2 = AwesomeVersion(version)
     assert version == version2
+    assert str(version) == str(version2)
 
     assert str(version) == "v2020.12.1rc0"
     assert version.string == "2020.12.1rc0"

@@ -13,12 +13,12 @@ class AwesomeVersion(str):
     def __init__(self, version: Union[str, float, int, "AwesomeVersion"]) -> None:
         """Initialize AwesomeVersion."""
         if isinstance(version, AwesomeVersion):
-            self._version = version.string
+            self._version = version._version
         else:
             self._version = version
         if isinstance(self._version, str):
             self._version = self._version.strip()
-        str.__init__(str(self._version))
+        str.__init__(self._version)
 
     def __enter__(self) -> "AwesomeVersion":
         return self
