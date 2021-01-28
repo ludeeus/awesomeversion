@@ -32,6 +32,11 @@ def test_invalid_compare():
 
 def test_compare():
     """Test compare."""
+    assert AwesomeVersion("2021.2.0") > AwesomeVersion("2021.2.0.dev20210118")
+    assert AwesomeVersion("2021.2.0b0") > AwesomeVersion("2021.2.0.dev20210118")
+    assert AwesomeVersion("2021.2.0") > AwesomeVersion("2021.2.0b0")
+    assert AwesomeVersion("2021.2.0b0") == AwesomeVersion("2021.2.0b0")
+    assert AwesomeVersion("2021.2.0") != AwesomeVersion("2021.2.0b0")
     assert AwesomeVersion("2020.12.1") > AwesomeVersion("2020.12.0")
     assert AwesomeVersion("2") > AwesomeVersion(1)
     assert AwesomeVersion("2020") > AwesomeVersion("2019")

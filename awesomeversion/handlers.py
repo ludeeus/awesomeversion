@@ -32,7 +32,8 @@ class CompareHandlers:
         ]
 
         for handler in handlers:
-            compare = handler(self.ver_a, self.ver_b)
+            ver_a, ver_b = self.ver_a, self.ver_b
+            compare = handler(ver_a, ver_b)
             if len(compare.strategy) == 0 or (
                 self.ver_a.strategy in compare.strategy
                 or self.ver_b.strategy in compare.strategy

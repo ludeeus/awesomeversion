@@ -1,6 +1,8 @@
 """Test awesomeversion."""
 import json
 
+import pytest
+
 from awesomeversion import AwesomeVersion
 
 
@@ -48,3 +50,47 @@ def test_serialization():
     assert dumps == '{"version": "20.12.1"}'
 
     assert json.loads(dumps)["version"] == version.string
+
+
+test_data = [
+    ("2020.12.1b0"),
+    ("2020.12.1"),
+    ("2021.2.0.dev20210118"),
+]
+
+
+@pytest.mark.parametrize("version", test_data)
+def test_nesting(version):
+    """Test nesting AwesomeVersion objects."""
+    obj = AwesomeVersion(version)
+    assert obj.string == version
+    assert str(obj) == version
+    assert AwesomeVersion(obj) == AwesomeVersion(version)
+    assert AwesomeVersion(obj).string == AwesomeVersion(version)
+    assert str(AwesomeVersion(obj)) == AwesomeVersion(version)
+    assert AwesomeVersion(obj) == version
+    assert AwesomeVersion(obj).string == version
+    assert str(AwesomeVersion(obj)) == version
+
+    assert (
+        AwesomeVersion(
+            AwesomeVersion(AwesomeVersion(AwesomeVersion(AwesomeVersion(obj))))
+        )
+        == version
+    )
+
+    assert (
+        AwesomeVersion(
+            AwesomeVersion(AwesomeVersion(AwesomeVersion(AwesomeVersion(obj))))
+        ).string
+        == version
+    )
+
+    assert str(
+        (
+            AwesomeVersion(
+                AwesomeVersion(AwesomeVersion(AwesomeVersion(AwesomeVersion(obj))))
+            )
+        )
+        == version
+    )
