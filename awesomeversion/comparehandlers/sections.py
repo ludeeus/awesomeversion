@@ -1,5 +1,5 @@
 """Special handler for sections."""
-from typing import Optional, TYPE_CHECKING
+from typing import TYPE_CHECKING, Optional
 
 from ..match import RE_DIGIT, RE_MODIFIER
 from .base import CompareHandlerBase

@@ -1,5 +1,6 @@
 """Test awesomeversion."""
 import json
+
 import pytest
 
 from awesomeversion import AwesomeVersion
