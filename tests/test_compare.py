@@ -79,3 +79,7 @@ def test_compare():
     assert AwesomeVersion("1") < 2
     assert AwesomeVersion("2") == 2
     assert AwesomeVersion("2") == "2"
+
+    version = AwesomeVersion("2021.2.0b1")
+    assert version >= AwesomeVersion("0.112.0")
+    assert version == "2021.2.0b1"

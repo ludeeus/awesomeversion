@@ -1,5 +1,6 @@
 """Compare handlers"""
 import logging
+from copy import copy
 from typing import TYPE_CHECKING
 
 from .comparehandlers.container import ComparelHandlerContainer
@@ -17,8 +18,8 @@ if TYPE_CHECKING:
 class CompareHandlers:
     def __init__(self, ver_a: "AwesomeVersion", ver_b: "AwesomeVersion") -> None:
         """Initialize the special handler base_class."""
-        self.ver_a = ver_a
-        self.ver_b = ver_b
+        self.ver_a = copy(ver_a)
+        self.ver_b = copy(ver_b)
 
     def check(self) -> bool:
         """Handler."""
