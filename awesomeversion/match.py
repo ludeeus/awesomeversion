@@ -15,7 +15,7 @@ RE_SIMPLE = re.compile(r"^[v|V]?((\d+)?\.?)*$")
 
 RE_DIGIT = re.compile(r"[a-z]*(\d+)[a-z]*")
 RE_VERSION = re.compile(r"^(v|V)?(.*)$")
-RE_MODIFIER = re.compile(r"^((?:\d+\-|\d|))(([a-z]+)(\d*))$")
+RE_MODIFIER = re.compile(r"^((?:\d+\-|\d|))(([a-z]+)\.?(\d*))$")
 
 
 def is_buildver(version: str) -> bool:
