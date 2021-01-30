@@ -63,7 +63,7 @@ class AwesomeVersion(str):
 
     def __gt__(self, compareto: Union[str, float, int, "AwesomeVersion"]) -> bool:
         """Check if greater than."""
-        if isinstance(compareto, (str, int)):
+        if isinstance(compareto, (str, float, int)):
             compareto = AwesomeVersion(compareto)
         if not isinstance(compareto, AwesomeVersion):
             raise AwesomeVersionCompare("Not a valid AwesomeVersion object")
