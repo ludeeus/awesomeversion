@@ -41,7 +41,7 @@ class AwesomeVersion(str):
 
     def __eq__(self, compareto: Union[str, float, int, "AwesomeVersion"]) -> bool:
         """Check if equals to."""
-        if isinstance(compareto, (str, int)):
+        if isinstance(compareto, (str, float, int)):
             compareto = AwesomeVersion(compareto)
         if not isinstance(compareto, AwesomeVersion):
             raise AwesomeVersionCompare("Not a valid AwesomeVersion object")
@@ -49,7 +49,7 @@ class AwesomeVersion(str):
 
     def __lt__(self, compareto: Union[str, float, int, "AwesomeVersion"]) -> bool:
         """Check if less than."""
-        if isinstance(compareto, (str, int)):
+        if isinstance(compareto, (str, float, int)):
             compareto = AwesomeVersion(compareto)
         if not isinstance(compareto, AwesomeVersion):
             raise AwesomeVersionCompare("Not a valid AwesomeVersion object")
