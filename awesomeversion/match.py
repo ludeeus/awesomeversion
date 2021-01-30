@@ -7,6 +7,9 @@ RE_CALVER = re.compile(r"^(\d{2}|\d{4})\.\d{0,2}?\.?(\d{0,2}?\.?)?(\d*(\w+\d+)?)
 RE_SEMVER = re.compile(
     r"^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$"
 )
+RE_PEP440 = re.compile(
+    r"^([1-9][0-9]*!)?(0|[1-9][0-9]*)(\.(0|[1-9][0-9]*))*((a|b|rc)(0|[1-9][0-9]*))?(\.post(0|[1-9][0-9]*))?(\.dev(0|[1-9][0-9]*))?$"
+)
 RE_BUILDVER = re.compile(r"^\d+$")
 
 RE_SPECIAL_CONTAINER = re.compile(r"^(latest|dev|stable|beta)$")
@@ -33,6 +36,11 @@ def is_semver(version: str) -> bool:
     return RE_SEMVER.match(version)
 
 
+def is_pep440(version: str) -> bool:
+    """Return True if the version is PEP 440 compliant."""
+    return RE_PEP440.match(version)
+
+
 def is_simple(version: str) -> bool:
     """Return True if the version is simple."""
     return RE_SIMPLE.match(version)
@@ -55,4 +63,6 @@ def version_strategy(version: str) -> AwesomeVersionStrategy:
         return AwesomeVersionStrategy.SPECIALCONTAINER
     if is_simple(version):
         return AwesomeVersionStrategy.SIMPLEVER
+    if is_pep440(version):
+        return AwesomeVersionStrategy.PEP440
     return AwesomeVersionStrategy.UNKNOWN
