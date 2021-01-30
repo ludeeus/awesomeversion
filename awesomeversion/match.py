@@ -4,8 +4,10 @@ import re
 from .strategy import AwesomeVersionStrategy
 
 RE_CALVER = re.compile(r"^(\d{2}|\d{4})\.\d{0,2}?\.?(\d{0,2}?\.?)?(\d*(\w+\d+)?)$")
-RE_SEMVER = re.compile(r"^(\d+)?\.?(\d+)?\.?(\d*(\w+\d+)?)$")
-RE_BUILDVER = re.compile(r"^\d*$")
+RE_SEMVER = re.compile(
+    r"^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$"
+)
+RE_BUILDVER = re.compile(r"^\d+$")
 
 RE_SPECIAL_CONTAINER = re.compile(r"^(latest|dev|stable|beta)$")
 
@@ -13,7 +15,7 @@ RE_SIMPLE = re.compile(r"^[v|V]?((\d+)?\.?)*$")
 
 RE_DIGIT = re.compile(r"[a-z]*(\d+)[a-z]*")
 RE_VERSION = re.compile(r"^(v|V)?(.*)$")
-RE_MODIFIER = re.compile(r"^\d+(([a-z]+)\d+)?$")
+RE_MODIFIER = re.compile(r"^((?:\d+\-|\d|))(([a-z]+)\.?(\d*))$")
 
 
 def is_buildver(version: str) -> bool:

@@ -3,7 +3,14 @@ from typing import Optional, Union
 
 from .exceptions import AwesomeVersionCompare
 from .handlers import CompareHandlers
-from .match import RE_DIGIT, RE_MODIFIER, RE_VERSION, is_simple, version_strategy
+from .match import (
+    RE_DIGIT,
+    RE_MODIFIER,
+    RE_SEMVER,
+    RE_VERSION,
+    is_simple,
+    version_strategy,
+)
 from .strategy import AwesomeVersionStrategy
 
 
@@ -119,13 +126,27 @@ class AwesomeVersion(str):
     @property
     def sections(self) -> int:
         """Return a int representaion of the number of sections in the version."""
+        if self.strategy == AwesomeVersionStrategy.SEMVER:
+            return 3
         return len(self.string.split("."))
 
     @property
     def modifier(self) -> str:
         """Return the modifier of the version if any."""
-        match = RE_MODIFIER.match(self.string.split(".")[-1])
-        return match.group(1) if match else None
+        if self.strategy == AwesomeVersionStrategy.SEMVER:
+            match = RE_MODIFIER.match(RE_SEMVER.match(self.string).group(4))
+        else:
+            match = RE_MODIFIER.match(self.string.split(".")[-1])
+        return match.group(2) if match else None
+
+    @property
+    def modifier_type(self) -> str:
+        """Return the modifier type of the version if any."""
+        if self.strategy == AwesomeVersionStrategy.SEMVER:
+            match = RE_MODIFIER.match(RE_SEMVER.match(self.string).group(4))
+        else:
+            match = RE_MODIFIER.match(self.string.split(".")[-1])
+        return match.group(3) if match else None
 
     @property
     def strategy(self) -> AwesomeVersionStrategy:

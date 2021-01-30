@@ -9,7 +9,7 @@ requirements: ## Install requirements
 	@python3 -m pip --disable-pip-version-check install -r requirements.txt
 
 test: ## Run all tests
-	@python3 -m pytest tests -rxf -x -v -l --cov=./ --cov-report=xml
+	@python3 -m pytest tests -rxf -x -vv -l -s --cov=./ --cov-report=xml
 
 black: ## Lint all files black
 	@python3 -m isort .
