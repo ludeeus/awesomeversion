@@ -1,15 +1,24 @@
 """Test equals."""
+import pytest
+
 from awesomeversion import AwesomeVersion
 
 
-def test_equals():
+@pytest.mark.parametrize(
+    "version",
+    [
+        ("1"),
+        ("2020.12.1"),
+        ("2020"),
+        ("2021.2.0b0"),
+        ("2021.2.0.dev20210118"),
+    ],
+)
+def test_equals(version):
     """Test equals."""
-    assert AwesomeVersion("2020.12.1") == AwesomeVersion("2020.12.1")
-    assert AwesomeVersion("2020") == AwesomeVersion("2020")
-    assert AwesomeVersion("2020") == AwesomeVersion("v2020")
-    assert AwesomeVersion("2020") == AwesomeVersion("V2020")
-    assert AwesomeVersion("2020") != AwesomeVersion("2021")
-    assert str(AwesomeVersion("2021.2.0b0")) == "2021.2.0b0"
-    assert AwesomeVersion("2021.2.0b0").string == "2021.2.0b0"
-    assert str(AwesomeVersion("2021.2.0.dev20210118")) == "2021.2.0.dev20210118"
-    assert AwesomeVersion("2021.2.0.dev20210118").string == "2021.2.0.dev20210118"
+    version_object = AwesomeVersion(version)
+    assert version_object == version
+    assert str(version_object) == version
+    assert version_object.string == version
+    assert version_object == AwesomeVersion(f"v{version}")
+    assert version_object == AwesomeVersion(f"v{version}")

@@ -39,7 +39,6 @@ class CompareHandlers:
             _LOGGER.debug(
                 "Comparing '%s' against '%s' with '%s'", ver_a, ver_b, handler.__name__
             )
-            print(ver_a, ver_b, handler.__name__)
             if len(compare.strategy) == 0 or (
                 self.ver_a.strategy in compare.strategy
                 and self.ver_b.strategy in compare.strategy
