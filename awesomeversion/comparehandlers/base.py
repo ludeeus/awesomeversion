@@ -1,5 +1,5 @@
 """Base compare handler."""
-from typing import TYPE_CHECKING, List
+from typing import TYPE_CHECKING, List, Optional
 
 from ..strategy import AwesomeVersionStrategy
 
@@ -8,6 +8,8 @@ if TYPE_CHECKING:
 
 
 class CompareHandlerBase:
+    """CompareHandlerBase class."""
+
     def __init__(self, ver_a: "AwesomeVersion", ver_b: "AwesomeVersion") -> None:
         """Initialize the special handler base_class."""
         self.ver_a = ver_a
@@ -18,5 +20,5 @@ class CompareHandlerBase:
         """Return a list of valid strategies for this handler."""
         return []
 
-    def handler(self) -> bool:
+    def handler(self) -> Optional[bool]:
         """Compare handler."""

@@ -1,7 +1,7 @@
 """Special handler for sections."""
 from typing import TYPE_CHECKING, Optional
 
-from ..match import RE_DIGIT, RE_MODIFIER
+from ..match import RE_MODIFIER
 from .base import CompareHandlerBase
 
 if TYPE_CHECKING:
@@ -11,7 +11,7 @@ if TYPE_CHECKING:
 class ComparelHandlerSections(CompareHandlerBase):
     """ComparelHandlerSections class."""
 
-    def handler(self) -> bool:
+    def handler(self) -> Optional[bool]:
         """Compare handler."""
         base = self._compare_base_sections(self.ver_a, self.ver_b)
         if base is not None:
@@ -39,12 +39,10 @@ class ComparelHandlerSections(CompareHandlerBase):
         ver_a: "AwesomeVersion", ver_b: "AwesomeVersion"
     ) -> bool:
         """Compare sections between two AwesomeVersion objects."""
-        if ver_a.modifier and ver_b.modifier:
+        if ver_a.modifier is not None and ver_b.modifier is not None:
             ver_a_modifier = RE_MODIFIER.match(ver_a.string.split(".")[-1])
             ver_b_modifier = RE_MODIFIER.match(ver_b.string.split(".")[-1])
-            ver_a_modifier_value = RE_DIGIT.match(ver_a_modifier.group(1)).group(1)
-            ver_b_modifier_value = RE_DIGIT.match(ver_b_modifier.group(1)).group(1)
-            if ver_a_modifier.group(2) == ver_b_modifier.group(2):
-                return ver_a_modifier_value > ver_b_modifier_value
-            return ver_a_modifier.group(2) > ver_b_modifier.group(2)
+            if ver_a_modifier.group(3) == ver_b_modifier.group(3):
+                return ver_a_modifier.group(4) > ver_b_modifier.group(4)
+            return ver_a_modifier.group(3) > ver_b_modifier.group(3)
         return False

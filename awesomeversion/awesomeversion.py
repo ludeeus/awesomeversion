@@ -125,7 +125,13 @@ class AwesomeVersion(str):
     def modifier(self) -> str:
         """Return the modifier of the version if any."""
         match = RE_MODIFIER.match(self.string.split(".")[-1])
-        return match.group(1) if match else None
+        return match.group(2) if match else None
+
+    @property
+    def modifier_type(self) -> str:
+        """Return the modifier type of the version if any."""
+        match = RE_MODIFIER.match(self.string.split(".")[-1])
+        return match.group(3) if match else None
 
     @property
     def strategy(self) -> AwesomeVersionStrategy:

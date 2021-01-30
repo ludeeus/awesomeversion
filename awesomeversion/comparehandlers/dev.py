@@ -1,9 +1,13 @@
 """Special handler for dev."""
+from typing import Optional
+
 from .sections import ComparelHandlerSections
 
 
 class ComparelHandlerDev(ComparelHandlerSections):
-    def handler(self) -> bool:
+    """ComparelHandlerDev class."""
+
+    def handler(self) -> Optional[bool]:
         """Compare handler."""
         a_last = self.ver_a.string.split(".")[-1]
         b_last = self.ver_b.string.split(".")[-1]
