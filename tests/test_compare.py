@@ -30,20 +30,38 @@ def test_invalid_compare():
         assert AwesomeVersion("2020.12.1") < AwesomeVersion("string")
 
 
-def test_compare():
+@pytest.mark.parametrize(
+    "a,compare,b",
+    [
+        ("2021.2.0", ">", "2021.2.0.dev20210118"),
+        ("2021.2.0b0", ">", "2021.2.0.dev20210118"),
+        ("2021.2.0", ">", "2021.2.0b0"),
+        ("2020.12.1", ">", "2020.12.0"),
+        ("2", ">", "1"),
+        ("2020", ">", "2019"),
+        ("1.2.3.4", ">", "1.2.3"),
+        ("2020.1", ">", "2020"),
+        ("2020.2.0", ">", "2020.1.1"),
+        ("2020", ">", "2019"),
+        ("2020", ">", "2019"),
+        ("2020", ">", "2019"),
+        ("2020", ">", "2019"),
+    ],
+)
+def test_compare(a, compare, b):
     """Test compare."""
-    assert AwesomeVersion("2021.2.0") > AwesomeVersion("2021.2.0.dev20210118")
-    assert AwesomeVersion("2021.2.0b0") > AwesomeVersion("2021.2.0.dev20210118")
-    assert AwesomeVersion("2021.2.0") > AwesomeVersion("2021.2.0b0")
-    assert AwesomeVersion("2021.2.0b0") == AwesomeVersion("2021.2.0b0")
-    assert AwesomeVersion("2021.2.0") != AwesomeVersion("2021.2.0b0")
-    assert AwesomeVersion("2020.12.1") > AwesomeVersion("2020.12.0")
-    assert AwesomeVersion("2") > AwesomeVersion(1)
-    assert AwesomeVersion("2020") > AwesomeVersion("2019")
-    assert AwesomeVersion("1.2.3.4") > AwesomeVersion("1.2.3")
-    assert AwesomeVersion("2020.1") > AwesomeVersion("2020")
+    ver_a = AwesomeVersion(a)
+    ver_b = AwesomeVersion(b)
+    if compare == ">":
+        assert ver_a > ver_b
+        assert ver_a >= ver_b
+        assert ver_a != ver_b
+        assert ver_b < ver_a
+        assert ver_b <= ver_a
+        assert ver_a.string == a
+        assert ver_b.string == b
+
     assert not AwesomeVersion("0.97.0") > AwesomeVersion("2020.12.1")
-    assert AwesomeVersion("2020.2.0") > AwesomeVersion("2020.1.1.")
     assert AwesomeVersion("2021.1.0") > AwesomeVersion("2021.1.0b0")
     assert AwesomeVersion("2021.2.0") > AwesomeVersion("2021.1.0b0")
     assert AwesomeVersion("2021.1.0") > AwesomeVersion("2021.1.0b0")

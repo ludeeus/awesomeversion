@@ -134,7 +134,9 @@ class AwesomeVersion(str):
     def modifier(self) -> str:
         """Return the modifier of the version if any."""
         if self.strategy == AwesomeVersionStrategy.SEMVER:
-            match = RE_MODIFIER.match(RE_SEMVER.match(self.string).group(4))
+            match = RE_MODIFIER.match(RE_SEMVER.match(self.string).group(4) or "")
+        elif self.strategy == AwesomeVersionStrategy.SPECIALCONTAINER:
+            return None
         else:
             match = RE_MODIFIER.match(self.string.split(".")[-1])
         return match.group(2) if match else None
@@ -143,7 +145,9 @@ class AwesomeVersion(str):
     def modifier_type(self) -> str:
         """Return the modifier type of the version if any."""
         if self.strategy == AwesomeVersionStrategy.SEMVER:
-            match = RE_MODIFIER.match(RE_SEMVER.match(self.string).group(4))
+            match = RE_MODIFIER.match(RE_SEMVER.match(self.string).group(4) or "")
+        elif self.strategy == AwesomeVersionStrategy.SPECIALCONTAINER:
+            return None
         else:
             match = RE_MODIFIER.match(self.string.split(".")[-1])
         return match.group(3) if match else None
