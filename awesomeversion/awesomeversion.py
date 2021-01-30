@@ -22,7 +22,7 @@ class AwesomeVersion(str):
         if isinstance(version, AwesomeVersion):
             self._version = version._version
         else:
-            self._version = version
+            self._version = str(version)
         if isinstance(self._version, str):
             self._version = self._version.strip()
         str.__init__(self._version)
@@ -93,9 +93,9 @@ class AwesomeVersion(str):
     @property
     def string(self) -> str:
         """Return a string representaion of the version."""
+        if self._version.endswith("."):
+            self._version = self._version[:-1]
         version = RE_VERSION.match(str(self._version)).group(2)
-        if version.endswith("."):
-            version = version[:-1]
         return version
 
     @property
