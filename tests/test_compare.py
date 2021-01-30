@@ -5,31 +5,6 @@ from awesomeversion import AwesomeVersion
 from awesomeversion.exceptions import AwesomeVersionCompare
 
 
-def test_invalid_compare():
-    """Test invalid compare."""
-    invalid = None
-    with pytest.raises(
-        AwesomeVersionCompare, match="Not a valid AwesomeVersion object"
-    ):
-        assert AwesomeVersion("2020.12.1") > invalid
-
-    with pytest.raises(
-        AwesomeVersionCompare, match="Not a valid AwesomeVersion object"
-    ):
-        assert AwesomeVersion("2020.12.1") < invalid
-
-    with pytest.raises(
-        AwesomeVersionCompare, match="Not a valid AwesomeVersion object"
-    ):
-        assert AwesomeVersion("2020.12.1") == invalid
-
-    with pytest.raises(AwesomeVersionCompare, match="Can't compare unknown"):
-        assert AwesomeVersion("2020.12.1") > AwesomeVersion("string")
-
-    with pytest.raises(AwesomeVersionCompare, match="Can't compare unknown"):
-        assert AwesomeVersion("2020.12.1") < AwesomeVersion("string")
-
-
 @pytest.mark.parametrize(
     "version_a,version_b",
     [
@@ -101,3 +76,28 @@ def test_compare(version_a, version_b):
 
     assert ver_a.string == str(version_a)
     assert ver_b.string == str(version_b)
+
+
+def test_invalid_compare():
+    """Test invalid compare."""
+    invalid = None
+    with pytest.raises(
+        AwesomeVersionCompare, match="Not a valid AwesomeVersion object"
+    ):
+        assert AwesomeVersion("2020.12.1") > invalid
+
+    with pytest.raises(
+        AwesomeVersionCompare, match="Not a valid AwesomeVersion object"
+    ):
+        assert AwesomeVersion("2020.12.1") < invalid
+
+    with pytest.raises(
+        AwesomeVersionCompare, match="Not a valid AwesomeVersion object"
+    ):
+        assert AwesomeVersion("2020.12.1") == invalid
+
+    with pytest.raises(AwesomeVersionCompare, match="Can't compare unknown"):
+        assert AwesomeVersion("2020.12.1") > AwesomeVersion("string")
+
+    with pytest.raises(AwesomeVersionCompare, match="Can't compare unknown"):
+        assert AwesomeVersion("2020.12.1") < AwesomeVersion("string")
