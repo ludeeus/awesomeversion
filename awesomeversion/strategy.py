@@ -9,6 +9,7 @@ class AwesomeVersionStrategy(str, Enum):
     CALVER = "CalVer"
     SEMVER = "SemVer"
     SIMPLEVER = "SimpleVer"
+    PEP440 = "PEP 440"
     UNKNOWN = "unknown"
 
     SPECIALCONTAINER = "SpecialContainer"
