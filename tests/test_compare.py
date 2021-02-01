@@ -16,6 +16,8 @@ from awesomeversion.exceptions import AwesomeVersionCompare
         ("2", 1),
         (2, "1"),
         (2, 1),
+        ("5.11", "5.10"),
+        ("1.1", "1.0"),
         ("2020", "2019"),
         ("1.2.3.4", "1.2.3"),
         ("2020.1", "2020"),
@@ -52,14 +54,11 @@ def test_compare(version_a, version_b):
     ver_b = AwesomeVersion(version_b)
 
     assert ver_a > ver_b
-    assert ver_a > ver_b
     assert ver_a >= ver_b
     assert ver_a != ver_b
     assert ver_a > version_b
-    assert ver_a > version_b
     assert ver_a >= version_b
     assert ver_a != version_b
-    assert version_a > ver_b
     assert version_a > ver_b
     assert version_a >= ver_b
     assert version_a != ver_b
@@ -100,3 +99,25 @@ def test_invalid_compare():
 
     with pytest.raises(AwesomeVersionCompare, match="Can't compare unknown"):
         assert AwesomeVersion("2020.12.1") < AwesomeVersion("string")
+
+
+@pytest.mark.parametrize(
+    "version",
+    [1, "1", 1.0, "1.0", 5.10, "5.10"],
+)
+def test_falsy_compare(version):
+    """Test compare."""
+    ver_a = AwesomeVersion(version)
+    ver_b = AwesomeVersion(version)
+
+    assert not ver_a != ver_b
+    assert not ver_a > ver_b
+    assert not ver_a < ver_b
+
+    assert not version != ver_b
+    assert not version > ver_b
+    assert not version < ver_b
+
+    assert not ver_a != version
+    assert not ver_a > version
+    assert not ver_a < version
