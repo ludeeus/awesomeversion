@@ -131,21 +131,21 @@ class AwesomeVersion(str):
         return len(self.string.split("."))
 
     @property
-    def major(self) -> int:
+    def major(self) -> Optional["AwesomeVersion"]:
         """Return a AwesomeVersion representation of the major version."""
         if self.strategy != AwesomeVersionStrategy.SEMVER:
             return None
         return AwesomeVersion(self.section(0))
 
     @property
-    def minor(self) -> int:
+    def minor(self) -> Optional["AwesomeVersion"]:
         """Return a AwesomeVersion representation of the minor version."""
         if self.strategy != AwesomeVersionStrategy.SEMVER:
             return None
         return AwesomeVersion(self.section(1))
 
     @property
-    def patch(self) -> int:
+    def patch(self) -> Optional["AwesomeVersion"]:
         """Return a AwesomeVersion representation of the patch version."""
         if self.strategy != AwesomeVersionStrategy.SEMVER:
             return None
