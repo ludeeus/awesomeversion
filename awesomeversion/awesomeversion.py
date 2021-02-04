@@ -1,7 +1,7 @@
 """AwesomeVersion."""
 from typing import Optional, Union
 
-from .exceptions import AwesomeVersionCompare
+from .exceptions import AwesomeVersionCompare, AwesomeVersionStrategyException
 from .handlers import CompareHandlers
 from .match import (
     RE_DIGIT,
@@ -89,6 +89,19 @@ class AwesomeVersion(str):
         if self.sections >= (idx + 1):
             return int(RE_DIGIT.match(self.string.split(".")[idx]).group(1))
         return 0
+
+    @staticmethod
+    def ensure_strategy(
+        version: Union[str, float, int, "AwesomeVersion"],
+        strategy: AwesomeVersionStrategy,
+    ) -> "AwesomeVersion":
+        """Return a AwesomeVersion object, or raise on creation."""
+        obj = AwesomeVersion(version)
+        if obj.strategy != strategy:
+            raise AwesomeVersionStrategyException(
+                f"Strategy {obj.strategy} does not match {strategy} for {version}"
+            )
+        return obj
 
     @property
     def string(self) -> str:
