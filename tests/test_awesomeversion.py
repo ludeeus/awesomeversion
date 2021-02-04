@@ -3,7 +3,11 @@ import json
 
 import pytest
 
-from awesomeversion import AwesomeVersion
+from awesomeversion import (
+    AwesomeVersion,
+    AwesomeVersionStrategy,
+    AwesomeVersionStrategyException,
+)
 
 
 def test_awesomeversion():
@@ -97,3 +101,27 @@ def test_nesting(version):
         )
         == version
     )
+
+
+def test_ensure_strategy():
+    """test ensure_strategy."""
+    obj = AwesomeVersion.ensure_strategy("1.0.0", AwesomeVersionStrategy.SEMVER)
+    assert obj.strategy == AwesomeVersionStrategy.SEMVER
+
+    obj = AwesomeVersion.ensure_strategy(
+        "1.0.0",
+        [AwesomeVersionStrategy.SEMVER, AwesomeVersionStrategy.SPECIALCONTAINER],
+    )
+    assert obj.strategy in [
+        AwesomeVersionStrategy.SEMVER,
+        AwesomeVersionStrategy.SPECIALCONTAINER,
+    ]
+
+    with pytest.raises(AwesomeVersionStrategyException):
+        AwesomeVersion.ensure_strategy("1", AwesomeVersionStrategy.SEMVER)
+
+    with pytest.raises(AwesomeVersionStrategyException):
+        AwesomeVersion.ensure_strategy(
+            "1",
+            [AwesomeVersionStrategy.SEMVER, AwesomeVersionStrategy.SPECIALCONTAINER],
+        )
