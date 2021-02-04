@@ -25,3 +25,25 @@ def test_version_scheme(version, strategy, dev, beta, modifier, modifier_type):
     assert version_object.beta == beta
     assert version_object.modifier == modifier
     assert version_object.modifier_type == modifier_type
+
+
+def test_semver_sections():
+    """Test semver sections."""
+    ver_a = AwesomeVersion("1.0.0-beta.1")
+    ver_b = AwesomeVersion("2.0.0")
+    assert ver_a.strategy == AwesomeVersionStrategy.SEMVER
+    assert ver_b.strategy == AwesomeVersionStrategy.SEMVER
+
+    assert ver_a.major == "1"
+    assert ver_a.minor == "0"
+    assert ver_a.patch == "0"
+
+    assert ver_a.major < ver_b.major
+
+
+def test_semver_sections_for_non_semver():
+    """Test semver sections for non semver versions."""
+    version = AwesomeVersion("2020.01.1")
+    assert version.major is None
+    assert version.minor is None
+    assert version.patch is None
