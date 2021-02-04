@@ -1,5 +1,5 @@
 """AwesomeVersion."""
-from typing import Optional, Union
+from typing import List, Optional, Union
 
 from .exceptions import AwesomeVersionCompare, AwesomeVersionStrategyException
 from .handlers import CompareHandlers
@@ -93,14 +93,17 @@ class AwesomeVersion(str):
     @staticmethod
     def ensure_strategy(
         version: Union[str, float, int, "AwesomeVersion"],
-        strategy: AwesomeVersionStrategy,
+        strategy: Union[AwesomeVersionStrategy, List[AwesomeVersionStrategy]],
     ) -> "AwesomeVersion":
         """Return a AwesomeVersion object, or raise on creation."""
         obj = AwesomeVersion(version)
-        if obj.strategy != strategy:
+        if (
+            isinstance(strategy, list) and obj.strategy not in strategy
+        ) or obj.strategy != strategy:
             raise AwesomeVersionStrategyException(
                 f"Strategy {obj.strategy} does not match {strategy} for {version}"
             )
+
         return obj
 
     @property

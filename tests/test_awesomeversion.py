@@ -110,3 +110,9 @@ def test_ensure_strategy():
 
     with pytest.raises(AwesomeVersionStrategyException):
         AwesomeVersion.ensure_strategy("1", AwesomeVersionStrategy.SEMVER)
+
+    with pytest.raises(AwesomeVersionStrategyException):
+        AwesomeVersion.ensure_strategy(
+            "1",
+            [AwesomeVersionStrategy.SEMVER, AwesomeVersionStrategy.SPECIALCONTAINER],
+        )
