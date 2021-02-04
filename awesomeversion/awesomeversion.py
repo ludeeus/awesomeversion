@@ -97,9 +97,12 @@ class AwesomeVersion(str):
     ) -> "AwesomeVersion":
         """Return a AwesomeVersion object, or raise on creation."""
         obj = AwesomeVersion(version)
-        if (
-            isinstance(strategy, list) and obj.strategy not in strategy
-        ) or obj.strategy != strategy:
+        if isinstance(strategy, list) and obj.strategy not in strategy:
+            raise AwesomeVersionStrategyException(
+                f"Strategy {obj.strategy} does not match {strategy} for {version}"
+            )
+
+        if isinstance(strategy, AwesomeVersionStrategy) and obj.strategy != strategy:
             raise AwesomeVersionStrategyException(
                 f"Strategy {obj.strategy} does not match {strategy} for {version}"
             )
