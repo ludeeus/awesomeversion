@@ -43,6 +43,6 @@ class ComparelHandlerSections(CompareHandlerBase):
             ver_a_modifier = RE_MODIFIER.match(ver_a.string.split(".")[-1])
             ver_b_modifier = RE_MODIFIER.match(ver_b.string.split(".")[-1])
             if ver_a_modifier.group(3) == ver_b_modifier.group(3):
-                return ver_a_modifier.group(4) > ver_b_modifier.group(4)
+                return int(ver_a_modifier.group(4)) > int(ver_b_modifier.group(4))
             return ver_a_modifier.group(3) > ver_b_modifier.group(3)
         return False
