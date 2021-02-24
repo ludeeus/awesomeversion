@@ -5,7 +5,7 @@ from ..match import RE_MODIFIER, RE_SEMVER
 from ..strategy import AwesomeVersionStrategy
 from .sections import ComparelHandlerSections
 
-SEMVER_MODIFIER_MAP = {"alpha": 3, "beta": 2, "rc": 1}
+SEMVER_MODIFIER_MAP = {"alpha": 1, "beta": 2, "rc": 3}
 
 
 class ComparelHandlerSemVerModifier(ComparelHandlerSections):
