@@ -8,6 +8,7 @@ from awesomeversion.exceptions import AwesomeVersionCompare
 @pytest.mark.parametrize(
     "version_a,version_b",
     [
+        ("1.0.0-beta.10", "1.0.0-beta.9"),
         ("2021.2.0", "2021.2.0.dev20210118"),
         ("2021.2.0b0", "2021.2.0.dev20210118"),
         ("2021.2.0", "2021.2.0b0"),

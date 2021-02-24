@@ -39,4 +39,6 @@ class ComparelHandlerSemVerModifier(ComparelHandlerSections):
                     if not ver_a_modifier.group(4):
                         return True
                     if ver_b_modifier.group(4):
-                        return ver_a_modifier.group(4) > ver_b_modifier.group(4)
+                        return int(ver_a_modifier.group(4)) > int(
+                            ver_b_modifier.group(4)
+                        )
