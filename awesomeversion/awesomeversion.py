@@ -60,9 +60,9 @@ class AwesomeVersion(_AwesomeVersionBase):
 
         if ensure_strategy is not None:
             ensure_strategy = (
-                [ensure_strategy]
-                if isinstance(ensure_strategy, AwesomeVersionStrategy)
-                else ensure_strategy
+                ensure_strategy
+                if isinstance(ensure_strategy, list)
+                else [ensure_strategy]
             )
             if self.strategy not in ensure_strategy:
                 raise AwesomeVersionStrategyException(
