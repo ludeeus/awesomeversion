@@ -1,4 +1,6 @@
 """AwesomeVersion."""
+# pylint: disable=unused-argument
+import logging
 from typing import List, Optional, Union
 
 from .exceptions import AwesomeVersionCompare, AwesomeVersionStrategyException
@@ -13,11 +15,41 @@ from .match import (
 )
 from .strategy import AwesomeVersionStrategy
 
+_LOGGER: logging.Logger = logging.getLogger(__package__)
 
-class AwesomeVersion(str):
-    """AwesomeVersion class."""
 
-    def __init__(self, version: Union[str, float, int, "AwesomeVersion"]) -> None:
+class _AwesomeVersionBase(str):
+    """Base class for AwesomeVersion to allow the usage of the default JSON encoder."""
+
+    def __init__(self, string):
+        str.__init__(string)
+
+    def __new__(cls, version, _=None):
+        """Create a new AwesomeVersion object."""
+
+        return super().__new__(cls, version)
+
+
+class AwesomeVersion(_AwesomeVersionBase):
+    """
+    AwesomeVersion class.
+
+    version:
+        The version to create a AwesomeVersion object from
+
+    ensure_strategy:
+        Match the AwesomeVersion object against spesific
+        strategies when creating if. If it does not match
+        AwesomeVersionStrategyException will be raised
+    """
+
+    def __init__(
+        self,
+        version: Union[str, float, int, "AwesomeVersion"],
+        ensure_strategy: Optional[
+            Union[AwesomeVersionStrategy, List[AwesomeVersionStrategy]]
+        ] = None,
+    ) -> None:
         """Initialize AwesomeVersion."""
         if isinstance(version, AwesomeVersion):
             self._version = version._version
@@ -25,7 +57,19 @@ class AwesomeVersion(str):
             self._version = str(version)
         if isinstance(self._version, str):
             self._version = self._version.strip()
-        str.__init__(self._version)
+
+        if ensure_strategy is not None:
+            ensure_strategy = (
+                [ensure_strategy]
+                if isinstance(ensure_strategy, AwesomeVersionStrategy)
+                else ensure_strategy
+            )
+            if self.strategy not in ensure_strategy:
+                raise AwesomeVersionStrategyException(
+                    f"Strategy {self.strategy} does not match {ensure_strategy} for {version}"
+                )
+
+        super().__init__(self._version)
 
     def __enter__(self) -> "AwesomeVersion":
         return self
@@ -96,18 +140,11 @@ class AwesomeVersion(str):
         strategy: Union[AwesomeVersionStrategy, List[AwesomeVersionStrategy]],
     ) -> "AwesomeVersion":
         """Return a AwesomeVersion object, or raise on creation."""
-        obj = AwesomeVersion(version)
-        if isinstance(strategy, list) and obj.strategy not in strategy:
-            raise AwesomeVersionStrategyException(
-                f"Strategy {obj.strategy} does not match {strategy} for {version}"
-            )
-
-        if isinstance(strategy, AwesomeVersionStrategy) and obj.strategy != strategy:
-            raise AwesomeVersionStrategyException(
-                f"Strategy {obj.strategy} does not match {strategy} for {version}"
-            )
-
-        return obj
+        _LOGGER.warning(
+            "Using AwesomeVersion.ensure_strategy(version, strategy) is deprecated, "
+            "use AwesomeVersion(version, strategy) instead"
+        )
+        return AwesomeVersion(version, strategy)
 
     @property
     def string(self) -> str:
