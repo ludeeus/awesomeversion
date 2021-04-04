@@ -103,12 +103,12 @@ def test_nesting(version):
     )
 
 
-def test_ensure_strategy():
+def test_ensure_strategy(caplog):
     """test ensure_strategy."""
-    obj = AwesomeVersion.ensure_strategy("1.0.0", AwesomeVersionStrategy.SEMVER)
+    obj = AwesomeVersion("1.0.0", AwesomeVersionStrategy.SEMVER)
     assert obj.strategy == AwesomeVersionStrategy.SEMVER
 
-    obj = AwesomeVersion.ensure_strategy(
+    obj = AwesomeVersion(
         "1.0.0",
         [AwesomeVersionStrategy.SEMVER, AwesomeVersionStrategy.SPECIALCONTAINER],
     )
@@ -118,10 +118,16 @@ def test_ensure_strategy():
     ]
 
     with pytest.raises(AwesomeVersionStrategyException):
-        AwesomeVersion.ensure_strategy("1", AwesomeVersionStrategy.SEMVER)
+        AwesomeVersion("1", AwesomeVersionStrategy.SEMVER)
 
     with pytest.raises(AwesomeVersionStrategyException):
-        AwesomeVersion.ensure_strategy(
+        AwesomeVersion(
             "1",
             [AwesomeVersionStrategy.SEMVER, AwesomeVersionStrategy.SPECIALCONTAINER],
         )
+
+    obj = AwesomeVersion.ensure_strategy("1.0.0", AwesomeVersionStrategy.SEMVER)
+    assert (
+        "Using AwesomeVersion.ensure_strategy(version, strategy) is deprecated"
+        in caplog.text
+    )
