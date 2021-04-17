@@ -23,32 +23,32 @@ RE_MODIFIER = re.compile(r"^((?:\d+\-|\d|))(([a-z]+)\.?(\d*))$")
 
 def is_buildver(version: str) -> bool:
     """Return True if the version is BuildVer."""
-    return RE_BUILDVER.match(version)
+    return RE_BUILDVER.match(version) is not None
 
 
 def is_calver(version: str) -> bool:
     """Return True if the version is CalVer."""
-    return RE_CALVER.match(version)
+    return RE_CALVER.match(version) is not None
 
 
 def is_semver(version: str) -> bool:
     """Return True if the version is SemVer."""
-    return RE_SEMVER.match(version)
+    return RE_SEMVER.match(version) is not None
 
 
 def is_pep440(version: str) -> bool:
     """Return True if the version is PEP 440 compliant."""
-    return RE_PEP440.match(version)
+    return RE_PEP440.match(version) is not None
 
 
 def is_simple(version: str) -> bool:
     """Return True if the version is simple."""
-    return RE_SIMPLE.match(version)
+    return RE_SIMPLE.match(version) is not None
 
 
 def is_special_container(version: str) -> bool:
     """Return True if the version is specialcontainer."""
-    return RE_SPECIAL_CONTAINER.match(version)
+    return RE_SPECIAL_CONTAINER.match(version) is not None
 
 
 def version_strategy(version: str) -> AwesomeVersionStrategy:

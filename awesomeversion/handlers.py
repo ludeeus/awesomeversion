@@ -1,6 +1,6 @@
 """Compare handlers"""
-import logging
 from copy import copy
+import logging
 from typing import TYPE_CHECKING, Optional
 
 from .comparehandlers.container import ComparelHandlerContainer

@@ -26,7 +26,11 @@ jobs:
         run:  make requirements
 
       - name: 🖤 Lint with Black
-        run:  black . --check
+        run:  make black
+
+      # Enable when fixed
+      # - name: Run mypy
+      #   run:  make mypy
 
   test:
     name: Test with Python ${{ matrix.python-version }}
