@@ -208,7 +208,7 @@ class AwesomeVersion(_AwesomeVersionBase):
         return AwesomeVersion(self.section(2))
 
     @property
-    def modifier(self) -> str:
+    def modifier(self) -> Optional[str]:
         """Return the modifier of the version if any."""
         if self.strategy == AwesomeVersionStrategy.SEMVER:
             match = RE_MODIFIER.match(RE_SEMVER.match(self.string).group(4) or "")
@@ -219,7 +219,7 @@ class AwesomeVersion(_AwesomeVersionBase):
         return match.group(2) if match else None
 
     @property
-    def modifier_type(self) -> str:
+    def modifier_type(self) -> Optional[str]:
         """Return the modifier type of the version if any."""
         if self.strategy == AwesomeVersionStrategy.SEMVER:
             match = RE_MODIFIER.match(RE_SEMVER.match(self.string).group(4) or "")
