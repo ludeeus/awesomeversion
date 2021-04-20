@@ -46,3 +46,4 @@ class CompareHandlers:
                 result: Optional[bool] = compare.handler()
                 if result is not None:
                     return result
+        return False
