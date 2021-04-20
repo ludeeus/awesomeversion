@@ -52,7 +52,7 @@ class AwesomeVersion(_AwesomeVersionBase):
     ) -> None:
         """Initialize AwesomeVersion."""
         if isinstance(version, AwesomeVersion):
-            self._version = version._version
+            self._version: str = version._version
         else:
             self._version = str(version)
         if isinstance(self._version, str):
