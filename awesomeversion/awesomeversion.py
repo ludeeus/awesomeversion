@@ -83,7 +83,7 @@ class AwesomeVersion(_AwesomeVersionBase):
     def __str__(self) -> str:
         return str(self._version)
 
-    def __eq__(self, compareto: Union[str, float, int, "AwesomeVersion"]) -> bool:
+    def __eq__(self, compareto: object) -> bool:
         """Check if equals to."""
         if isinstance(compareto, (str, float, int)):
             compareto = AwesomeVersion(compareto)
@@ -91,7 +91,7 @@ class AwesomeVersion(_AwesomeVersionBase):
             raise AwesomeVersionCompare("Not a valid AwesomeVersion object")
         return self.string == compareto.string
 
-    def __lt__(self, compareto: Union[str, float, int, "AwesomeVersion"]) -> bool:
+    def __lt__(self, compareto: object) -> bool:
         """Check if less than."""
         if isinstance(compareto, (str, float, int)):
             compareto = AwesomeVersion(compareto)
@@ -105,7 +105,7 @@ class AwesomeVersion(_AwesomeVersionBase):
             )
         return CompareHandlers(compareto, self).check()
 
-    def __gt__(self, compareto: Union[str, float, int, "AwesomeVersion"]) -> bool:
+    def __gt__(self, compareto: object) -> bool:
         """Check if greater than."""
         if isinstance(compareto, (str, float, int)):
             compareto = AwesomeVersion(compareto)
@@ -119,13 +119,13 @@ class AwesomeVersion(_AwesomeVersionBase):
             )
         return CompareHandlers(self, compareto).check()
 
-    def __ne__(self, compareto: "AwesomeVersion") -> bool:
+    def __ne__(self, compareto: object) -> bool:
         return not self.__eq__(compareto)
 
-    def __le__(self, compareto: "AwesomeVersion") -> bool:
+    def __le__(self, compareto: object) -> bool:
         return self.__eq__(compareto) or self.__lt__(compareto)
 
-    def __ge__(self, compareto: "AwesomeVersion") -> bool:
+    def __ge__(self, compareto: object) -> bool:
         return self.__eq__(compareto) or self.__gt__(compareto)
 
     def section(self, idx: int) -> int:
