@@ -33,6 +33,7 @@ class ComparelHandlerSections(CompareHandlerBase):
                 return True
             if ver_a_section < ver_b_section:
                 return False
+        return None
 
     @staticmethod
     def _compare_modifier_section(

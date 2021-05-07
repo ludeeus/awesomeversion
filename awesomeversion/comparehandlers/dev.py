@@ -17,3 +17,4 @@ class ComparelHandlerDev(ComparelHandlerSections):
                 return True
             if self._compare_base_sections(self.ver_a, self.ver_b) is None:
                 return True
+        return None
