@@ -36,23 +36,13 @@ class CompareHandlers:
         for handler in handlers:
             ver_a, ver_b = self.ver_a, self.ver_b
             compare = handler(ver_a, ver_b)
+            _LOGGER.debug(
+                "Comparing '%s' against '%s' with '%s'", ver_a, ver_b, handler.__name__
+            )
             if len(compare.strategy) == 0 or (
                 self.ver_a.strategy in compare.strategy
                 and self.ver_b.strategy in compare.strategy
             ):
-                _LOGGER.debug(
-                    "Comparing '%s' against '%s' with '%s'",
-                    ver_a,
-                    ver_b,
-                    handler.__name__,
-                )
                 result: Optional[bool] = compare.handler()
-                _LOGGER.debug(
-                    "Comparing '%s' against '%s' with '%s' result %s",
-                    ver_a,
-                    ver_b,
-                    handler.__name__,
-                    result,
-                )
                 if result is not None:
                     return result
