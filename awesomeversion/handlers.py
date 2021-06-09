@@ -4,7 +4,7 @@ from copy import copy
 from typing import TYPE_CHECKING, Optional
 
 from .comparehandlers.container import ComparelHandlerContainer
-from .comparehandlers.dev import ComparelHandlerDev
+from .comparehandlers.devrc import ComparelHandlerDevRc
 from .comparehandlers.modifier import ComparelHandlerSemVerModifier
 from .comparehandlers.sections import ComparelHandlerSections
 from .comparehandlers.simple import ComparelHandlerSimple
@@ -28,7 +28,7 @@ class CompareHandlers:
         handlers = [
             ComparelHandlerContainer,
             ComparelHandlerSimple,
-            ComparelHandlerDev,
+            ComparelHandlerDevRc,
             ComparelHandlerSemVerModifier,
             ComparelHandlerSections,
         ]
