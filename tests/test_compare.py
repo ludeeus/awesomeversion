@@ -47,6 +47,7 @@ from awesomeversion.exceptions import AwesomeVersionCompare
         ("1.0.0-beta", "1.0.0-alpha"),
         ("1.0.0", "1.0.0-beta"),
         ("6.0.dev20210429", "6.0.rc1"),
+        ("6.0", "6.0.rc1"),
         ("1.0.0b1", "1.0.0b0"),
         ("1.0.0b10", "1.0.0b9"),
         ("1.0.0", "1.0.0b0"),
