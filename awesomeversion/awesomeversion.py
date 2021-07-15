@@ -3,6 +3,7 @@
 import logging
 from typing import List, Optional, Union
 
+from .bases.strategy import AwesomeVersionStrategyBase
 from .exceptions import AwesomeVersionCompare, AwesomeVersionStrategyException
 from .handlers import CompareHandlers
 from .match import (
@@ -24,7 +25,13 @@ class _AwesomeVersionBase(str):
     def __init__(self, string):
         str.__init__(string)
 
-    def __new__(cls, version, _=None):
+    def __new__(
+        cls,
+        version,
+        ensure_strategy=None,
+        custom_compare_handlers=None,
+        custom_strategies=None,
+    ):
         """Create a new AwesomeVersion object."""
 
         return super().__new__(cls, version)
@@ -49,8 +56,13 @@ class AwesomeVersion(_AwesomeVersionBase):
         ensure_strategy: Optional[
             Union[AwesomeVersionStrategy, List[AwesomeVersionStrategy]]
         ] = None,
+        custom_compare_handlers: Optional[List[AwesomeVersionStrategyBase]] = None,
+        custom_strategies: Optional[List[AwesomeVersionStrategyBase]] = None,
     ) -> None:
         """Initialize AwesomeVersion."""
+        self.__custom_compare_handlers = custom_compare_handlers
+        self.__custom_strategies = custom_strategies
+
         if isinstance(version, AwesomeVersion):
             self._version = version._version
         else:
@@ -232,7 +244,7 @@ class AwesomeVersion(_AwesomeVersionBase):
     @property
     def strategy(self) -> AwesomeVersionStrategy:
         """Return the version strategy."""
-        return version_strategy(self.string)
+        return version_strategy(self.string, self.__custom_strategies)
 
     @property
     def simple(self) -> bool:

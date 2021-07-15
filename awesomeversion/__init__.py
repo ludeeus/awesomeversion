@@ -6,3 +6,5 @@ from .exceptions import (
     AwesomeVersionStrategyException,
 )
 from .strategy import AwesomeVersionStrategy
+
+from .bases.strategy import AwesomeVersionStrategyBase

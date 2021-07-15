@@ -1,6 +1,9 @@
 """Version matchers for AwesomeVersion."""
 import re
+from typing import List, Optional
 
+from .bases.strategy import AwesomeVersionStrategyBase
+from .exceptions import AwesomeVersionCustomStrategyException
 from .strategy import AwesomeVersionStrategy
 
 RE_CALVER = re.compile(r"^(\d{2}|\d{4})\.\d{0,2}?\.?(\d{0,2}?\.?)?(\d*(\w+\d+)?)$")
@@ -51,8 +54,19 @@ def is_special_container(version: str) -> bool:
     return RE_SPECIAL_CONTAINER.match(version)
 
 
-def version_strategy(version: str) -> AwesomeVersionStrategy:
+def version_strategy(
+    version: str, custom_strategies: Optional[List[AwesomeVersionStrategyBase]] = None
+) -> AwesomeVersionStrategy:
     """Return the version stragegy."""
+    for cls in custom_strategies or []:
+        if not issubclass(cls, AwesomeVersionStrategyBase):
+            raise AwesomeVersionCustomStrategyException(
+                f"{cls.__class__.__bases__} Is not correct."
+            )
+        strategy = cls(version)
+        if strategy.version_matches:
+            return strategy.STRATEGY
+
     if is_buildver(version):
         return AwesomeVersionStrategy.BUILDVER
     if is_calver(version):

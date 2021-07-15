@@ -10,4 +10,8 @@ class AwesomeVersionCompare(AwesomeVersionException):
 
 
 class AwesomeVersionStrategyException(AwesomeVersionException):
-    """Thrown when the expecte strategy does not match."""
+    """Thrown when the expected strategy does not match."""
+
+
+class AwesomeVersionCustomStrategyException(AwesomeVersionException):
+    """Thrown when the custom strategy is not configured properly."""
