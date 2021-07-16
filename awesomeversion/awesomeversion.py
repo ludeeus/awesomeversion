@@ -1,22 +1,21 @@
 """AwesomeVersion."""
 # pylint: disable=unused-argument
-import logging
-from typing import List, Optional, Union
+from __future__ import annotations
 
-from .bases.strategy import AwesomeVersionStrategyBase
-from .exceptions import AwesomeVersionCompare, AwesomeVersionStrategyException
-from .handlers import CompareHandlers
-from .match import (
-    RE_DIGIT,
-    RE_MODIFIER,
-    RE_SEMVER,
-    RE_VERSION,
-    is_simple,
-    version_strategy,
+from .const import LOGGER, RE_DIGIT, RE_MODIFIER, RE_VERSION, AwesomeVersionStrategy
+from .exceptions import (
+    AwesomeVersionCompare,
+    AwesomeVersionCustomStrategyException,
+    AwesomeVersionStrategyException,
 )
-from .strategy import AwesomeVersionStrategy
-
-_LOGGER: logging.Logger = logging.getLogger(__package__)
+from .handlers import CompareHandlers
+from .strategies.base import AwesomeVersionStrategyBase
+from .strategies.buildver import AwesomeVersionStrategyBuildVer
+from .strategies.calver import AwesomeVersionStrategyCalVer
+from .strategies.pep440 import AwesomeVersionStrategyPep440
+from .strategies.semver import RE_SEMVER, AwesomeVersionStrategySemVer
+from .strategies.simple import RE_SIMPLE, AwesomeVersionStrategySimple
+from .strategies.special_container import AwesomeVersionStrategySpecialContainer
 
 
 class _AwesomeVersionBase(str):
@@ -52,16 +51,16 @@ class AwesomeVersion(_AwesomeVersionBase):
 
     def __init__(
         self,
-        version: Union[str, float, int, "AwesomeVersion"],
-        ensure_strategy: Optional[
-            Union[AwesomeVersionStrategy, List[AwesomeVersionStrategy]]
-        ] = None,
-        custom_compare_handlers: Optional[List[AwesomeVersionStrategyBase]] = None,
-        custom_strategies: Optional[List[AwesomeVersionStrategyBase]] = None,
+        version: str | float | int | AwesomeVersion,
+        ensure_strategy: AwesomeVersionStrategy
+        | list[AwesomeVersionStrategy]
+        | None = None,
+        custom_compare_handlers: list[AwesomeVersionStrategyBase] | None = None,
+        custom_strategies: list[AwesomeVersionStrategyBase] | None = None,
     ) -> None:
         """Initialize AwesomeVersion."""
-        self.__custom_compare_handlers = custom_compare_handlers
-        self.__custom_strategies = custom_strategies
+        self.__custom_compare_handlers = custom_compare_handlers or []
+        self.__custom_strategies = custom_strategies or []
 
         if isinstance(version, AwesomeVersion):
             self._version = version._version
@@ -95,7 +94,7 @@ class AwesomeVersion(_AwesomeVersionBase):
     def __str__(self) -> str:
         return str(self._version)
 
-    def __eq__(self, compareto: Union[str, float, int, "AwesomeVersion"]) -> bool:
+    def __eq__(self, compareto: str | float | int | AwesomeVersion) -> bool:
         """Check if equals to."""
         if isinstance(compareto, (str, float, int)):
             compareto = AwesomeVersion(compareto)
@@ -103,7 +102,7 @@ class AwesomeVersion(_AwesomeVersionBase):
             raise AwesomeVersionCompare("Not a valid AwesomeVersion object")
         return self.string == compareto.string
 
-    def __lt__(self, compareto: Union[str, float, int, "AwesomeVersion"]) -> bool:
+    def __lt__(self, compareto: str | float | int | AwesomeVersion) -> bool:
         """Check if less than."""
         if isinstance(compareto, (str, float, int)):
             compareto = AwesomeVersion(compareto)
@@ -117,7 +116,7 @@ class AwesomeVersion(_AwesomeVersionBase):
             )
         return CompareHandlers(compareto, self).check()
 
-    def __gt__(self, compareto: Union[str, float, int, "AwesomeVersion"]) -> bool:
+    def __gt__(self, compareto: str | float | int | AwesomeVersion) -> bool:
         """Check if greater than."""
         if isinstance(compareto, (str, float, int)):
             compareto = AwesomeVersion(compareto)
@@ -148,11 +147,11 @@ class AwesomeVersion(_AwesomeVersionBase):
 
     @staticmethod
     def ensure_strategy(
-        version: Union[str, float, int, "AwesomeVersion"],
-        strategy: Union[AwesomeVersionStrategy, List[AwesomeVersionStrategy]],
+        version: str | float | int | AwesomeVersion,
+        strategy: AwesomeVersionStrategy | list[AwesomeVersionStrategy],
     ) -> "AwesomeVersion":
         """Return a AwesomeVersion object, or raise on creation."""
-        _LOGGER.warning(
+        LOGGER.warning(
             "Using AwesomeVersion.ensure_strategy(version, strategy) is deprecated, "
             "use AwesomeVersion(version, strategy) instead"
         )
@@ -167,7 +166,7 @@ class AwesomeVersion(_AwesomeVersionBase):
         return version
 
     @property
-    def prefix(self) -> Optional[str]:
+    def prefix(self) -> str | None:
         """Return the version prefix if any"""
         return RE_VERSION.match(str(self._version)).group(1)
 
@@ -199,21 +198,21 @@ class AwesomeVersion(_AwesomeVersionBase):
         return len(self.string.split("."))
 
     @property
-    def major(self) -> Optional["AwesomeVersion"]:
+    def major(self) -> AwesomeVersion | None:
         """Return a AwesomeVersion representation of the major version."""
         if self.strategy != AwesomeVersionStrategy.SEMVER:
             return None
         return AwesomeVersion(self.section(0))
 
     @property
-    def minor(self) -> Optional["AwesomeVersion"]:
+    def minor(self) -> AwesomeVersion | None:
         """Return a AwesomeVersion representation of the minor version."""
         if self.strategy != AwesomeVersionStrategy.SEMVER:
             return None
         return AwesomeVersion(self.section(1))
 
     @property
-    def patch(self) -> Optional["AwesomeVersion"]:
+    def patch(self) -> AwesomeVersion | None:
         """Return a AwesomeVersion representation of the patch version."""
         if self.strategy != AwesomeVersionStrategy.SEMVER:
             return None
@@ -242,11 +241,32 @@ class AwesomeVersion(_AwesomeVersionBase):
         return match.group(3) if match else None
 
     @property
+    def __strategies(self) -> list[AwesomeVersionStrategyBase]:
+        """Return the strategy classes to match against."""
+        return self.__custom_strategies + [
+            AwesomeVersionStrategyBuildVer,
+            AwesomeVersionStrategyCalVer,
+            AwesomeVersionStrategySemVer,
+            AwesomeVersionStrategySimple,
+            AwesomeVersionStrategyPep440,
+            AwesomeVersionStrategySpecialContainer,
+        ]
+
+    @property
     def strategy(self) -> AwesomeVersionStrategy:
         """Return the version strategy."""
-        return version_strategy(self.string, self.__custom_strategies)
+        for cls in self.__strategies:
+            if not issubclass(cls, AwesomeVersionStrategyBase):
+                raise AwesomeVersionCustomStrategyException(
+                    f"{cls.__class__.__bases__} Is not correct."
+                )
+            strategy = cls(self.string)
+            if strategy.version_matches:
+                return strategy.STRATEGY
+
+        return AwesomeVersionStrategy.UNKNOWN
 
     @property
     def simple(self) -> bool:
         """Return True if the version string is simple."""
-        return is_simple(self.string)
+        return RE_SIMPLE.match(self.string)

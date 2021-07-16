@@ -1,22 +1,21 @@
 """Special handler for simple."""
-from typing import Optional
+from __future__ import annotations
 
-from awesomeversion.strategy import AwesomeVersionStrategy
-
+from ..const import AwesomeVersionStrategy
 from .sections import ComparelHandlerSections
 
 
 class ComparelHandlerSimple(ComparelHandlerSections):
     """ComparelHandlerSimple class."""
 
-    def handler(self) -> Optional[bool]:
+    def handler(self) -> bool | None:
         """Compare handler."""
-        if self.ver_a.simple and self.ver_b.simple:
-            if self._compare_base_sections(self.ver_a, self.ver_b) is None:
+        if self.version_a.simple and self.version_b.simple:
+            if self._compare_base_sections(self.version_a, self.version_b) is None:
                 return False
 
-        if self.ver_a.simple and self.ver_b.strategy not in [
+        if self.version_a.simple and self.version_b.strategy not in [
             AwesomeVersionStrategy.SPECIALCONTAINER
         ]:
-            if self._compare_base_sections(self.ver_a, self.ver_b) is None:
+            if self._compare_base_sections(self.version_a, self.version_b) is None:
                 return True

@@ -56,30 +56,30 @@ from awesomeversion.exceptions import AwesomeVersionCompare
 )
 def test_compare(version_a, version_b):
     """Test compare."""
-    ver_a = AwesomeVersion(version_a)
-    ver_b = AwesomeVersion(version_b)
+    version_a = AwesomeVersion(version_a)
+    version_b = AwesomeVersion(version_b)
 
-    assert ver_a > ver_b
-    assert ver_a >= ver_b
-    assert ver_a != ver_b
-    assert ver_a > version_b
-    assert ver_a >= version_b
-    assert ver_a != version_b
-    assert version_a > ver_b
-    assert version_a >= ver_b
-    assert version_a != ver_b
-    assert ver_b < ver_a
-    assert ver_b <= ver_a
-    assert ver_b < version_a
-    assert ver_b <= version_a
+    assert version_a > version_b
+    assert version_a >= version_b
+    assert version_a != version_b
+    assert version_a > version_b
+    assert version_a >= version_b
+    assert version_a != version_b
+    assert version_a > version_b
+    assert version_a >= version_b
+    assert version_a != version_b
+    assert version_b < version_a
+    assert version_b <= version_a
+    assert version_b < version_a
+    assert version_b <= version_a
 
     if str(version_a).endswith("."):
         version_a = version_a[:-1]
     if str(version_b).endswith("."):
         version_b = version_b[:-1]
 
-    assert ver_a.string == str(version_a)
-    assert ver_b.string == str(version_b)
+    assert version_a.string == str(version_a)
+    assert version_b.string == str(version_b)
 
 
 def test_invalid_compare():
@@ -113,17 +113,17 @@ def test_invalid_compare():
 )
 def test_falsy_compare(version):
     """Test compare."""
-    ver_a = AwesomeVersion(version)
-    ver_b = AwesomeVersion(version)
+    version_a = AwesomeVersion(version)
+    version_b = AwesomeVersion(version)
 
-    assert not ver_a != ver_b
-    assert not ver_a > ver_b
-    assert not ver_a < ver_b
+    assert not version_a != version_b
+    assert not version_a > version_b
+    assert not version_a < version_b
 
-    assert not version != ver_b
-    assert not version > ver_b
-    assert not version < ver_b
+    assert not version != version_b
+    assert not version > version_b
+    assert not version < version_b
 
-    assert not ver_a != version
-    assert not ver_a > version
-    assert not ver_a < version
+    assert not version_a != version
+    assert not version_a > version
+    assert not version_a < version

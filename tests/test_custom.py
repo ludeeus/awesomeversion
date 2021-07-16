@@ -1,11 +1,9 @@
 """Test custom."""
-from enum import Enum
 import re
-
+import pytest
 from awesomeversion import (
     AwesomeVersion,
     AwesomeVersionStrategyBase,
-    AwesomeVersionStrategy,
     AwesomeVersionStrategyException,
 )
 
@@ -18,7 +16,6 @@ class AwesomeVersionStrategyTest(AwesomeVersionStrategyBase):
 
 
 def test_custom():
-
     version_a = AwesomeVersion("test", custom_strategies=[AwesomeVersionStrategyTest])
     assert version_a.strategy == "TestVer"
     assert repr(version_a) == "<AwesomeVersion TestVer 'test'>"
@@ -28,3 +25,9 @@ def test_custom():
     )
     assert version_b.strategy != "TestVer"
     assert repr(version_b) == "<AwesomeVersion unknown 'not_test'>"
+
+
+def test_invalid():
+    AwesomeVersion("test", custom_strategies=["Invalid"])
+    with pytest.raises(AwesomeVersionStrategyException):
+        AwesomeVersion("test", custom_strategies=["Invalid"])

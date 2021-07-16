@@ -15,3 +15,7 @@ class AwesomeVersionStrategyException(AwesomeVersionException):
 
 class AwesomeVersionCustomStrategyException(AwesomeVersionException):
     """Thrown when the custom strategy is not configured properly."""
+
+
+class AwesomeVersionCustomHandlerException(AwesomeVersionException):
+    """Thrown when the custom handler is not configured properly."""

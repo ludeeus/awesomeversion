@@ -1,8 +1,7 @@
 """Test match."""
 import pytest
 
-from awesomeversion import AwesomeVersion
-from awesomeversion.strategy import AwesomeVersionStrategy
+from awesomeversion import AwesomeVersion, AwesomeVersionStrategy
 
 
 @pytest.mark.parametrize(

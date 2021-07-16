@@ -1,48 +1,56 @@
 """Special handler for sections."""
-from typing import TYPE_CHECKING, Optional
+from __future__ import annotations
 
-from ..match import RE_MODIFIER
-from .base import CompareHandlerBase
+from typing import TYPE_CHECKING
+
+from ..const import RE_MODIFIER
+from .base import AwesomeVersionCompareHandler
 
 if TYPE_CHECKING:
     from ..awesomeversion import AwesomeVersion
 
 
-class ComparelHandlerSections(CompareHandlerBase):
+class ComparelHandlerSections(AwesomeVersionCompareHandler):
     """ComparelHandlerSections class."""
 
-    def handler(self) -> Optional[bool]:
+    def handler(self) -> bool | None:
         """Compare handler."""
-        base = self._compare_base_sections(self.ver_a, self.ver_b)
+        base = self._compare_base_sections(self.version_a, self.version_b)
         if base is not None:
             return base
-        return self._compare_modifier_section(self.ver_a, self.ver_b)
+        return self._compare_modifier_section(self.version_a, self.version_b)
 
     @staticmethod
     def _compare_base_sections(
-        ver_a: "AwesomeVersion", ver_b: "AwesomeVersion"
-    ) -> Optional[bool]:
+        version_a: "AwesomeVersion", version_b: "AwesomeVersion"
+    ) -> bool | None:
         """Compare base sections between two AwesomeVersion objects."""
-        biggest = ver_a.sections if ver_a.sections >= ver_b.sections else ver_b.sections
+        biggest = (
+            version_a.sections
+            if version_a.sections >= version_b.sections
+            else version_b.sections
+        )
         for section in range(0, biggest):
-            ver_a_section = ver_a.section(section)
-            ver_b_section = ver_b.section(section)
-            if ver_a_section == ver_b_section:
+            version_a_section = version_a.section(section)
+            version_b_section = version_b.section(section)
+            if version_a_section == version_b_section:
                 continue
-            if ver_a_section > ver_b_section:
+            if version_a_section > version_b_section:
                 return True
-            if ver_a_section < ver_b_section:
+            if version_a_section < version_b_section:
                 return False
 
     @staticmethod
     def _compare_modifier_section(
-        ver_a: "AwesomeVersion", ver_b: "AwesomeVersion"
+        version_a: "AwesomeVersion", version_b: "AwesomeVersion"
     ) -> bool:
         """Compare sections between two AwesomeVersion objects."""
-        if ver_a.modifier is not None and ver_b.modifier is not None:
-            ver_a_modifier = RE_MODIFIER.match(ver_a.string.split(".")[-1])
-            ver_b_modifier = RE_MODIFIER.match(ver_b.string.split(".")[-1])
-            if ver_a_modifier.group(3) == ver_b_modifier.group(3):
-                return int(ver_a_modifier.group(4)) > int(ver_b_modifier.group(4))
-            return ver_a_modifier.group(3) > ver_b_modifier.group(3)
+        if version_a.modifier is not None and version_b.modifier is not None:
+            version_a_modifier = RE_MODIFIER.match(version_a.string.split(".")[-1])
+            version_b_modifier = RE_MODIFIER.match(version_b.string.split(".")[-1])
+            if version_a_modifier.group(3) == version_b_modifier.group(3):
+                return int(version_a_modifier.group(4)) > int(
+                    version_b_modifier.group(4)
+                )
+            return version_a_modifier.group(3) > version_b_modifier.group(3)
         return False
