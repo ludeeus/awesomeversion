@@ -1,5 +1,4 @@
 """AwesomeVersion strategy base."""
-import re
 from typing import Optional, Union
 
 from ..const import AwesomeVersionStrategy
@@ -8,7 +7,7 @@ from ..const import AwesomeVersionStrategy
 class AwesomeVersionStrategyBase:
     """Base strategy class."""
 
-    REGEX_MATCH: Optional[re.Pattern] = None
+    REGEX_MATCH = None
     STRATEGY: Union[AwesomeVersionStrategy, str] = "Custom"
 
     def __init__(self, version: str):
