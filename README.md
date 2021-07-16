@@ -133,11 +133,11 @@ from awesomeversion import (
 
 
 class MyAwesomeHandler(AwesomeVersionCompareHandler):
+
     STRATEGIES = [AwesomeVersionStrategy.SEMVER]
 
     def handler(self) -> bool:
         """Custom compare handler."""
-        print(self.version_a)
         if self.version_a == "1.2.3":
             return True
 
@@ -151,6 +151,36 @@ assert AwesomeVersion("1.2.3", custom_compare_handlers=[MyAwesomeHandler]) > "11
     - If `None` is returned it will check the next hadnler.
 - Use `self.version_a` and `self.version_b` in `MyAwesomeHandler.handler` to access the `AwesomeVersion` objects.
 
+#### Combine both custom handlers and custom strategies
+
+```python
+from re import compile
+from awesomeversion import (
+    AwesomeVersion,
+    AwesomeVersionCompareHandler,
+    AwesomeVersionStrategyBase
+)
+
+class MyAwesomeStrategy(AwesomeVersionStrategyBase):
+
+    STRATEGY = "AwesomeVer"
+    REGEX_MATCH = compile(r"awesome")
+
+    def match(self) -> bool:
+        """Return true if the version matches this strategy."""
+        return self.version == "awesome"
+
+
+class MyAwesomeHandler(AwesomeVersionCompareHandler):
+
+    def handler(self) -> bool:
+        """Custom compare handler."""
+        if self.version_a.strategy == "AwesomeVer":
+            return True
+
+
+assert AwesomeVersion("awesome", custom_compare_handlers=[MyAwesomeHandler], custom_strategies=[MyAwesomeStrategy]) > "1.2.3"
+```
 
 ## Contribute
 
