@@ -1,11 +1,13 @@
 """Test custom."""
 import re
+
 import pytest
+
 from awesomeversion import (
     AwesomeVersion,
-    AwesomeVersionStrategyBase,
     AwesomeVersionCompareHandler,
     AwesomeVersionException,
+    AwesomeVersionStrategyBase,
 )
 
 

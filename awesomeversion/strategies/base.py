@@ -1,6 +1,8 @@
 """AwesomeVersion strategy base."""
 from __future__ import annotations
+
 import re
+
 from ..const import AwesomeVersionStrategy
 
 

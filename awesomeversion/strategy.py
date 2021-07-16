@@ -1,5 +1,5 @@
 """For backwards compability, will be removed in the first release of 2022"""
-from .const import AwesomeVersionStrategy, LOGGER
+from .const import LOGGER, AwesomeVersionStrategy
 
 LOGGER.warning(
     "Importing AwesomeVersionStrategy from awesomeversion.strategy is deprecated, "
