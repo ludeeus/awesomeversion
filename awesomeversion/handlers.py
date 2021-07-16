@@ -10,6 +10,7 @@ from .comparehandlers.modifier import AwesomeVersionCompareHandlerSemVerModifier
 from .comparehandlers.sections import AwesomeVersionCompareHandlerSections
 from .comparehandlers.simple import AwesomeVersionCompareHandlerSimple
 from .const import LOGGER
+from .exceptions import AwesomeVersionCustomHandlerException
 
 if TYPE_CHECKING:
     from .awesomeversion import AwesomeVersion
@@ -40,6 +41,16 @@ class CompareHandlers:
         )
 
         for handler in handlers:
+            try:
+                is_valid = issubclass(handler, AwesomeVersionCompareHandler)
+            except TypeError:
+                is_valid = False
+
+            if not is_valid:
+                raise AwesomeVersionCustomHandlerException(
+                    f"{handler.__class__.__bases__} Is not correct."
+                )
+
             version_a, version_b = self.version_a, self.version_b
             compare = handler(version_a, version_b)
             LOGGER.debug(

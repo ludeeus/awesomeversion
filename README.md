@@ -86,6 +86,72 @@ with AwesomeVersion("20.12.0") as current:
 > True
 ```
 
+## Customize the behaviour
+
+You can add custom strategies and custom handlers to better suite your needs.
+
+### Custom strategies
+
+If you need to add a custom strategy to the `AwesomeVersion` object, you can do that creating a custom subclass of `AwesomeVersionStrategyBase` and passing that to the `AwesomeVersion` constructor with the `custom_strategies` argument.
+
+Example:
+
+```python
+from re import compile
+from awesomeversion import AwesomeVersion, AwesomeVersionStrategyBase
+
+class MyAwesomeStrategy(AwesomeVersionStrategyBase):
+
+    STRATEGY = "AwesomeVer"
+    REGEX_MATCH = compile(r"awesome")
+
+    def match(self) -> bool:
+        """Return true if the version matches this strategy."""
+        return self.version == "awesome"
+
+assert AwesomeVersion("awesome", custom_strategies=[MyAwesomeStrategy]).strategy == "AwesomeVer"
+```
+
+- Custom strategies are checked before the built-in strategies.
+- The `MyAwesomeStrategy.STRATEGY` defaults to `Custom`
+- You only need one of `REGEX_MATCH`, `MyAwesomeStrategy.match`. `REGEX_MATCH` is prefered if both exist.
+- Use `self.version` in `MyAwesomeStrategy.match` to access the version string.
+
+
+### Custom handlers
+
+If you need to add a custom strategy to the `AwesomeVersion` object, you can do that creating a custom subclass of `AwesomeVersionCompareHandler` and passing that to the `AwesomeVersion` constructor with the `custom_compare_handlers` argument.
+
+Example:
+
+```python
+from awesomeversion import (
+    AwesomeVersion,
+    AwesomeVersionCompareHandler,
+    AwesomeVersionStrategy,
+)
+
+
+class MyAwesomeHandler(AwesomeVersionCompareHandler):
+    STRATEGIES = [AwesomeVersionStrategy.SEMVER]
+
+    def handler(self) -> bool:
+        """Custom compare handler."""
+        print(self.version_a)
+        if self.version_a == "1.2.3":
+            return True
+
+
+assert AwesomeVersion("1.2.3", custom_compare_handlers=[MyAwesomeHandler]) > "111.2.3"
+```
+
+- Custom compare handlers are checked before the built-in handlers.
+- If `MyAwesomeHandler.STRATEGIES` is not defined, the default is `[]` which enables it for all strategies.
+- `MyAwesomeHandler.handler` must return a boolean or `None`.
+    - If `None` is returned it will check the next hadnler.
+- Use `self.version_a` and `self.version_b` in `MyAwesomeHandler.handler` to access the `AwesomeVersion` objects.
+
+
 ## Contribute
 
 **All** contributions are welcome!

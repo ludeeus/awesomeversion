@@ -97,7 +97,11 @@ class AwesomeVersion(_AwesomeVersionBase):
     def __eq__(self, compareto: str | float | int | AwesomeVersion) -> bool:
         """Check if equals to."""
         if isinstance(compareto, (str, float, int)):
-            compareto = AwesomeVersion(compareto)
+            compareto = AwesomeVersion(
+                compareto,
+                custom_compare_handlers=self.__custom_compare_handlers,
+                custom_strategies=self.__custom_strategies,
+            )
         if not isinstance(compareto, AwesomeVersion):
             raise AwesomeVersionCompare("Not a valid AwesomeVersion object")
         return self.string == compareto.string
@@ -264,7 +268,6 @@ class AwesomeVersion(_AwesomeVersionBase):
         )
 
         for cls in strategies:
-            is_valid = False
             try:
                 is_valid = issubclass(cls, AwesomeVersionStrategyBase)
             except TypeError:
@@ -274,6 +277,7 @@ class AwesomeVersion(_AwesomeVersionBase):
                 raise AwesomeVersionCustomStrategyException(
                     f"{cls.__class__.__bases__} Is not correct."
                 )
+
             strategy = cls(self.string)
             if strategy.version_matches:
                 return strategy.STRATEGY

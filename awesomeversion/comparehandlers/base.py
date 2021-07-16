@@ -11,6 +11,8 @@ if TYPE_CHECKING:
 class AwesomeVersionCompareHandler:
     """CompareHandlerBase class."""
 
+    STRATEGIES: list[AwesomeVersionStrategy | str] = []
+
     def __init__(self, version_a: AwesomeVersion, version_b: AwesomeVersion) -> None:
         """Initialize the special handler base_class."""
         self.version_a = version_a
@@ -19,7 +21,7 @@ class AwesomeVersionCompareHandler:
     @property
     def strategy(self) -> list[AwesomeVersionStrategy | str]:
         """Return a list of valid strategies for this handler."""
-        return []
+        return self.STRATEGIES
 
     def handler(self) -> bool | None:
         """Compare handler."""

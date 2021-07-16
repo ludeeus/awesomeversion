@@ -4,8 +4,8 @@ import pytest
 from awesomeversion import (
     AwesomeVersion,
     AwesomeVersionStrategyBase,
-    AwesomeVersionStrategyException,
     AwesomeVersionCompareHandler,
+    AwesomeVersionException,
 )
 
 
@@ -24,6 +24,15 @@ class AwesomeVersionCompareHandlerTestInvalid(AwesomeVersionCompareHandler):
     """Custom Compare Handler."""
 
 
+class AwesomeVersionCompareHandlerTest(AwesomeVersionCompareHandler):
+    """Custom Compare Handler."""
+
+    def handler(self) -> bool:
+        """Compare handler."""
+        if self.version_a == "1.2.3":
+            return True
+
+
 def test_custom():
     version_a = AwesomeVersion("test", custom_strategies=[AwesomeVersionStrategyTest])
     assert version_a.strategy == "TestVer"
@@ -37,8 +46,11 @@ def test_custom():
 
 
 def test_invalid():
-    with pytest.raises(AwesomeVersionStrategyException):
+    with pytest.raises(AwesomeVersionException):
         assert AwesomeVersion("test", custom_strategies=["Invalid"]).strategy
+
+    with pytest.raises(AwesomeVersionException):
+        assert AwesomeVersion(1, custom_compare_handlers=["Invalid"]) > 2
 
     with pytest.raises(NotImplementedError):
         assert AwesomeVersion(
