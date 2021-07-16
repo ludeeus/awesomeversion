@@ -10,7 +10,7 @@ if TYPE_CHECKING:
 class AwesomeVersionCompareHandler:
     """CompareHandlerBase class."""
 
-    STRATEGIES: Union[list[AwesomeVersionStrategy, str]] = []
+    STRATEGIES: list[Union[AwesomeVersionStrategy, str]] = []
 
     def __init__(
         self, version_a: "AwesomeVersion", version_b: "AwesomeVersion"
@@ -20,7 +20,7 @@ class AwesomeVersionCompareHandler:
         self.version_b = version_b
 
     @property
-    def strategy(self) -> Union[list[AwesomeVersionStrategy, str]]:
+    def strategy(self) -> list[Union[AwesomeVersionStrategy, str]]:
         """Return a list of valid strategies for this handler."""
         return self.STRATEGIES
 
