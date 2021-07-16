@@ -1,6 +1,8 @@
 """AwesomeVersion."""
 # pylint: disable=unused-argument
-from __future__ import annotations
+from typing import Optional, Union
+
+from awesomeversion.comparehandlers.base import AwesomeVersionCompareHandler
 
 from .const import LOGGER, RE_DIGIT, RE_MODIFIER, RE_VERSION, AwesomeVersionStrategy
 from .exceptions import (
@@ -51,12 +53,12 @@ class AwesomeVersion(_AwesomeVersionBase):
 
     def __init__(
         self,
-        version: str | float | int | AwesomeVersion,
-        ensure_strategy: AwesomeVersionStrategy
-        | list[AwesomeVersionStrategy]
-        | None = None,
-        custom_compare_handlers: list[AwesomeVersionStrategyBase] | None = None,
-        custom_strategies: list[AwesomeVersionStrategyBase] | None = None,
+        version: Union[str, float, int, "AwesomeVersion"],
+        ensure_strategy: Optional[
+            Union[AwesomeVersionStrategy, list[AwesomeVersionStrategy]]
+        ] = None,
+        custom_compare_handlers: Optional[list[AwesomeVersionCompareHandler]] = None,
+        custom_strategies: Optional[list[AwesomeVersionStrategyBase]] = None,
     ) -> None:
         """Initialize AwesomeVersion."""
         self.__custom_compare_handlers = custom_compare_handlers or []
@@ -82,7 +84,7 @@ class AwesomeVersion(_AwesomeVersionBase):
 
         super().__init__(self._version)
 
-    def __enter__(self) -> AwesomeVersion:
+    def __enter__(self) -> "AwesomeVersion":
         return self
 
     def __exit__(self, *exc_info) -> None:
@@ -94,7 +96,7 @@ class AwesomeVersion(_AwesomeVersionBase):
     def __str__(self) -> str:
         return str(self._version)
 
-    def __eq__(self, compareto: str | float | int | AwesomeVersion) -> bool:
+    def __eq__(self, compareto: Union[str, float, int, "AwesomeVersion"]) -> bool:
         """Check if equals to."""
         if isinstance(compareto, (str, float, int)):
             compareto = AwesomeVersion(
@@ -106,7 +108,7 @@ class AwesomeVersion(_AwesomeVersionBase):
             raise AwesomeVersionCompare("Not a valid AwesomeVersion object")
         return self.string == compareto.string
 
-    def __lt__(self, compareto: str | float | int | AwesomeVersion) -> bool:
+    def __lt__(self, compareto: Union[str, float, int, "AwesomeVersion"]) -> bool:
         """Check if less than."""
         if isinstance(compareto, (str, float, int)):
             compareto = AwesomeVersion(
@@ -124,7 +126,7 @@ class AwesomeVersion(_AwesomeVersionBase):
             )
         return CompareHandlers(compareto, self).check(self.__custom_compare_handlers)
 
-    def __gt__(self, compareto: str | float | int | AwesomeVersion) -> bool:
+    def __gt__(self, compareto: Union[str, float, int, "AwesomeVersion"]) -> bool:
         """Check if greater than."""
         if isinstance(compareto, (str, float, int)):
             compareto = AwesomeVersion(
@@ -142,13 +144,13 @@ class AwesomeVersion(_AwesomeVersionBase):
             )
         return CompareHandlers(self, compareto).check(self.__custom_compare_handlers)
 
-    def __ne__(self, compareto: AwesomeVersion) -> bool:
+    def __ne__(self, compareto: "AwesomeVersion") -> bool:
         return not self.__eq__(compareto)
 
-    def __le__(self, compareto: AwesomeVersion) -> bool:
+    def __le__(self, compareto: "AwesomeVersion") -> bool:
         return self.__eq__(compareto) or self.__lt__(compareto)
 
-    def __ge__(self, compareto: AwesomeVersion) -> bool:
+    def __ge__(self, compareto: "AwesomeVersion") -> bool:
         return self.__eq__(compareto) or self.__gt__(compareto)
 
     def section(self, idx: int) -> int:
@@ -159,9 +161,9 @@ class AwesomeVersion(_AwesomeVersionBase):
 
     @staticmethod
     def ensure_strategy(
-        version: str | float | int | AwesomeVersion,
-        strategy: AwesomeVersionStrategy | list[AwesomeVersionStrategy],
-    ) -> AwesomeVersion:
+        version: Union[str, float, int, "AwesomeVersion"],
+        strategy: Union[AwesomeVersionStrategy, list[AwesomeVersionStrategy]],
+    ) -> "AwesomeVersion":
         """Return a AwesomeVersion object, or raise on creation."""
         LOGGER.warning(
             "Using AwesomeVersion.ensure_strategy(version, strategy) is deprecated, "
@@ -178,7 +180,7 @@ class AwesomeVersion(_AwesomeVersionBase):
         return version
 
     @property
-    def prefix(self) -> str | None:
+    def prefix(self) -> Optional[str]:
         """Return the version prefix if any"""
         return RE_VERSION.match(str(self._version)).group(1)
 
@@ -210,21 +212,21 @@ class AwesomeVersion(_AwesomeVersionBase):
         return len(self.string.split("."))
 
     @property
-    def major(self) -> AwesomeVersion | None:
+    def major(self) -> Optional["AwesomeVersion"]:
         """Return a AwesomeVersion representation of the major version."""
         if self.strategy != AwesomeVersionStrategy.SEMVER:
             return None
         return AwesomeVersion(self.section(0))
 
     @property
-    def minor(self) -> AwesomeVersion | None:
+    def minor(self) -> Optional["AwesomeVersion"]:
         """Return a AwesomeVersion representation of the minor version."""
         if self.strategy != AwesomeVersionStrategy.SEMVER:
             return None
         return AwesomeVersion(self.section(1))
 
     @property
-    def patch(self) -> AwesomeVersion | None:
+    def patch(self) -> Optional["AwesomeVersion"]:
         """Return a AwesomeVersion representation of the patch version."""
         if self.strategy != AwesomeVersionStrategy.SEMVER:
             return None

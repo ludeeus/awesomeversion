@@ -1,8 +1,7 @@
 """Compare handlers"""
-from __future__ import annotations
 
 from copy import copy
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Optional
 
 from .comparehandlers.base import AwesomeVersionCompareHandler
 from .comparehandlers.container import AwesomeVersionCompareHandlerContainer
@@ -20,14 +19,16 @@ if TYPE_CHECKING:
 class CompareHandlers:
     """CompareHandlers class."""
 
-    def __init__(self, version_a: AwesomeVersion, version_b: AwesomeVersion) -> None:
+    def __init__(
+        self, version_a: "AwesomeVersion", version_b: "AwesomeVersion"
+    ) -> None:
         """Initialize the special handler base_class."""
         self.version_a = copy(version_a)
         self.version_b = copy(version_b)
 
     def check(
         self,
-        custom_compare_handlers: list[AwesomeVersionCompareHandler] | None = None,
+        custom_compare_handlers: Optional[list[AwesomeVersionCompareHandler]] = None,
     ) -> bool:
         """Handler."""
         handlers = custom_compare_handlers or []
@@ -65,6 +66,6 @@ class CompareHandlers:
                 self.version_a.strategy in compare.strategy
                 and self.version_b.strategy in compare.strategy
             ):
-                result: bool | None = compare.handler()
+                result: Optional[bool] = compare.handler()
                 if result is not None:
                     return result

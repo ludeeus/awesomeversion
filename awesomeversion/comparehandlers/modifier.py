@@ -1,5 +1,5 @@
 """Special handler for modifier."""
-from __future__ import annotations
+from typing import Optional
 
 from ..const import RE_MODIFIER, AwesomeVersionStrategy
 from ..strategies.semver import RE_SEMVER
@@ -16,7 +16,7 @@ class AwesomeVersionCompareHandlerSemVerModifier(AwesomeVersionCompareHandlerSec
         """Return a list of valid strategies for this handler."""
         return [AwesomeVersionStrategy.SEMVER]
 
-    def handler(self) -> bool | None:
+    def handler(self) -> Optional[bool]:
         """Compare handler."""
         if self._compare_base_sections(self.version_a, self.version_b) is None:
             if (

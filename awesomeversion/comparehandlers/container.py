@@ -1,5 +1,5 @@
 """Special handler for container."""
-from __future__ import annotations
+from typing import Optional
 
 from ..const import AwesomeVersionStrategy
 from .base import AwesomeVersionCompareHandler
@@ -10,7 +10,7 @@ CONTAINER_VERSION_MAP = {"stable": 1, "beta": 2, "latest": 3, "dev": 4}
 class AwesomeVersionCompareHandlerContainer(AwesomeVersionCompareHandler):
     """AwesomeVersionCompareHandlerContainer class."""
 
-    def handler(self) -> bool | None:
+    def handler(self) -> Optional[bool]:
         """Compare handler."""
         if self.version_a.strategy == AwesomeVersionStrategy.SPECIALCONTAINER:
             if self.version_b.strategy != AwesomeVersionStrategy.SPECIALCONTAINER:

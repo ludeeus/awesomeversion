@@ -1,5 +1,5 @@
 """Special handler for dev."""
-from __future__ import annotations
+from typing import Optional
 
 from .sections import AwesomeVersionCompareHandlerSections
 
@@ -7,7 +7,7 @@ from .sections import AwesomeVersionCompareHandlerSections
 class AwesomeVersionCompareHandlerDevRc(AwesomeVersionCompareHandlerSections):
     """AwesomeVersionCompareHandlerDevRc class."""
 
-    def handler(self) -> bool | None:
+    def handler(self) -> Optional[bool]:
         """Compare handler."""
         a_last = self.version_a.string.split(".")[-1]
         b_last = self.version_b.string.split(".")[-1]

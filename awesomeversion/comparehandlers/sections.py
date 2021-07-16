@@ -1,7 +1,5 @@
 """Special handler for sections."""
-from __future__ import annotations
-
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Optional
 
 from ..const import RE_MODIFIER
 from .base import AwesomeVersionCompareHandler
@@ -13,7 +11,7 @@ if TYPE_CHECKING:
 class AwesomeVersionCompareHandlerSections(AwesomeVersionCompareHandler):
     """AwesomeVersionCompareHandlerSections class."""
 
-    def handler(self) -> bool | None:
+    def handler(self) -> Optional[bool]:
         """Compare handler."""
         base = self._compare_base_sections(self.version_a, self.version_b)
         if base is not None:
@@ -23,7 +21,7 @@ class AwesomeVersionCompareHandlerSections(AwesomeVersionCompareHandler):
     @staticmethod
     def _compare_base_sections(
         version_a: "AwesomeVersion", version_b: "AwesomeVersion"
-    ) -> bool | None:
+    ) -> Optional[bool]:
         """Compare base sections between two AwesomeVersion objects."""
         biggest = (
             version_a.sections
