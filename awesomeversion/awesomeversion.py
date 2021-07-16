@@ -82,7 +82,7 @@ class AwesomeVersion(_AwesomeVersionBase):
 
         super().__init__(self._version)
 
-    def __enter__(self) -> "AwesomeVersion":
+    def __enter__(self) -> AwesomeVersion:
         return self
 
     def __exit__(self, *exc_info) -> None:
@@ -105,7 +105,11 @@ class AwesomeVersion(_AwesomeVersionBase):
     def __lt__(self, compareto: str | float | int | AwesomeVersion) -> bool:
         """Check if less than."""
         if isinstance(compareto, (str, float, int)):
-            compareto = AwesomeVersion(compareto)
+            compareto = AwesomeVersion(
+                compareto,
+                custom_compare_handlers=self.__custom_compare_handlers,
+                custom_strategies=self.__custom_strategies,
+            )
         if not isinstance(compareto, AwesomeVersion):
             raise AwesomeVersionCompare("Not a valid AwesomeVersion object")
         if (self.strategy == AwesomeVersionStrategy.UNKNOWN) or (
@@ -114,12 +118,16 @@ class AwesomeVersion(_AwesomeVersionBase):
             raise AwesomeVersionCompare(
                 f"Can't compare {AwesomeVersionStrategy.UNKNOWN}"
             )
-        return CompareHandlers(compareto, self).check()
+        return CompareHandlers(compareto, self).check(self.__custom_compare_handlers)
 
     def __gt__(self, compareto: str | float | int | AwesomeVersion) -> bool:
         """Check if greater than."""
         if isinstance(compareto, (str, float, int)):
-            compareto = AwesomeVersion(compareto)
+            compareto = AwesomeVersion(
+                compareto,
+                custom_compare_handlers=self.__custom_compare_handlers,
+                custom_strategies=self.__custom_strategies,
+            )
         if not isinstance(compareto, AwesomeVersion):
             raise AwesomeVersionCompare("Not a valid AwesomeVersion object")
         if (self.strategy == AwesomeVersionStrategy.UNKNOWN) or (
@@ -128,15 +136,15 @@ class AwesomeVersion(_AwesomeVersionBase):
             raise AwesomeVersionCompare(
                 f"Can't compare {AwesomeVersionStrategy.UNKNOWN}"
             )
-        return CompareHandlers(self, compareto).check()
+        return CompareHandlers(self, compareto).check(self.__custom_compare_handlers)
 
-    def __ne__(self, compareto: "AwesomeVersion") -> bool:
+    def __ne__(self, compareto: AwesomeVersion) -> bool:
         return not self.__eq__(compareto)
 
-    def __le__(self, compareto: "AwesomeVersion") -> bool:
+    def __le__(self, compareto: AwesomeVersion) -> bool:
         return self.__eq__(compareto) or self.__lt__(compareto)
 
-    def __ge__(self, compareto: "AwesomeVersion") -> bool:
+    def __ge__(self, compareto: AwesomeVersion) -> bool:
         return self.__eq__(compareto) or self.__gt__(compareto)
 
     def section(self, idx: int) -> int:
@@ -149,7 +157,7 @@ class AwesomeVersion(_AwesomeVersionBase):
     def ensure_strategy(
         version: str | float | int | AwesomeVersion,
         strategy: AwesomeVersionStrategy | list[AwesomeVersionStrategy],
-    ) -> "AwesomeVersion":
+    ) -> AwesomeVersion:
         """Return a AwesomeVersion object, or raise on creation."""
         LOGGER.warning(
             "Using AwesomeVersion.ensure_strategy(version, strategy) is deprecated, "
@@ -241,22 +249,28 @@ class AwesomeVersion(_AwesomeVersionBase):
         return match.group(3) if match else None
 
     @property
-    def __strategies(self) -> list[AwesomeVersionStrategyBase]:
-        """Return the strategy classes to match against."""
-        return self.__custom_strategies + [
-            AwesomeVersionStrategyBuildVer,
-            AwesomeVersionStrategyCalVer,
-            AwesomeVersionStrategySemVer,
-            AwesomeVersionStrategySimple,
-            AwesomeVersionStrategyPep440,
-            AwesomeVersionStrategySpecialContainer,
-        ]
-
-    @property
     def strategy(self) -> AwesomeVersionStrategy:
         """Return the version strategy."""
-        for cls in self.__strategies:
-            if not issubclass(cls, AwesomeVersionStrategyBase):
+        strategies = self.__custom_strategies
+        strategies.extend(
+            [
+                AwesomeVersionStrategyBuildVer,
+                AwesomeVersionStrategyCalVer,
+                AwesomeVersionStrategySemVer,
+                AwesomeVersionStrategySimple,
+                AwesomeVersionStrategyPep440,
+                AwesomeVersionStrategySpecialContainer,
+            ]
+        )
+
+        for cls in strategies:
+            is_valid = False
+            try:
+                is_valid = issubclass(cls, AwesomeVersionStrategyBase)
+            except TypeError:
+                is_valid = False
+
+            if not is_valid:
                 raise AwesomeVersionCustomStrategyException(
                     f"{cls.__class__.__bases__} Is not correct."
                 )

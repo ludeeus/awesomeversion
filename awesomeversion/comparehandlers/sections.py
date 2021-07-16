@@ -10,8 +10,8 @@ if TYPE_CHECKING:
     from ..awesomeversion import AwesomeVersion
 
 
-class ComparelHandlerSections(AwesomeVersionCompareHandler):
-    """ComparelHandlerSections class."""
+class AwesomeVersionCompareHandlerSections(AwesomeVersionCompareHandler):
+    """AwesomeVersionCompareHandlerSections class."""
 
     def handler(self) -> bool | None:
         """Compare handler."""

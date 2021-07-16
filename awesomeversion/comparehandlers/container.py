@@ -7,8 +7,8 @@ from .base import AwesomeVersionCompareHandler
 CONTAINER_VERSION_MAP = {"stable": 1, "beta": 2, "latest": 3, "dev": 4}
 
 
-class ComparelHandlerContainer(AwesomeVersionCompareHandler):
-    """ComparelHandlerContainer class."""
+class AwesomeVersionCompareHandlerContainer(AwesomeVersionCompareHandler):
+    """AwesomeVersionCompareHandlerContainer class."""
 
     def handler(self) -> bool | None:
         """Compare handler."""

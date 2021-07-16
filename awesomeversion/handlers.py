@@ -3,11 +3,12 @@ from __future__ import annotations
 from copy import copy
 from typing import TYPE_CHECKING
 
-from .comparehandlers.container import ComparelHandlerContainer
-from .comparehandlers.devrc import ComparelHandlerDevRc
-from .comparehandlers.modifier import ComparelHandlerSemVerModifier
-from .comparehandlers.sections import ComparelHandlerSections
-from .comparehandlers.simple import ComparelHandlerSimple
+from .comparehandlers.base import AwesomeVersionCompareHandler
+from .comparehandlers.container import AwesomeVersionCompareHandlerContainer
+from .comparehandlers.devrc import AwesomeVersionCompareHandlerDevRc
+from .comparehandlers.modifier import AwesomeVersionCompareHandlerSemVerModifier
+from .comparehandlers.sections import AwesomeVersionCompareHandlerSections
+from .comparehandlers.simple import AwesomeVersionCompareHandlerSimple
 from .const import LOGGER
 
 if TYPE_CHECKING:
@@ -22,15 +23,21 @@ class CompareHandlers:
         self.version_a = copy(version_a)
         self.version_b = copy(version_b)
 
-    def check(self) -> bool:
+    def check(
+        self,
+        custom_compare_handlers: list[AwesomeVersionCompareHandler] | None = None,
+    ) -> bool:
         """Handler."""
-        handlers = [
-            ComparelHandlerContainer,
-            ComparelHandlerSimple,
-            ComparelHandlerDevRc,
-            ComparelHandlerSemVerModifier,
-            ComparelHandlerSections,
-        ]
+        handlers = custom_compare_handlers or []
+        handlers.extend(
+            [
+                AwesomeVersionCompareHandlerContainer,
+                AwesomeVersionCompareHandlerSimple,
+                AwesomeVersionCompareHandlerDevRc,
+                AwesomeVersionCompareHandlerSemVerModifier,
+                AwesomeVersionCompareHandlerSections,
+            ]
+        )
 
         for handler in handlers:
             version_a, version_b = self.version_a, self.version_b

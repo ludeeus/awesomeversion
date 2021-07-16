@@ -1,11 +1,11 @@
 """Special handler for dev."""
 from __future__ import annotations
 
-from .sections import ComparelHandlerSections
+from .sections import AwesomeVersionCompareHandlerSections
 
 
-class ComparelHandlerDevRc(ComparelHandlerSections):
-    """ComparelHandlerDevRc class."""
+class AwesomeVersionCompareHandlerDevRc(AwesomeVersionCompareHandlerSections):
+    """AwesomeVersionCompareHandlerDevRc class."""
 
     def handler(self) -> bool | None:
         """Compare handler."""

@@ -3,13 +3,13 @@ from __future__ import annotations
 
 from ..const import RE_MODIFIER, AwesomeVersionStrategy
 from ..strategies.semver import RE_SEMVER
-from .sections import ComparelHandlerSections
+from .sections import AwesomeVersionCompareHandlerSections
 
 SEMVER_MODIFIER_MAP = {"alpha": 1, "beta": 2, "rc": 3}
 
 
-class ComparelHandlerSemVerModifier(ComparelHandlerSections):
-    """ComparelHandlerSemVerModifier class."""
+class AwesomeVersionCompareHandlerSemVerModifier(AwesomeVersionCompareHandlerSections):
+    """AwesomeVersionCompareHandlerSemVerModifier class."""
 
     @property
     def strategy(self) -> list[AwesomeVersionStrategy]:

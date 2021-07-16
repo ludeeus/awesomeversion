@@ -2,11 +2,11 @@
 from __future__ import annotations
 
 from ..const import AwesomeVersionStrategy
-from .sections import ComparelHandlerSections
+from .sections import AwesomeVersionCompareHandlerSections
 
 
-class ComparelHandlerSimple(ComparelHandlerSections):
-    """ComparelHandlerSimple class."""
+class AwesomeVersionCompareHandlerSimple(AwesomeVersionCompareHandlerSections):
+    """AwesomeVersionCompareHandlerSimple class."""
 
     def handler(self) -> bool | None:
         """Compare handler."""

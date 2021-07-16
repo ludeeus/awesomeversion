@@ -5,6 +5,7 @@ from awesomeversion import (
     AwesomeVersion,
     AwesomeVersionStrategyBase,
     AwesomeVersionStrategyException,
+    AwesomeVersionCompareHandler,
 )
 
 
@@ -13,6 +14,14 @@ class AwesomeVersionStrategyTest(AwesomeVersionStrategyBase):
 
     REGEX_MATCH = re.compile(r"test")
     STRATEGY = "TestVer"
+
+
+class AwesomeVersionStrategyInvalid(AwesomeVersionStrategyBase):
+    """Custom Version Strategy."""
+
+
+class AwesomeVersionCompareHandlerTestInvalid(AwesomeVersionCompareHandler):
+    """Custom Compare Handler."""
 
 
 def test_custom():
@@ -28,6 +37,21 @@ def test_custom():
 
 
 def test_invalid():
-    AwesomeVersion("test", custom_strategies=["Invalid"])
     with pytest.raises(AwesomeVersionStrategyException):
-        AwesomeVersion("test", custom_strategies=["Invalid"])
+        assert AwesomeVersion("test", custom_strategies=["Invalid"]).strategy
+
+    with pytest.raises(NotImplementedError):
+        assert AwesomeVersion(
+            "test", custom_strategies=[AwesomeVersionStrategyInvalid]
+        ).strategy
+
+    with pytest.raises(NotImplementedError):
+        assert AwesomeVersion(
+            "test",
+            custom_strategies=[AwesomeVersionStrategyTest],
+            custom_compare_handlers=[AwesomeVersionCompareHandlerTestInvalid],
+        ) > AwesomeVersion(
+            "test",
+            custom_strategies=[AwesomeVersionStrategyTest],
+            custom_compare_handlers=[AwesomeVersionCompareHandlerTestInvalid],
+        )

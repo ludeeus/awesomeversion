@@ -13,7 +13,7 @@ class AwesomeVersionStrategyException(AwesomeVersionException):
     """Thrown when the expected strategy does not match."""
 
 
-class AwesomeVersionCustomStrategyException(AwesomeVersionException):
+class AwesomeVersionCustomStrategyException(AwesomeVersionStrategyException):
     """Thrown when the custom strategy is not configured properly."""
 
 
