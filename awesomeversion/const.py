@@ -1,12 +1,11 @@
 """Common constants for AwesomeVersion."""
 import logging
 from enum import Enum
-from re import Pattern
 from re import compile as regex_compile
 
 RE_DIGIT = regex_compile(r"[a-z]*(\d+)[a-z]*")
 RE_MODIFIER = regex_compile(r"^((?:\d+\-|\d|))(([a-z]+)\.?(\d*))$")
-RE_MODIFIER: Pattern = regex_compile(r"^((?:\d+\-|\d|))(([a-z]+)\.?(\d*))$")
+RE_MODIFIER = regex_compile(r"^((?:\d+\-|\d|))(([a-z]+)\.?(\d*))$")
 RE_VERSION = regex_compile(r"^(v|V)?(.*)$")
 
 LOGGER: logging.Logger = logging.getLogger(__package__)
