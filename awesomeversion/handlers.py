@@ -1,7 +1,7 @@
 """Compare handlers"""
 
 from copy import copy
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING, List, Optional
 
 from .comparehandlers.base import AwesomeVersionCompareHandler
 from .comparehandlers.container import AwesomeVersionCompareHandlerContainer
@@ -28,7 +28,7 @@ class CompareHandlers:
 
     def check(
         self,
-        custom_compare_handlers: Optional[list[AwesomeVersionCompareHandler]] = None,
+        custom_compare_handlers: Optional[List[AwesomeVersionCompareHandler]] = None,
     ) -> bool:
         """Handler."""
         handlers = custom_compare_handlers or []

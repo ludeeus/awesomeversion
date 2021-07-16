@@ -1,5 +1,5 @@
 """Special handler for modifier."""
-from typing import Optional
+from typing import List, Optional
 
 from ..const import RE_MODIFIER, AwesomeVersionStrategy
 from ..strategies.semver import RE_SEMVER
@@ -12,7 +12,7 @@ class AwesomeVersionCompareHandlerSemVerModifier(AwesomeVersionCompareHandlerSec
     """AwesomeVersionCompareHandlerSemVerModifier class."""
 
     @property
-    def strategy(self) -> list[AwesomeVersionStrategy]:
+    def strategy(self) -> List[AwesomeVersionStrategy]:
         """Return a list of valid strategies for this handler."""
         return [AwesomeVersionStrategy.SEMVER]
 

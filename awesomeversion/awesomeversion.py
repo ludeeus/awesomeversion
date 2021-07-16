@@ -1,6 +1,6 @@
 """AwesomeVersion."""
 # pylint: disable=unused-argument
-from typing import Optional, Union
+from typing import List, Optional, Union
 
 from awesomeversion.comparehandlers.base import AwesomeVersionCompareHandler
 
@@ -55,10 +55,10 @@ class AwesomeVersion(_AwesomeVersionBase):
         self,
         version: Union[str, float, int, "AwesomeVersion"],
         ensure_strategy: Optional[
-            Union[AwesomeVersionStrategy, list[AwesomeVersionStrategy]]
+            Union[AwesomeVersionStrategy, List[AwesomeVersionStrategy]]
         ] = None,
-        custom_compare_handlers: Optional[list[AwesomeVersionCompareHandler]] = None,
-        custom_strategies: Optional[list[AwesomeVersionStrategyBase]] = None,
+        custom_compare_handlers: Optional[List[AwesomeVersionCompareHandler]] = None,
+        custom_strategies: Optional[List[AwesomeVersionStrategyBase]] = None,
     ) -> None:
         """Initialize AwesomeVersion."""
         self.__custom_compare_handlers = custom_compare_handlers or []
@@ -162,7 +162,7 @@ class AwesomeVersion(_AwesomeVersionBase):
     @staticmethod
     def ensure_strategy(
         version: Union[str, float, int, "AwesomeVersion"],
-        strategy: Union[AwesomeVersionStrategy, list[AwesomeVersionStrategy]],
+        strategy: Union[AwesomeVersionStrategy, List[AwesomeVersionStrategy]],
     ) -> "AwesomeVersion":
         """Return a AwesomeVersion object, or raise on creation."""
         LOGGER.warning(
