@@ -34,7 +34,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.6, 3.7, 3.8, 3.9, "3.10"]
+        python-version: [3.6, 3.7, 3.8, 3.9, "3.10.0-beta"]
     steps:
       - name: 📥 Checkout the repository
         uses: actions/checkout@v2
@@ -49,6 +49,22 @@ jobs:
 
       - name: 🏃 Run tests
         run:  make test
+
+  coverage:
+    name: Upload coverage to Codecov
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout the repository
+        uses: actions/checkout@v2
+
+      - name: 🛠️ Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+
+      - name: 📦 Install dependencies
+        run:  make requirements
 
       - name: 📤 Upload coverage to Codecov
         if: ${{ matrix.python-version == '3.8' }}
