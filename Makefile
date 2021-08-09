@@ -11,10 +11,18 @@ requirements: ## Install requirements
 test: ## Run all tests
 	@python3 -m pytest tests -rxf -x -vv -l -s --cov=./ --cov-report=xml
 
-black: ## Lint all files black
-	@python3 -m isort .
-	@python3 -m black --fast awesomeversion tests
+lint: isort black mypy ## Lint all files
+
 
 coverage: ## Check the coverage of the package
 	@python3 -m pytest tests -rxf -x -v -l --cov=./ --cov-report=xml > /dev/null
 	@coverage report
+
+isort:
+	@python3 -m isort .
+
+black:
+	@python3 -m black --fast awesomeversion tests
+
+mypy:
+	@python3 -m mypy --strict awesomeversion

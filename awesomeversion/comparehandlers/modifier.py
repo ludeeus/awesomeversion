@@ -1,6 +1,8 @@
 """Special handler for modifier."""
 from typing import List, Optional
 
+from awesomeversion.utils import get_regex_match_group
+
 from ..match import RE_MODIFIER, RE_SEMVER
 from ..strategy import AwesomeVersionStrategy
 from .sections import ComparelHandlerSections
@@ -30,10 +32,10 @@ class ComparelHandlerSemVerModifier(ComparelHandlerSections):
                     )
 
                 ver_a_modifier = RE_MODIFIER.match(
-                    RE_SEMVER.match(self.ver_a.string).group(4)
+                    get_regex_match_group(RE_SEMVER, self.ver_a.string, 4) or ""
                 )
                 ver_b_modifier = RE_MODIFIER.match(
-                    RE_SEMVER.match(self.ver_b.string).group(4)
+                    get_regex_match_group(RE_SEMVER, self.ver_b.string, 4) or ""
                 )
                 if ver_a_modifier and ver_b_modifier:
                     if not ver_a_modifier.group(4):
@@ -42,3 +44,4 @@ class ComparelHandlerSemVerModifier(ComparelHandlerSections):
                         return int(ver_a_modifier.group(4)) > int(
                             ver_b_modifier.group(4)
                         )
+        return None

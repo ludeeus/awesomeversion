@@ -1,5 +1,6 @@
 """Test container handler."""
 from awesomeversion import AwesomeVersion
+from awesomeversion.comparehandlers.modifier import ComparelHandlerSemVerModifier
 from awesomeversion.handlers import CompareHandlers
 
 
@@ -36,6 +37,14 @@ def test_modifier():
     assert not handler.check()
 
 
+def test_semver_modifier():
+
+    handler = ComparelHandlerSemVerModifier(
+        AwesomeVersion("1.0"), AwesomeVersion("1.0")
+    )
+    assert not handler.handler()
+
+
 def test_sectons():
     handler = CompareHandlers(AwesomeVersion("1.2.3.4.5b0"), AwesomeVersion("1.2b0"))
     assert handler.check()
@@ -55,4 +64,9 @@ def test_simple():
     assert not handler.check()
 
     handler = CompareHandlers(AwesomeVersion("5.10"), AwesomeVersion("5.10"))
+    assert not handler.check()
+
+
+def test_no_result():
+    handler = CompareHandlers(AwesomeVersion(False), AwesomeVersion(True))
     assert not handler.check()

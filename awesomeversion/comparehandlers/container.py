@@ -21,3 +21,4 @@ class ComparelHandlerContainer(CompareHandlerBase):
             )
         if self.ver_b.strategy == AwesomeVersionStrategy.SPECIALCONTAINER:
             return False
+        return None
