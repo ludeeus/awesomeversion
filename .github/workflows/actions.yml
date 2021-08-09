@@ -67,7 +67,6 @@ jobs:
         run:  make requirements
 
       - name: 📤 Upload coverage to Codecov
-        if: ${{ matrix.python-version == '3.8' }}
         run: |
           make coverage
           curl -sfSL https://codecov.io/bash | bash -
