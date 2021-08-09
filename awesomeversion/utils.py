@@ -1,6 +1,5 @@
 """"AwesomeVersion utilities."""
-from re import Pattern
-from typing import Optional
+from typing import Optional, Pattern
 
 
 def get_regex_match_group(
