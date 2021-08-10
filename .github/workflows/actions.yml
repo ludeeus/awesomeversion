@@ -31,6 +31,9 @@ jobs:
       - name: 🐍 Lint with mypy
         run:  mypy --strict awesomeversion
 
+      - name: ✨ Lint with pylint
+        run:  pylint awesomeversion
+
   test:
     name: Test with Python ${{ matrix.python-version }}
     needs: lint

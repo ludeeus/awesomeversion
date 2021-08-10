@@ -93,7 +93,7 @@ with AwesomeVersion("20.12.0") as current:
 1. Fork the repository
 2. Clone the repository locally and open the devcontainer or use GitHub codespaces
 3. Do your changes
-4. Lint the files with `make black`
+4. Lint the files with `make lint`
 5. Ensure all tests passes with `make test`
 6. Ensure 100% coverage with `make coverage`
 7. Commit your work, and push it to GitHub

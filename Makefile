@@ -11,7 +11,7 @@ requirements: ## Install requirements
 test: ## Run all tests
 	@python3 -m pytest tests -rxf -x -vv -l -s --cov=./ --cov-report=xml
 
-lint: isort black mypy ## Lint all files
+lint: isort black mypy pylint ## Lint all files
 
 
 coverage: ## Check the coverage of the package
@@ -26,3 +26,6 @@ black:
 
 mypy:
 	@python3 -m mypy --strict awesomeversion
+
+pylint:
+	@python3 -m pylint awesomeversion
