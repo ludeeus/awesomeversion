@@ -33,16 +33,18 @@ class ComparelHandlerSections(CompareHandlerBase):
                 return True
             if ver_a_section < ver_b_section:
                 return False
+        return None
 
     @staticmethod
     def _compare_modifier_section(
         ver_a: "AwesomeVersion", ver_b: "AwesomeVersion"
-    ) -> bool:
+    ) -> Optional[bool]:
         """Compare sections between two AwesomeVersion objects."""
         if ver_a.modifier is not None and ver_b.modifier is not None:
             ver_a_modifier = RE_MODIFIER.match(ver_a.string.split(".")[-1])
             ver_b_modifier = RE_MODIFIER.match(ver_b.string.split(".")[-1])
-            if ver_a_modifier.group(3) == ver_b_modifier.group(3):
-                return int(ver_a_modifier.group(4)) > int(ver_b_modifier.group(4))
-            return ver_a_modifier.group(3) > ver_b_modifier.group(3)
-        return False
+            if ver_a_modifier and ver_b_modifier:
+                if ver_a_modifier.group(3) == ver_b_modifier.group(3):
+                    return int(ver_a_modifier.group(4)) > int(ver_b_modifier.group(4))
+                return ver_a_modifier.group(3) > ver_b_modifier.group(3)
+        return None

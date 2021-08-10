@@ -1,7 +1,8 @@
 """AwesomeVersion."""
 # pylint: disable=unused-argument
 import logging
-from typing import List, Optional, Union
+from types import TracebackType
+from typing import Any, List, Optional, Type, Union
 
 from .exceptions import AwesomeVersionCompare, AwesomeVersionStrategyException
 from .handlers import CompareHandlers
@@ -14,6 +15,7 @@ from .match import (
     version_strategy,
 )
 from .strategy import AwesomeVersionStrategy
+from .utils import get_regex_match_group
 
 _LOGGER: logging.Logger = logging.getLogger(__package__)
 
@@ -21,10 +23,10 @@ _LOGGER: logging.Logger = logging.getLogger(__package__)
 class _AwesomeVersionBase(str):
     """Base class for AwesomeVersion to allow the usage of the default JSON encoder."""
 
-    def __init__(self, string):
+    def __init__(self, string: str):
         str.__init__(string)
 
-    def __new__(cls, version, _=None):
+    def __new__(cls, version: str, _: Optional[Any] = None) -> "_AwesomeVersionBase":
         """Create a new AwesomeVersion object."""
 
         return super().__new__(cls, version)
@@ -42,6 +44,8 @@ class AwesomeVersion(_AwesomeVersionBase):
         strategies when creating if. If it does not match
         AwesomeVersionStrategyException will be raised
     """
+
+    _version: str = ""
 
     def __init__(
         self,
@@ -74,7 +78,12 @@ class AwesomeVersion(_AwesomeVersionBase):
     def __enter__(self) -> "AwesomeVersion":
         return self
 
-    def __exit__(self, *exc_info) -> None:
+    def __exit__(
+        self,
+        exctype: Optional[Type[BaseException]],
+        excinst: Optional[BaseException],
+        exctb: Optional[TracebackType],
+    ) -> bool:
         pass
 
     def __repr__(self) -> str:
@@ -83,7 +92,7 @@ class AwesomeVersion(_AwesomeVersionBase):
     def __str__(self) -> str:
         return str(self._version)
 
-    def __eq__(self, compareto: Union[str, float, int, "AwesomeVersion"]) -> bool:
+    def __eq__(self, compareto: Union[str, float, int, object]) -> bool:
         """Check if equals to."""
         if isinstance(compareto, (str, float, int)):
             compareto = AwesomeVersion(compareto)
@@ -91,7 +100,7 @@ class AwesomeVersion(_AwesomeVersionBase):
             raise AwesomeVersionCompare("Not a valid AwesomeVersion object")
         return self.string == compareto.string
 
-    def __lt__(self, compareto: Union[str, float, int, "AwesomeVersion"]) -> bool:
+    def __lt__(self, compareto: Union[str, float, int, object]) -> bool:
         """Check if less than."""
         if isinstance(compareto, (str, float, int)):
             compareto = AwesomeVersion(compareto)
@@ -105,7 +114,7 @@ class AwesomeVersion(_AwesomeVersionBase):
             )
         return CompareHandlers(compareto, self).check()
 
-    def __gt__(self, compareto: Union[str, float, int, "AwesomeVersion"]) -> bool:
+    def __gt__(self, compareto: Union[str, float, int, object]) -> bool:
         """Check if greater than."""
         if isinstance(compareto, (str, float, int)):
             compareto = AwesomeVersion(compareto)
@@ -119,19 +128,21 @@ class AwesomeVersion(_AwesomeVersionBase):
             )
         return CompareHandlers(self, compareto).check()
 
-    def __ne__(self, compareto: "AwesomeVersion") -> bool:
+    def __ne__(self, compareto: object) -> bool:
         return not self.__eq__(compareto)
 
-    def __le__(self, compareto: "AwesomeVersion") -> bool:
+    def __le__(self, compareto: object) -> bool:
         return self.__eq__(compareto) or self.__lt__(compareto)
 
-    def __ge__(self, compareto: "AwesomeVersion") -> bool:
+    def __ge__(self, compareto: object) -> bool:
         return self.__eq__(compareto) or self.__gt__(compareto)
 
     def section(self, idx: int) -> int:
         """Return the value of the specified section of the version."""
         if self.sections >= (idx + 1):
-            return int(RE_DIGIT.match(self.string.split(".")[idx]).group(1))
+            match = RE_DIGIT.match(self.string.split(".")[idx])
+            if match:
+                return int(match.group(1))
         return 0
 
     @staticmethod
@@ -151,13 +162,13 @@ class AwesomeVersion(_AwesomeVersionBase):
         """Return a string representaion of the version."""
         if self._version.endswith("."):
             self._version = self._version[:-1]
-        version = RE_VERSION.match(str(self._version)).group(2)
-        return version
+        version = get_regex_match_group(RE_VERSION, str(self._version), 2)
+        return version or self._version
 
     @property
     def prefix(self) -> Optional[str]:
         """Return the version prefix if any"""
-        return RE_VERSION.match(str(self._version)).group(1)
+        return get_regex_match_group(RE_VERSION, str(self._version), 1)
 
     @property
     def alpha(self) -> bool:
@@ -208,10 +219,11 @@ class AwesomeVersion(_AwesomeVersionBase):
         return AwesomeVersion(self.section(2))
 
     @property
-    def modifier(self) -> str:
+    def modifier(self) -> Optional[str]:
         """Return the modifier of the version if any."""
         if self.strategy == AwesomeVersionStrategy.SEMVER:
-            match = RE_MODIFIER.match(RE_SEMVER.match(self.string).group(4) or "")
+            mather = get_regex_match_group(RE_SEMVER, str(self.string), 4)
+            match = RE_MODIFIER.match(mather or "")
         elif self.strategy == AwesomeVersionStrategy.SPECIALCONTAINER:
             return None
         else:
@@ -219,10 +231,11 @@ class AwesomeVersion(_AwesomeVersionBase):
         return match.group(2) if match else None
 
     @property
-    def modifier_type(self) -> str:
+    def modifier_type(self) -> Optional[str]:
         """Return the modifier type of the version if any."""
         if self.strategy == AwesomeVersionStrategy.SEMVER:
-            match = RE_MODIFIER.match(RE_SEMVER.match(self.string).group(4) or "")
+            mather = get_regex_match_group(RE_SEMVER, str(self.string), 4)
+            match = RE_MODIFIER.match(mather or "")
         elif self.strategy == AwesomeVersionStrategy.SPECIALCONTAINER:
             return None
         else:

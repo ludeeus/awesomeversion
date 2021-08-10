@@ -28,6 +28,9 @@ jobs:
       - name: 🖤 Lint with Black
         run:  black . --check
 
+      - name: 🐍 Lint with mypy
+        run:  mypy --strict awesomeversion
+
   test:
     name: Test with Python ${{ matrix.python-version }}
     needs: lint
