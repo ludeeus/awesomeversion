@@ -1,7 +1,7 @@
 """Compare handlers"""
 from copy import copy
 import logging
-from typing import TYPE_CHECKING, Optional, Type
+from typing import TYPE_CHECKING, List, Optional, Type
 
 from awesomeversion.comparehandlers.base import CompareHandlerBase
 
@@ -17,7 +17,7 @@ if TYPE_CHECKING:
     from .awesomeversion import AwesomeVersion
 
 
-HANDLERS: list[Type[CompareHandlerBase]] = [
+HANDLERS: List[Type[CompareHandlerBase]] = [
     ComparelHandlerContainer,
     ComparelHandlerSimple,
     ComparelHandlerDevRc,
