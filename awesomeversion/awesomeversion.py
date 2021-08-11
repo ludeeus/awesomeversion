@@ -2,9 +2,14 @@
 from types import TracebackType
 from typing import Any, List, Optional, Type, Union
 
-from .exceptions import AwesomeVersionCompare, AwesomeVersionStrategyException
+from .exceptions import (
+    AwesomeVersionCompare,
+    AwesomeVersionNotImplementedError,
+    AwesomeVersionStrategyException,
+)
 from .handlers import CompareHandlers
 from .strategy import VERSION_STRATEGIES, AwesomeVersionStrategy
+from .utils import bump_version
 from .utils.logger import LOGGER
 from .utils.regex import (
     RE_DIGIT,
@@ -254,3 +259,19 @@ class AwesomeVersion(_AwesomeVersionBase):
     def simple(self) -> bool:
         """Return True if the version string is simple."""
         return is_regex_matching(RE_SIMPLE, self.string)
+
+    def bump_version(self, **kwargs: Any) -> None:
+        """
+        Bump the version
+
+        Currently only implemented for BuildVer, and simple SemVer variants.
+
+
+        EXPERIMENTAL!: This method may change, or even be removed in the future.
+        """
+        if not hasattr(bump_version, self.strategy.lower()):
+            raise AwesomeVersionNotImplementedError(
+                f"Bumping of version for {self.strategy} is not implemented"
+            )
+        bumper = getattr(bump_version, self.strategy.lower())
+        self._version = bumper(self, **kwargs)

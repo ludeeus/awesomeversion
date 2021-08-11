@@ -11,3 +11,7 @@ class AwesomeVersionCompare(AwesomeVersionException):
 
 class AwesomeVersionStrategyException(AwesomeVersionException):
     """Thrown when the expecte strategy does not match."""
+
+
+class AwesomeVersionNotImplementedError(AwesomeVersionException, NotImplementedError):
+    """Thrown when a method is not implemented."""
