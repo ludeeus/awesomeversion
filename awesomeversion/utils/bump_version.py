@@ -1,8 +1,6 @@
 """Bump version."""
 from typing import TYPE_CHECKING, Any
 
-from ..exceptions import AwesomeVersionNotImplementedError
-
 if TYPE_CHECKING:
     from ..awesomeversion import AwesomeVersion
 
