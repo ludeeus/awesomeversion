@@ -1,23 +1,20 @@
 """AwesomeVersion."""
-# pylint: disable=unused-argument
-import logging
 from types import TracebackType
 from typing import Any, List, Optional, Type, Union
 
 from .exceptions import AwesomeVersionCompare, AwesomeVersionStrategyException
 from .handlers import CompareHandlers
-from .match import (
+from .strategy import VERSION_STRATEGIES, AwesomeVersionStrategy
+from .utils.logger import LOGGER
+from .utils.regex import (
     RE_DIGIT,
     RE_MODIFIER,
     RE_SEMVER,
+    RE_SIMPLE,
     RE_VERSION,
-    is_simple,
-    version_strategy,
+    get_regex_match_group,
+    is_regex_matching,
 )
-from .strategy import AwesomeVersionStrategy
-from .utils import get_regex_match_group
-
-_LOGGER: logging.Logger = logging.getLogger(__package__)
 
 
 class _AwesomeVersionBase(str):
@@ -140,9 +137,9 @@ class AwesomeVersion(_AwesomeVersionBase):
     def section(self, idx: int) -> int:
         """Return the value of the specified section of the version."""
         if self.sections >= (idx + 1):
-            match = RE_DIGIT.match(self.string.split(".")[idx])
+            match = get_regex_match_group(RE_DIGIT, (self.string.split(".")[idx]), 1)
             if match:
-                return int(match.group(1))
+                return int(match)
         return 0
 
     @staticmethod
@@ -151,7 +148,7 @@ class AwesomeVersion(_AwesomeVersionBase):
         strategy: Union[AwesomeVersionStrategy, List[AwesomeVersionStrategy]],
     ) -> "AwesomeVersion":
         """Return a AwesomeVersion object, or raise on creation."""
-        _LOGGER.warning(
+        LOGGER.warning(
             "Using AwesomeVersion.ensure_strategy(version, strategy) is deprecated, "
             "use AwesomeVersion(version, strategy) instead"
         )
@@ -221,33 +218,39 @@ class AwesomeVersion(_AwesomeVersionBase):
     @property
     def modifier(self) -> Optional[str]:
         """Return the modifier of the version if any."""
-        if self.strategy == AwesomeVersionStrategy.SEMVER:
-            mather = get_regex_match_group(RE_SEMVER, str(self.string), 4)
-            match = RE_MODIFIER.match(mather or "")
-        elif self.strategy == AwesomeVersionStrategy.SPECIALCONTAINER:
+        if self.strategy == AwesomeVersionStrategy.SPECIALCONTAINER:
             return None
+
+        if self.strategy == AwesomeVersionStrategy.SEMVER:
+            modifier_string = get_regex_match_group(RE_SEMVER, str(self.string), 4)
         else:
-            match = RE_MODIFIER.match(self.string.split(".")[-1])
-        return match.group(2) if match else None
+            modifier_string = self.string.split(".")[-1]
+
+        return get_regex_match_group(RE_MODIFIER, modifier_string, 2)
 
     @property
     def modifier_type(self) -> Optional[str]:
         """Return the modifier type of the version if any."""
-        if self.strategy == AwesomeVersionStrategy.SEMVER:
-            mather = get_regex_match_group(RE_SEMVER, str(self.string), 4)
-            match = RE_MODIFIER.match(mather or "")
-        elif self.strategy == AwesomeVersionStrategy.SPECIALCONTAINER:
+        if self.strategy == AwesomeVersionStrategy.SPECIALCONTAINER:
             return None
+
+        if self.strategy == AwesomeVersionStrategy.SEMVER:
+            modifier_string = get_regex_match_group(RE_SEMVER, str(self.string), 4)
         else:
-            match = RE_MODIFIER.match(self.string.split(".")[-1])
-        return match.group(3) if match else None
+            modifier_string = self.string.split(".")[-1]
+
+        return get_regex_match_group(RE_MODIFIER, modifier_string, 3)
 
     @property
     def strategy(self) -> AwesomeVersionStrategy:
         """Return the version strategy."""
-        return version_strategy(self.string)
+        for pattern, strategy in VERSION_STRATEGIES:
+            if is_regex_matching(pattern, self.string):
+                return strategy
+
+        return AwesomeVersionStrategy.UNKNOWN
 
     @property
     def simple(self) -> bool:
         """Return True if the version string is simple."""
-        return is_simple(self.string)
+        return is_regex_matching(RE_SIMPLE, self.string)
