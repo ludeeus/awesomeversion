@@ -1,10 +1,8 @@
 """Special handler for modifier."""
 from typing import List, Optional
 
-from awesomeversion.utils import get_regex_match_group
-
-from ..match import RE_MODIFIER, RE_SEMVER
 from ..strategy import AwesomeVersionStrategy
+from ..utils.regex import RE_MODIFIER, RE_SEMVER, get_regex_match_group
 from .sections import ComparelHandlerSections
 
 SEMVER_MODIFIER_MAP = {"alpha": 1, "beta": 2, "rc": 3}

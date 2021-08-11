@@ -1,6 +1,5 @@
 """Compare handlers"""
 from copy import copy
-import logging
 from typing import TYPE_CHECKING, List, Optional, Type
 
 from awesomeversion.comparehandlers.base import CompareHandlerBase
@@ -10,8 +9,7 @@ from .comparehandlers.devrc import ComparelHandlerDevRc
 from .comparehandlers.modifier import ComparelHandlerSemVerModifier
 from .comparehandlers.sections import ComparelHandlerSections
 from .comparehandlers.simple import ComparelHandlerSimple
-
-_LOGGER: logging.Logger = logging.getLogger(__package__)
+from .utils.logger import LOGGER
 
 if TYPE_CHECKING:
     from .awesomeversion import AwesomeVersion
@@ -47,7 +45,7 @@ class CompareHandlers:
         """Check with spesific handler."""
         ver_a, ver_b = copy(self.ver_a), copy(self.ver_b)
         compare_handler = handler(ver_a, ver_b)
-        _LOGGER.debug(
+        LOGGER.debug(
             "Comparing '%s' against '%s' with '%s'", ver_a, ver_b, handler.__name__
         )
         if len(compare_handler.strategy) == 0 or (

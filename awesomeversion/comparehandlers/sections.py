@@ -1,7 +1,7 @@
 """Special handler for sections."""
 from typing import TYPE_CHECKING, Optional
 
-from ..match import RE_MODIFIER
+from ..utils.regex import RE_MODIFIER
 from .base import CompareHandlerBase
 
 if TYPE_CHECKING:
