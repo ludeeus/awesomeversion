@@ -25,16 +25,11 @@ RE_SIMPLE = re.compile(r"^[v|V]?((\d+)?\.?)*$")
 
 
 def get_regex_match_group(
-    pattern: Pattern[str], string: str, group: int = 0
+    pattern: Pattern[str], string: Optional[str], group: int = 0
 ) -> Optional[str]:
     """Return the requested group in the regex."""
-    match = get_regex_match(pattern, string)
-    if match:
-        try:
-            return match.group(group)
-        except IndexError:
-            return None
-    return None
+    match = get_regex_match(pattern, string or "")
+    return get_group_from_regex_match(match, group) if match else None
 
 
 def get_regex_match(pattern: Pattern[str], string: Any) -> Optional[Match[str]]:
@@ -45,3 +40,11 @@ def get_regex_match(pattern: Pattern[str], string: Any) -> Optional[Match[str]]:
 def is_regex_matching(pattern: Pattern[str], string: str) -> bool:
     """Return whether the regex matches the string."""
     return get_regex_match(pattern, string) is not None
+
+
+def get_group_from_regex_match(match: Match[str], group: int = 0) -> Optional[str]:
+    """Return the requested group in the regex."""
+    try:
+        return match.group(group)
+    except IndexError:
+        return None
