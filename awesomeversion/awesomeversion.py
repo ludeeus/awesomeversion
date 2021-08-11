@@ -261,17 +261,19 @@ class AwesomeVersion(_AwesomeVersionBase):
         return is_regex_matching(RE_SIMPLE, self.string)
 
     def bump_version(self, **kwargs: Any) -> None:
+        """Bump the version.
+
+        Some version strategies require specific parameters to be passed to **kwargs
+
+        semver:
+            Needs one of the following with the value of True:
+                major, minor, patch
+
         """
-        Bump the version
-
-        Currently only implemented for BuildVer, and simple SemVer variants.
-
-
-        EXPERIMENTAL!: This method may change, or even be removed in the future.
-        """
-        if not hasattr(bump_version, self.strategy.lower()):
+        bumper = getattr(bump_version, self.strategy.lower(), None)
+        if not bumper:
             raise AwesomeVersionNotImplementedError(
                 f"Bumping of version for {self.strategy} is not implemented"
             )
-        bumper = getattr(bump_version, self.strategy.lower())
-        self._version = bumper(self, **kwargs)
+
+        self._version = bumper(self, **kwargs)  # pylint: disable=not-callable
