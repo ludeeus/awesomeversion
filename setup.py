@@ -26,6 +26,7 @@ setup(
     long_description=readme,
     name="awesomeversion",
     packages=find_packages(include=["awesomeversion", "awesomeversion.*"]),
+    package_data={"awesomeversion": ["py.typed"]},
     url="https://github.com/ludeeus/awesomeversion",
     version="main",
 )
