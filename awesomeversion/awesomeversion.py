@@ -103,9 +103,7 @@ class AwesomeVersion(_AwesomeVersionBase):
             compareto = AwesomeVersion(compareto)
         if not isinstance(compareto, AwesomeVersion):
             raise AwesomeVersionCompare("Not a valid AwesomeVersion object")
-        if (self.strategy == AwesomeVersionStrategy.UNKNOWN) or (
-            compareto.strategy == AwesomeVersionStrategy.UNKNOWN
-        ):
+        if AwesomeVersionStrategy.UNKNOWN in (self.strategy, compareto.strategy):
             raise AwesomeVersionCompare(
                 f"Can't compare {AwesomeVersionStrategy.UNKNOWN}"
             )
@@ -117,9 +115,7 @@ class AwesomeVersion(_AwesomeVersionBase):
             compareto = AwesomeVersion(compareto)
         if not isinstance(compareto, AwesomeVersion):
             raise AwesomeVersionCompare("Not a valid AwesomeVersion object")
-        if (self.strategy == AwesomeVersionStrategy.UNKNOWN) or (
-            compareto.strategy == AwesomeVersionStrategy.UNKNOWN
-        ):
+        if AwesomeVersionStrategy.UNKNOWN in (self.strategy, compareto.strategy):
             raise AwesomeVersionCompare(
                 f"Can't compare {AwesomeVersionStrategy.UNKNOWN}"
             )
