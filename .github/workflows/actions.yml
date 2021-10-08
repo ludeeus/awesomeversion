@@ -26,13 +26,16 @@ jobs:
         run:  make requirements
 
       - name: 🖤 Lint with Black
-        run:  black . --check
+        run:  make black-check
 
       - name: 🐍 Lint with mypy
-        run:  mypy --strict awesomeversion
+        run: make mypy
 
       - name: ✨ Lint with pylint
-        run:  pylint awesomeversion
+        run: make pylint
+
+      - name: 🔤 Lint with isort
+        run: make isort-check
 
   test:
     name: Test with Python ${{ matrix.python-version }}
@@ -40,7 +43,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.6, 3.7, 3.8, 3.9, "3.10.0-beta - 3.10.0"]
+        python-version: [3.6, 3.7, 3.8, 3.9, "3.10"]
     steps:
       - name: 📥 Checkout the repository
         uses: actions/checkout@v2

@@ -3,6 +3,7 @@ import pytest
 
 from awesomeversion import AwesomeVersion
 from awesomeversion.exceptions import AwesomeVersionCompare
+from awesomeversion.typing import Version
 
 
 @pytest.mark.parametrize(
@@ -54,7 +55,7 @@ from awesomeversion.exceptions import AwesomeVersionCompare
         (1.0, "1.0.0rc0"),
     ],
 )
-def test_compare(version_a, version_b):
+def test_compare(version_a: Version, version_b: Version) -> None:
     """Test compare."""
     ver_a = AwesomeVersion(version_a)
     ver_b = AwesomeVersion(version_b)
@@ -74,15 +75,15 @@ def test_compare(version_a, version_b):
     assert ver_b <= version_a
 
     if str(version_a).endswith("."):
-        version_a = version_a[:-1]
+        version_a = str(version_a)[:-1]
     if str(version_b).endswith("."):
-        version_b = version_b[:-1]
+        version_b = str(version_b)[:-1]
 
     assert ver_a.string == str(version_a)
     assert ver_b.string == str(version_b)
 
 
-def test_invalid_compare():
+def test_invalid_compare() -> None:
     """Test invalid compare."""
     invalid = None
     with pytest.raises(
@@ -111,14 +112,14 @@ def test_invalid_compare():
     "version",
     [1, "1", 1.0, "1.0", 5.10, "5.10"],
 )
-def test_falsy_compare(version):
+def test_falsy_compare(version: Version) -> None:
     """Test compare."""
     ver_a = AwesomeVersion(version)
     ver_b = AwesomeVersion(version)
 
-    assert not ver_a != ver_b
-    assert not ver_a > ver_b
-    assert not ver_a < ver_b
+    assert ver_a == ver_b
+    assert ver_a <= ver_b
+    assert ver_a >= ver_b
 
     assert not version != ver_b
     assert not version > ver_b

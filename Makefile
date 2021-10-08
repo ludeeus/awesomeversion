@@ -19,13 +19,19 @@ coverage: ## Check the coverage of the package
 	@coverage report
 
 isort:
-	@python3 -m isort .
+	@python3 -m isort awesomeversion tests
+
+isort-check:
+	@python3 -m isort awesomeversion tests --check-only
 
 black:
 	@python3 -m black --fast awesomeversion tests
 
+black-check:
+	@python3 -m black --check --fast awesomeversion tests
+
 mypy:
-	@python3 -m mypy --strict awesomeversion
+	@python3 -m mypy --strict awesomeversion tests
 
 pylint:
-	@python3 -m pylint awesomeversion
+	@python3 -m pylint awesomeversion tests

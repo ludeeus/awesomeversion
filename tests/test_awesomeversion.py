@@ -8,9 +8,10 @@ from awesomeversion import (
     AwesomeVersionStrategy,
     AwesomeVersionStrategyException,
 )
+from awesomeversion.typing import Version
 
 
-def test_awesomeversion():
+def test_awesomeversion() -> None:
     """Test awesomeversion."""
     version = AwesomeVersion("2020.12.1")
     assert not version.beta
@@ -50,7 +51,7 @@ def test_awesomeversion():
             assert upstream > current
 
 
-def test_serialization():
+def test_serialization() -> None:
     """Test to and from JSON serialization."""
     version = AwesomeVersion("20.12.1")
     dumps = json.dumps({"version": version})
@@ -67,7 +68,7 @@ test_data = [
 
 
 @pytest.mark.parametrize("version", test_data)
-def test_nesting(version):
+def test_nesting(version: Version) -> None:
     """Test nesting AwesomeVersion objects."""
     obj = AwesomeVersion(version)
     assert obj.string == version
@@ -103,7 +104,7 @@ def test_nesting(version):
     )
 
 
-def test_ensure_strategy(caplog):
+def test_ensure_strategy(caplog: pytest.LogCaptureFixture) -> None:
     """test ensure_strategy."""
     obj = AwesomeVersion("1.0.0", AwesomeVersionStrategy.SEMVER)
     assert obj.strategy == AwesomeVersionStrategy.SEMVER
