@@ -6,3 +6,11 @@ from .exceptions import (
     AwesomeVersionStrategyException,
 )
 from .strategy import AwesomeVersionStrategy
+
+__all__ = [
+    "AwesomeVersion",
+    "AwesomeVersionCompare",
+    "AwesomeVersionException",
+    "AwesomeVersionStrategyException",
+    "AwesomeVersionStrategy",
+]
