@@ -1,33 +1,41 @@
 """Test test_version_scheme."""
+from typing import Optional
+
 import pytest
 
 from awesomeversion import AwesomeVersion
 from awesomeversion.strategy import AwesomeVersionStrategy
+from awesomeversion.typing import Version
 
 
 @pytest.mark.parametrize(
-    "version,strategy,dev,beta,modifier,modifier_type",
+    "version,strategy,dev,beta,modifier_type",
     [
-        ("0.118.0", AwesomeVersionStrategy.SEMVER, False, False, None, None),
-        ("1.0.0b1", AwesomeVersionStrategy.PEP440, False, True, "b1", "b"),
-        ("1.0.0-beta.1", AwesomeVersionStrategy.SEMVER, False, True, "beta.1", "beta"),
-        ("v1.0.0-beta.1", AwesomeVersionStrategy.SEMVER, False, True, "beta.1", "beta"),
-        ("2021.2.0.dev1", AwesomeVersionStrategy.CALVER, True, False, "dev1", "dev"),
-        ("stable", AwesomeVersionStrategy.SPECIALCONTAINER, False, False, None, None),
+        ("0.118.0", AwesomeVersionStrategy.SEMVER, False, False, None),
+        ("1.0.0b1", AwesomeVersionStrategy.PEP440, False, True, "b"),
+        ("1.0.0-beta.1", AwesomeVersionStrategy.SEMVER, False, True, "beta"),
+        ("v1.0.0-beta.1", AwesomeVersionStrategy.SEMVER, False, True, "beta"),
+        ("2021.2.0.dev1", AwesomeVersionStrategy.CALVER, True, False, "dev"),
+        ("stable", AwesomeVersionStrategy.SPECIALCONTAINER, False, False, None),
     ],
 )
-def test_version_scheme(version, strategy, dev, beta, modifier, modifier_type):
+def test_version_scheme(
+    version: Version,
+    strategy: AwesomeVersionStrategy,
+    dev: bool,
+    beta: bool,
+    modifier_type: Optional[str],
+) -> None:
     """Test that the version matches the expected scheme."""
     version_object = AwesomeVersion(version)
     assert str(version_object) == version
     assert version_object.strategy == strategy
     assert version_object.dev == dev
     assert version_object.beta == beta
-    assert version_object.modifier == modifier
     assert version_object.modifier_type == modifier_type
 
 
-def test_semver_sections():
+def test_semver_sections() -> None:
     """Test semver sections."""
     ver_a = AwesomeVersion("1.0.0-beta.1")
     ver_b = AwesomeVersion("2.0.0")
@@ -41,7 +49,7 @@ def test_semver_sections():
     assert ver_a.major < ver_b.major
 
 
-def test_semver_sections_for_non_semver():
+def test_semver_sections_for_non_semver() -> None:
     """Test semver sections for non semver versions."""
     version = AwesomeVersion("2020.01.1")
     assert version.major is None

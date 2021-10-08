@@ -3,7 +3,7 @@
 from awesomeversion import AwesomeVersion
 
 
-def test():
+def test() -> None:
     """Test for issue #26."""
     current = AwesomeVersion(" 123")
     upstream = AwesomeVersion("123")

@@ -5,4 +5,4 @@ combine_as_imports = true
 
 # Currently not supoprted by VS Code....
 #[tool.pylint.'MESSAGES CONTROL']
-#disable = "unsubscriptable-object,cyclic-import"
+#disable = "unsubscriptable-object,duplicate-code"

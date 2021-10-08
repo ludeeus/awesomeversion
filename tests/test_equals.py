@@ -2,6 +2,7 @@
 import pytest
 
 from awesomeversion import AwesomeVersion
+from awesomeversion.typing import Version
 
 
 @pytest.mark.parametrize(
@@ -14,7 +15,7 @@ from awesomeversion import AwesomeVersion
         ("2021.2.0.dev20210118"),
     ],
 )
-def test_equals(version):
+def test_equals(version: Version) -> None:
     """Test equals."""
     version_object = AwesomeVersion(version)
     assert version_object == version

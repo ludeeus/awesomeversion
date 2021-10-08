@@ -10,7 +10,7 @@ ISSUE_CONTENT = """\"\"\"Test for issue #{number}.\"\"\"
 # https://github.com/ludeeus/awesomeversion/issues/{number}
 {imports}
 
-def test():
+def test() -> None:
     \"\"\"Test for issue #{number}.\"\"\"
     {content}
 """
