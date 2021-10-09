@@ -2,7 +2,7 @@
 import pytest
 
 from awesomeversion import AwesomeVersion
-from awesomeversion.exceptions import AwesomeVersionCompare
+from awesomeversion.exceptions import AwesomeVersionCompareException
 from awesomeversion.typing import Version
 
 
@@ -87,24 +87,28 @@ def test_invalid_compare() -> None:
     """Test invalid compare."""
     invalid = None
     with pytest.raises(
-        AwesomeVersionCompare, match="Not a valid AwesomeVersion object"
+        AwesomeVersionCompareException, match="Not a valid AwesomeVersion object"
     ):
         assert AwesomeVersion("2020.12.1") > invalid
 
     with pytest.raises(
-        AwesomeVersionCompare, match="Not a valid AwesomeVersion object"
+        AwesomeVersionCompareException, match="Not a valid AwesomeVersion object"
     ):
         assert AwesomeVersion("2020.12.1") < invalid
 
     with pytest.raises(
-        AwesomeVersionCompare, match="Not a valid AwesomeVersion object"
+        AwesomeVersionCompareException, match="Not a valid AwesomeVersion object"
     ):
         assert AwesomeVersion("2020.12.1") == invalid
 
-    with pytest.raises(AwesomeVersionCompare, match="Can't compare unknown"):
+    with pytest.raises(
+        AwesomeVersionCompareException, match="Can't compare CalVer and unknown"
+    ):
         assert AwesomeVersion("2020.12.1") > AwesomeVersion("string")
 
-    with pytest.raises(AwesomeVersionCompare, match="Can't compare unknown"):
+    with pytest.raises(
+        AwesomeVersionCompareException, match="Can't compare CalVer and unknown"
+    ):
         assert AwesomeVersion("2020.12.1") < AwesomeVersion("string")
 
 

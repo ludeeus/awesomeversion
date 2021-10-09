@@ -5,9 +5,9 @@ class AwesomeVersionException(Exception):
     """Base AwesomeVersion exception."""
 
 
-class AwesomeVersionCompare(AwesomeVersionException):
+class AwesomeVersionCompareException(AwesomeVersionException):
     """Thrown when compare is not possible."""
 
 
 class AwesomeVersionStrategyException(AwesomeVersionException):
-    """Thrown when the expecte strategy does not match."""
+    """Thrown when the expected strategy does not match."""

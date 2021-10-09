@@ -2,7 +2,7 @@
 from types import TracebackType
 from typing import Any, List, Optional, Type, Union
 
-from .exceptions import AwesomeVersionCompare, AwesomeVersionStrategyException
+from .exceptions import AwesomeVersionCompareException, AwesomeVersionStrategyException
 from .handlers import CompareHandlers
 from .strategy import VERSION_STRATEGIES, AwesomeVersionStrategy
 from .typing import Version
@@ -95,7 +95,7 @@ class AwesomeVersion(_AwesomeVersionBase):
         if isinstance(compareto, (str, float, int)):
             compareto = AwesomeVersion(compareto)
         if not isinstance(compareto, AwesomeVersion):
-            raise AwesomeVersionCompare("Not a valid AwesomeVersion object")
+            raise AwesomeVersionCompareException("Not a valid AwesomeVersion object")
         return self.string == compareto.string
 
     def __lt__(self, compareto: Version) -> bool:
@@ -103,10 +103,10 @@ class AwesomeVersion(_AwesomeVersionBase):
         if isinstance(compareto, (str, float, int)):
             compareto = AwesomeVersion(compareto)
         if not isinstance(compareto, AwesomeVersion):
-            raise AwesomeVersionCompare("Not a valid AwesomeVersion object")
+            raise AwesomeVersionCompareException("Not a valid AwesomeVersion object")
         if AwesomeVersionStrategy.UNKNOWN in (self.strategy, compareto.strategy):
-            raise AwesomeVersionCompare(
-                f"Can't compare {AwesomeVersionStrategy.UNKNOWN}"
+            raise AwesomeVersionCompareException(
+                f"Can't compare {self.strategy} and {compareto.strategy}"
             )
         return CompareHandlers(compareto, self).check()
 
@@ -115,10 +115,10 @@ class AwesomeVersion(_AwesomeVersionBase):
         if isinstance(compareto, (str, float, int)):
             compareto = AwesomeVersion(compareto)
         if not isinstance(compareto, AwesomeVersion):
-            raise AwesomeVersionCompare("Not a valid AwesomeVersion object")
+            raise AwesomeVersionCompareException("Not a valid AwesomeVersion object")
         if AwesomeVersionStrategy.UNKNOWN in (self.strategy, compareto.strategy):
-            raise AwesomeVersionCompare(
-                f"Can't compare {AwesomeVersionStrategy.UNKNOWN}"
+            raise AwesomeVersionCompareException(
+                f"Can't compare {self.strategy} and {compareto.strategy}"
             )
         return CompareHandlers(self, compareto).check()
 
