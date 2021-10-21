@@ -1,5 +1,6 @@
 """Strategies for AwesomeVersion."""
 from enum import Enum
+from typing import Dict, Pattern
 
 from .utils.regex import (
     RE_BUILDVER,
@@ -24,11 +25,11 @@ class AwesomeVersionStrategy(str, Enum):
     SPECIALCONTAINER = "SpecialContainer"
 
 
-VERSION_STRATEGIES = (
-    (RE_BUILDVER, AwesomeVersionStrategy.BUILDVER),
-    (RE_CALVER, AwesomeVersionStrategy.CALVER),
-    (RE_SEMVER, AwesomeVersionStrategy.SEMVER),
-    (RE_SPECIAL_CONTAINER, AwesomeVersionStrategy.SPECIALCONTAINER),
-    (RE_SIMPLE, AwesomeVersionStrategy.SIMPLEVER),
-    (RE_PEP440, AwesomeVersionStrategy.PEP440),
-)
+VERSION_STRATEGIES: Dict[AwesomeVersionStrategy, Pattern[str]] = {
+    AwesomeVersionStrategy.BUILDVER: RE_BUILDVER,
+    AwesomeVersionStrategy.CALVER: RE_CALVER,
+    AwesomeVersionStrategy.SEMVER: RE_SEMVER,
+    AwesomeVersionStrategy.SPECIALCONTAINER: RE_SPECIAL_CONTAINER,
+    AwesomeVersionStrategy.SIMPLEVER: RE_SIMPLE,
+    AwesomeVersionStrategy.PEP440: RE_PEP440,
+}

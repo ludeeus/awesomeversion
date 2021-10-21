@@ -7,10 +7,13 @@ if TYPE_CHECKING:
     from .awesomeversion import AwesomeVersion
 
 VersionType = Union[str, float, int, object, "AwesomeVersion"]
+EnsureStrategyIterableType = Union[
+    List[AwesomeVersionStrategy],
+    Tuple[AwesomeVersionStrategy],
+]
 EnsureStrategyType = Optional[
     Union[
         AwesomeVersionStrategy,
-        List[AwesomeVersionStrategy],
-        Tuple[AwesomeVersionStrategy],
+        EnsureStrategyIterableType,
     ]
 ]

@@ -1,11 +1,11 @@
 """AwesomeVersion."""
 from types import TracebackType
-from typing import List, Optional, Type, Union
+from typing import Dict, List, Optional, Pattern, Type, Union
 
 from .exceptions import AwesomeVersionCompareException, AwesomeVersionStrategyException
 from .handlers import CompareHandlers
 from .strategy import VERSION_STRATEGIES, AwesomeVersionStrategy
-from .typing import EnsureStrategyType, VersionType
+from .typing import EnsureStrategyIterableType, EnsureStrategyType, VersionType
 from .utils.logger import LOGGER
 from .utils.regex import (
     RE_DIGIT,
@@ -48,7 +48,7 @@ class AwesomeVersion(_AwesomeVersionBase):
     """
 
     _version: str = ""
-    _ensure_strategy: EnsureStrategyType = None
+    _ensure_strategy: EnsureStrategyIterableType = []
 
     def __init__(
         self,
@@ -244,16 +244,16 @@ class AwesomeVersion(_AwesomeVersionBase):
     @property
     def strategy(self) -> AwesomeVersionStrategy:
         """Return the version strategy."""
-        if self._ensure_strategy is not None:
-            for pattern, strategy in (
-                (pattern, strategy)
-                for ensure_strategy in self._ensure_strategy
-                for pattern, strategy in VERSION_STRATEGIES
-                if ensure_strategy == strategy
-            ):
-                if is_regex_matching(pattern, self.string):
-                    return strategy
-        for pattern, strategy in VERSION_STRATEGIES:
+        version_strategies: Dict[AwesomeVersionStrategy, Pattern[str]] = {}
+
+        for strategy in self._ensure_strategy or []:
+            version_strategies[strategy] = VERSION_STRATEGIES[strategy]
+
+        for (strategy, pattern) in VERSION_STRATEGIES.items():
+            if strategy not in version_strategies:
+                version_strategies[strategy] = pattern
+
+        for (strategy, pattern) in version_strategies.items():
             if is_regex_matching(pattern, self.string):
                 return strategy
 
