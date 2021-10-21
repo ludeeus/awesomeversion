@@ -1,6 +1,6 @@
 """AwesomeVersion."""
 from types import TracebackType
-from typing import Any, List, Optional, Type, Union
+from typing import List, Optional, Type, Union
 
 from .exceptions import AwesomeVersionCompareException, AwesomeVersionStrategyException
 from .handlers import CompareHandlers
@@ -24,7 +24,13 @@ class _AwesomeVersionBase(str):
     def __init__(self, string: str):
         str.__init__(string)
 
-    def __new__(cls, version: str, _: Optional[Any] = None) -> "_AwesomeVersionBase":
+    def __new__(
+        cls,
+        version: str,
+        ensure_strategy: Optional[  # pylint: disable=unused-argument
+            Union[AwesomeVersionStrategy, List[AwesomeVersionStrategy]]
+        ] = None,
+    ) -> "_AwesomeVersionBase":
         """Create a new AwesomeVersion object."""
 
         return super().__new__(cls, version)

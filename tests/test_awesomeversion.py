@@ -106,7 +106,7 @@ def test_nesting(version: Version) -> None:
 
 def test_ensure_strategy(caplog: pytest.LogCaptureFixture) -> None:
     """test ensure_strategy."""
-    obj = AwesomeVersion("1.0.0", AwesomeVersionStrategy.SEMVER)
+    obj = AwesomeVersion("1.0.0", ensure_strategy=AwesomeVersionStrategy.SEMVER)
     assert obj.strategy == AwesomeVersionStrategy.SEMVER
 
     obj = AwesomeVersion(
