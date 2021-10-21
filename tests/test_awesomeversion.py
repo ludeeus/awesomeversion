@@ -8,7 +8,7 @@ from awesomeversion import (
     AwesomeVersionStrategy,
     AwesomeVersionStrategyException,
 )
-from awesomeversion.typing import Version
+from awesomeversion.typing import VersionType
 
 
 def test_awesomeversion() -> None:
@@ -68,7 +68,7 @@ test_data = [
 
 
 @pytest.mark.parametrize("version", test_data)
-def test_nesting(version: Version) -> None:
+def test_nesting(version: VersionType) -> None:
     """Test nesting AwesomeVersion objects."""
     obj = AwesomeVersion(version)
     assert obj.string == version

@@ -1,5 +1,7 @@
 """Strategies for AwesomeVersion."""
+from dataclasses import dataclass
 from enum import Enum
+from typing import Dict, Pattern, Tuple
 
 from .utils.regex import (
     RE_BUILDVER,
@@ -24,11 +26,42 @@ class AwesomeVersionStrategy(str, Enum):
     SPECIALCONTAINER = "SpecialContainer"
 
 
-VERSION_STRATEGIES = (
-    (RE_BUILDVER, AwesomeVersionStrategy.BUILDVER),
-    (RE_CALVER, AwesomeVersionStrategy.CALVER),
-    (RE_SEMVER, AwesomeVersionStrategy.SEMVER),
-    (RE_SPECIAL_CONTAINER, AwesomeVersionStrategy.SPECIALCONTAINER),
-    (RE_SIMPLE, AwesomeVersionStrategy.SIMPLEVER),
-    (RE_PEP440, AwesomeVersionStrategy.PEP440),
+@dataclass
+class AwesomeVersionStrategyDescription:
+    """Description of a strategy."""
+
+    strategy: AwesomeVersionStrategy
+    pattern: Pattern[str]
+
+
+VERSION_STRATEGIES: Tuple[AwesomeVersionStrategyDescription, ...] = (
+    AwesomeVersionStrategyDescription(
+        strategy=AwesomeVersionStrategy.BUILDVER,
+        pattern=RE_BUILDVER,
+    ),
+    AwesomeVersionStrategyDescription(
+        strategy=AwesomeVersionStrategy.CALVER,
+        pattern=RE_CALVER,
+    ),
+    AwesomeVersionStrategyDescription(
+        strategy=AwesomeVersionStrategy.SEMVER,
+        pattern=RE_SEMVER,
+    ),
+    AwesomeVersionStrategyDescription(
+        strategy=AwesomeVersionStrategy.SPECIALCONTAINER,
+        pattern=RE_SPECIAL_CONTAINER,
+    ),
+    AwesomeVersionStrategyDescription(
+        strategy=AwesomeVersionStrategy.SIMPLEVER,
+        pattern=RE_SIMPLE,
+    ),
+    AwesomeVersionStrategyDescription(
+        strategy=AwesomeVersionStrategy.PEP440,
+        pattern=RE_PEP440,
+    ),
 )
+
+
+VERSION_STRATEGIES_DICT: Dict[
+    AwesomeVersionStrategy, AwesomeVersionStrategyDescription
+] = {description.strategy: description for description in VERSION_STRATEGIES}

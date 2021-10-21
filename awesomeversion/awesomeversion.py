@@ -1,11 +1,16 @@
 """AwesomeVersion."""
 from types import TracebackType
-from typing import List, Optional, Type, Union
+from typing import Dict, List, Optional, Type, Union
 
 from .exceptions import AwesomeVersionCompareException, AwesomeVersionStrategyException
 from .handlers import CompareHandlers
-from .strategy import VERSION_STRATEGIES, AwesomeVersionStrategy
-from .typing import Version
+from .strategy import (
+    VERSION_STRATEGIES,
+    VERSION_STRATEGIES_DICT,
+    AwesomeVersionStrategy,
+    AwesomeVersionStrategyDescription,
+)
+from .typing import EnsureStrategyIterableType, EnsureStrategyType, VersionType
 from .utils.logger import LOGGER
 from .utils.regex import (
     RE_DIGIT,
@@ -27,9 +32,7 @@ class _AwesomeVersionBase(str):
     def __new__(
         cls,
         version: str,
-        ensure_strategy: Optional[  # pylint: disable=unused-argument
-            Union[AwesomeVersionStrategy, List[AwesomeVersionStrategy]]
-        ] = None,
+        ensure_strategy: EnsureStrategyType = None,  # pylint: disable=unused-argument
     ) -> "_AwesomeVersionBase":
         """Create a new AwesomeVersion object."""
 
@@ -50,13 +53,12 @@ class AwesomeVersion(_AwesomeVersionBase):
     """
 
     _version: str = ""
+    _ensure_strategy: EnsureStrategyIterableType = []
 
     def __init__(
         self,
-        version: Version,
-        ensure_strategy: Optional[
-            Union[AwesomeVersionStrategy, List[AwesomeVersionStrategy]]
-        ] = None,
+        version: VersionType,
+        ensure_strategy: EnsureStrategyType = None,
     ) -> None:
         """Initialize AwesomeVersion."""
         if isinstance(version, AwesomeVersion):
@@ -67,9 +69,9 @@ class AwesomeVersion(_AwesomeVersionBase):
             self._version = self._version.strip()
 
         if ensure_strategy is not None:
-            ensure_strategy = (
+            self._ensure_strategy = ensure_strategy = (
                 ensure_strategy
-                if isinstance(ensure_strategy, list)
+                if isinstance(ensure_strategy, (list, tuple))
                 else [ensure_strategy]
             )
             if self.strategy not in ensure_strategy:
@@ -96,7 +98,7 @@ class AwesomeVersion(_AwesomeVersionBase):
     def __str__(self) -> str:
         return str(self._version)
 
-    def __eq__(self, compareto: Version) -> bool:
+    def __eq__(self, compareto: VersionType) -> bool:
         """Check if equals to."""
         if isinstance(compareto, (str, float, int)):
             compareto = AwesomeVersion(compareto)
@@ -104,7 +106,7 @@ class AwesomeVersion(_AwesomeVersionBase):
             raise AwesomeVersionCompareException("Not a valid AwesomeVersion object")
         return self.string == compareto.string
 
-    def __lt__(self, compareto: Version) -> bool:
+    def __lt__(self, compareto: VersionType) -> bool:
         """Check if less than."""
         if isinstance(compareto, (str, float, int)):
             compareto = AwesomeVersion(compareto)
@@ -116,7 +118,7 @@ class AwesomeVersion(_AwesomeVersionBase):
             )
         return CompareHandlers(compareto, self).check()
 
-    def __gt__(self, compareto: Version) -> bool:
+    def __gt__(self, compareto: VersionType) -> bool:
         """Check if greater than."""
         if isinstance(compareto, (str, float, int)):
             compareto = AwesomeVersion(compareto)
@@ -247,9 +249,20 @@ class AwesomeVersion(_AwesomeVersionBase):
     @property
     def strategy(self) -> AwesomeVersionStrategy:
         """Return the version strategy."""
-        for pattern, strategy in VERSION_STRATEGIES:
-            if is_regex_matching(pattern, self.string):
-                return strategy
+        version_strategies: Dict[
+            AwesomeVersionStrategy, AwesomeVersionStrategyDescription
+        ] = {}
+
+        for strategy in self._ensure_strategy or []:
+            version_strategies[strategy] = VERSION_STRATEGIES_DICT[strategy]
+
+        for description in VERSION_STRATEGIES:
+            if description.strategy not in version_strategies:
+                version_strategies[description.strategy] = description
+
+        for description in version_strategies.values():
+            if is_regex_matching(description.pattern, self.string):
+                return description.strategy
 
         return AwesomeVersionStrategy.UNKNOWN
 

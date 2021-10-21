@@ -3,7 +3,7 @@ import pytest
 
 from awesomeversion import AwesomeVersion
 from awesomeversion.exceptions import AwesomeVersionCompareException
-from awesomeversion.typing import Version
+from awesomeversion.typing import VersionType
 
 
 @pytest.mark.parametrize(
@@ -55,7 +55,7 @@ from awesomeversion.typing import Version
         (1.0, "1.0.0rc0"),
     ],
 )
-def test_compare(version_a: Version, version_b: Version) -> None:
+def test_compare(version_a: VersionType, version_b: VersionType) -> None:
     """Test compare."""
     ver_a = AwesomeVersion(version_a)
     ver_b = AwesomeVersion(version_b)
@@ -116,7 +116,7 @@ def test_invalid_compare() -> None:
     "version",
     [1, "1", 1.0, "1.0", 5.10, "5.10"],
 )
-def test_falsy_compare(version: Version) -> None:
+def test_falsy_compare(version: VersionType) -> None:
     """Test compare."""
     ver_a = AwesomeVersion(version)
     ver_b = AwesomeVersion(version)

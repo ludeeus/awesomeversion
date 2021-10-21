@@ -3,7 +3,7 @@ import pytest
 
 from awesomeversion import AwesomeVersion
 from awesomeversion.strategy import AwesomeVersionStrategy
-from awesomeversion.typing import Version
+from awesomeversion.typing import VersionType
 
 
 @pytest.mark.parametrize(
@@ -20,6 +20,6 @@ from awesomeversion.typing import Version
         ("string", AwesomeVersionStrategy.UNKNOWN),
     ],
 )
-def test_strategy_match(version: Version, strategy: AwesomeVersionStrategy) -> None:
+def test_strategy_match(version: VersionType, strategy: AwesomeVersionStrategy) -> None:
     """Test that the version matches the expected strategy."""
     assert AwesomeVersion(version).strategy == strategy
