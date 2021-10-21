@@ -1,4 +1,5 @@
 """Strategies for AwesomeVersion."""
+from dataclasses import dataclass
 from enum import Enum
 from typing import Dict, Pattern
 
@@ -25,11 +26,31 @@ class AwesomeVersionStrategy(str, Enum):
     SPECIALCONTAINER = "SpecialContainer"
 
 
-VERSION_STRATEGIES: Dict[AwesomeVersionStrategy, Pattern[str]] = {
-    AwesomeVersionStrategy.BUILDVER: RE_BUILDVER,
-    AwesomeVersionStrategy.CALVER: RE_CALVER,
-    AwesomeVersionStrategy.SEMVER: RE_SEMVER,
-    AwesomeVersionStrategy.SPECIALCONTAINER: RE_SPECIAL_CONTAINER,
-    AwesomeVersionStrategy.SIMPLEVER: RE_SIMPLE,
-    AwesomeVersionStrategy.PEP440: RE_PEP440,
+@dataclass
+class AwesomeVersionStrategyDescription:
+    """Description of a strategy."""
+
+    strategy: AwesomeVersionStrategy
+    pattern: Pattern[str]
+
+
+VERSION_STRATEGIES: Dict[AwesomeVersionStrategy, AwesomeVersionStrategyDescription] = {
+    AwesomeVersionStrategy.BUILDVER: AwesomeVersionStrategyDescription(
+        strategy=AwesomeVersionStrategy.BUILDVER, pattern=RE_BUILDVER
+    ),
+    AwesomeVersionStrategy.CALVER: AwesomeVersionStrategyDescription(
+        strategy=AwesomeVersionStrategy.CALVER, pattern=RE_CALVER
+    ),
+    AwesomeVersionStrategy.SEMVER: AwesomeVersionStrategyDescription(
+        strategy=AwesomeVersionStrategy.SEMVER, pattern=RE_SEMVER
+    ),
+    AwesomeVersionStrategy.SPECIALCONTAINER: AwesomeVersionStrategyDescription(
+        strategy=AwesomeVersionStrategy.SPECIALCONTAINER, pattern=RE_SPECIAL_CONTAINER
+    ),
+    AwesomeVersionStrategy.SIMPLEVER: AwesomeVersionStrategyDescription(
+        strategy=AwesomeVersionStrategy.SIMPLEVER, pattern=RE_SIMPLE
+    ),
+    AwesomeVersionStrategy.PEP440: AwesomeVersionStrategyDescription(
+        strategy=AwesomeVersionStrategy.PEP440, pattern=RE_PEP440
+    ),
 }

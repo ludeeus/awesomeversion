@@ -1,10 +1,14 @@
 """AwesomeVersion."""
 from types import TracebackType
-from typing import Dict, List, Optional, Pattern, Type, Union
+from typing import Dict, List, Optional, Type, Union
 
 from .exceptions import AwesomeVersionCompareException, AwesomeVersionStrategyException
 from .handlers import CompareHandlers
-from .strategy import VERSION_STRATEGIES, AwesomeVersionStrategy
+from .strategy import (
+    VERSION_STRATEGIES,
+    AwesomeVersionStrategy,
+    AwesomeVersionStrategyDescription,
+)
 from .typing import EnsureStrategyIterableType, EnsureStrategyType, VersionType
 from .utils.logger import LOGGER
 from .utils.regex import (
@@ -244,18 +248,20 @@ class AwesomeVersion(_AwesomeVersionBase):
     @property
     def strategy(self) -> AwesomeVersionStrategy:
         """Return the version strategy."""
-        version_strategies: Dict[AwesomeVersionStrategy, Pattern[str]] = {}
+        version_strategies: Dict[
+            AwesomeVersionStrategy, AwesomeVersionStrategyDescription
+        ] = {}
 
         for strategy in self._ensure_strategy or []:
             version_strategies[strategy] = VERSION_STRATEGIES[strategy]
 
-        for (strategy, pattern) in VERSION_STRATEGIES.items():
-            if strategy not in version_strategies:
-                version_strategies[strategy] = pattern
+        for description in VERSION_STRATEGIES.values():
+            if description.strategy not in version_strategies:
+                version_strategies[description.strategy] = description
 
-        for (strategy, pattern) in version_strategies.items():
-            if is_regex_matching(pattern, self.string):
-                return strategy
+        for description in version_strategies.values():
+            if is_regex_matching(description.pattern, self.string):
+                return description.strategy
 
         return AwesomeVersionStrategy.UNKNOWN
 
