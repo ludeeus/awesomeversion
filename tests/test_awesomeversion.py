@@ -152,6 +152,11 @@ def test_ensure_strategy(caplog: pytest.LogCaptureFixture) -> None:
             "5.7.26",
         ),
         (
+            "5.7.26-0ubuntu0.18.04.1",
+            AwesomeVersionStrategy.CALVER,
+            "18.04.1",
+        ),
+        (
             "0.4.7-MariaDB",
             AwesomeVersionStrategy.SIMPLEVER,
             "0.4.7",
@@ -160,6 +165,11 @@ def test_ensure_strategy(caplog: pytest.LogCaptureFixture) -> None:
             "10.4.7-MariaDB-log-ubuntu0.18.04.1-whatever",
             AwesomeVersionStrategy.SIMPLEVER,
             "10.4.7",
+        ),
+        (
+            "Linux 2b4de6616b33 5.11.0-38-generic #42~20.04.1-Ubuntu",
+            AwesomeVersionStrategy.SEMVER,
+            "5.11.0-38",
         ),
     ],
 )

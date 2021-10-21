@@ -93,7 +93,6 @@ class AwesomeVersion(_AwesomeVersionBase):
                     match = compile_regex(description.regex_string).search(
                         self._version
                     )
-                    print(match)
                     if match is not None:
                         self._version = match.group(0)
 
