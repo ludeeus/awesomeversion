@@ -5,7 +5,7 @@ import pytest
 
 from awesomeversion import AwesomeVersion
 from awesomeversion.strategy import AwesomeVersionStrategy
-from awesomeversion.typing import Version
+from awesomeversion.typing import VersionType
 
 
 @pytest.mark.parametrize(
@@ -20,7 +20,7 @@ from awesomeversion.typing import Version
     ],
 )
 def test_version_scheme(
-    version: Version,
+    version: VersionType,
     strategy: AwesomeVersionStrategy,
     dev: bool,
     beta: bool,
