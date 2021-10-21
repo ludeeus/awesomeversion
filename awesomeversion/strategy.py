@@ -1,7 +1,7 @@
 """Strategies for AwesomeVersion."""
 from dataclasses import dataclass
 from enum import Enum
-from typing import Dict, Pattern
+from typing import Dict, Pattern, Tuple
 
 from .utils.regex import (
     RE_BUILDVER,
@@ -34,23 +34,34 @@ class AwesomeVersionStrategyDescription:
     pattern: Pattern[str]
 
 
-VERSION_STRATEGIES: Dict[AwesomeVersionStrategy, AwesomeVersionStrategyDescription] = {
-    AwesomeVersionStrategy.BUILDVER: AwesomeVersionStrategyDescription(
-        strategy=AwesomeVersionStrategy.BUILDVER, pattern=RE_BUILDVER
+VERSION_STRATEGIES: Tuple[AwesomeVersionStrategyDescription, ...] = (
+    AwesomeVersionStrategyDescription(
+        strategy=AwesomeVersionStrategy.BUILDVER,
+        pattern=RE_BUILDVER,
     ),
-    AwesomeVersionStrategy.CALVER: AwesomeVersionStrategyDescription(
-        strategy=AwesomeVersionStrategy.CALVER, pattern=RE_CALVER
+    AwesomeVersionStrategyDescription(
+        strategy=AwesomeVersionStrategy.CALVER,
+        pattern=RE_CALVER,
     ),
-    AwesomeVersionStrategy.SEMVER: AwesomeVersionStrategyDescription(
-        strategy=AwesomeVersionStrategy.SEMVER, pattern=RE_SEMVER
+    AwesomeVersionStrategyDescription(
+        strategy=AwesomeVersionStrategy.SEMVER,
+        pattern=RE_SEMVER,
     ),
-    AwesomeVersionStrategy.SPECIALCONTAINER: AwesomeVersionStrategyDescription(
-        strategy=AwesomeVersionStrategy.SPECIALCONTAINER, pattern=RE_SPECIAL_CONTAINER
+    AwesomeVersionStrategyDescription(
+        strategy=AwesomeVersionStrategy.SPECIALCONTAINER,
+        pattern=RE_SPECIAL_CONTAINER,
     ),
-    AwesomeVersionStrategy.SIMPLEVER: AwesomeVersionStrategyDescription(
-        strategy=AwesomeVersionStrategy.SIMPLEVER, pattern=RE_SIMPLE
+    AwesomeVersionStrategyDescription(
+        strategy=AwesomeVersionStrategy.SIMPLEVER,
+        pattern=RE_SIMPLE,
     ),
-    AwesomeVersionStrategy.PEP440: AwesomeVersionStrategyDescription(
-        strategy=AwesomeVersionStrategy.PEP440, pattern=RE_PEP440
+    AwesomeVersionStrategyDescription(
+        strategy=AwesomeVersionStrategy.PEP440,
+        pattern=RE_PEP440,
     ),
-}
+)
+
+
+VERSION_STRATEGIES_DICT: Dict[
+    AwesomeVersionStrategy, AwesomeVersionStrategyDescription
+] = {description.strategy: description for description in VERSION_STRATEGIES}

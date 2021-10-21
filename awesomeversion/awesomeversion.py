@@ -6,6 +6,7 @@ from .exceptions import AwesomeVersionCompareException, AwesomeVersionStrategyEx
 from .handlers import CompareHandlers
 from .strategy import (
     VERSION_STRATEGIES,
+    VERSION_STRATEGIES_DICT,
     AwesomeVersionStrategy,
     AwesomeVersionStrategyDescription,
 )
@@ -253,9 +254,9 @@ class AwesomeVersion(_AwesomeVersionBase):
         ] = {}
 
         for strategy in self._ensure_strategy or []:
-            version_strategies[strategy] = VERSION_STRATEGIES[strategy]
+            version_strategies[strategy] = VERSION_STRATEGIES_DICT[strategy]
 
-        for description in VERSION_STRATEGIES.values():
+        for description in VERSION_STRATEGIES:
             if description.strategy not in version_strategies:
                 version_strategies[description.strategy] = description
 
