@@ -122,6 +122,9 @@ def test_ensure_strategy(caplog: pytest.LogCaptureFixture) -> None:
         AwesomeVersion("1", AwesomeVersionStrategy.SEMVER)
 
     with pytest.raises(AwesomeVersionStrategyException):
+        AwesomeVersion("1", AwesomeVersionStrategy.UNKNOWN)
+
+    with pytest.raises(AwesomeVersionStrategyException):
         AwesomeVersion(
             "1",
             [AwesomeVersionStrategy.SEMVER, AwesomeVersionStrategy.SPECIALCONTAINER],
@@ -132,3 +135,43 @@ def test_ensure_strategy(caplog: pytest.LogCaptureFixture) -> None:
         "Using AwesomeVersion.ensure_strategy(version, strategy) is deprecated"
         in caplog.text
     )
+
+
+@pytest.mark.parametrize(
+    "version,strategy,result",
+    [
+        ("14.0 (Debian 14.0-1.pgdg110+1)", AwesomeVersionStrategy.SIMPLEVER, "14.0"),
+        (
+            "PostgreSQL 11.13 (Debian 11.13-0+deb10u1) on x86_64-pc-linux-gnu",
+            AwesomeVersionStrategy.SIMPLEVER,
+            "11.13",
+        ),
+        (
+            "5.7.26-0ubuntu0.18.04.1",
+            AwesomeVersionStrategy.SIMPLEVER,
+            "5.7.26",
+        ),
+        (
+            "0.4.7-MariaDB",
+            AwesomeVersionStrategy.SIMPLEVER,
+            "0.4.7",
+        ),
+        (
+            "10.4.7-MariaDB-log-ubuntu0.18.04.1-whatever",
+            AwesomeVersionStrategy.SIMPLEVER,
+            "10.4.7",
+        ),
+    ],
+)
+def test_find_first_match(
+    version: VersionType,
+    strategy: AwesomeVersionStrategy,
+    result: str,
+) -> None:
+    """Test find_first_match"""
+    obj = AwesomeVersion(
+        version=version,
+        ensure_strategy=strategy,
+        find_first_match=True,
+    )
+    assert obj.string == result

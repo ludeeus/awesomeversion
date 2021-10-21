@@ -10,6 +10,7 @@ from .utils.regex import (
     RE_SEMVER,
     RE_SIMPLE,
     RE_SPECIAL_CONTAINER,
+    generate_full_string_regex,
 )
 
 
@@ -31,33 +32,38 @@ class AwesomeVersionStrategyDescription:
     """Description of a strategy."""
 
     strategy: AwesomeVersionStrategy
-    pattern: Pattern[str]
+    regex_string: str
+
+    @property
+    def pattern(self) -> Pattern[str]:
+        """Get pattern."""
+        return generate_full_string_regex(self.regex_string)
 
 
 VERSION_STRATEGIES: Tuple[AwesomeVersionStrategyDescription, ...] = (
     AwesomeVersionStrategyDescription(
         strategy=AwesomeVersionStrategy.BUILDVER,
-        pattern=RE_BUILDVER,
+        regex_string=RE_BUILDVER,
     ),
     AwesomeVersionStrategyDescription(
         strategy=AwesomeVersionStrategy.CALVER,
-        pattern=RE_CALVER,
+        regex_string=RE_CALVER,
     ),
     AwesomeVersionStrategyDescription(
         strategy=AwesomeVersionStrategy.SEMVER,
-        pattern=RE_SEMVER,
+        regex_string=RE_SEMVER,
     ),
     AwesomeVersionStrategyDescription(
         strategy=AwesomeVersionStrategy.SPECIALCONTAINER,
-        pattern=RE_SPECIAL_CONTAINER,
+        regex_string=RE_SPECIAL_CONTAINER,
     ),
     AwesomeVersionStrategyDescription(
         strategy=AwesomeVersionStrategy.SIMPLEVER,
-        pattern=RE_SIMPLE,
+        regex_string=RE_SIMPLE,
     ),
     AwesomeVersionStrategyDescription(
         strategy=AwesomeVersionStrategy.PEP440,
-        pattern=RE_PEP440,
+        regex_string=RE_PEP440,
     ),
 )
 
