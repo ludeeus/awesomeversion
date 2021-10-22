@@ -15,9 +15,10 @@ from .utils.logger import LOGGER
 from .utils.regex import (
     RE_DIGIT,
     RE_MODIFIER,
-    RE_SEMVER,
     RE_SIMPLE,
     RE_VERSION,
+    compile_regex,
+    generate_full_string_regex,
     get_regex_match_group,
     is_regex_matching,
 )
@@ -33,6 +34,7 @@ class _AwesomeVersionBase(str):
         cls,
         version: str,
         ensure_strategy: EnsureStrategyType = None,  # pylint: disable=unused-argument
+        find_first_match: bool = False,  # pylint: disable=unused-argument
     ) -> "_AwesomeVersionBase":
         """Create a new AwesomeVersion object."""
 
@@ -50,6 +52,12 @@ class AwesomeVersion(_AwesomeVersionBase):
         Match the AwesomeVersion object against spesific
         strategies when creating if. If it does not match
         AwesomeVersionStrategyException will be raised
+
+    find_first_match:
+        If True, the version given will be scanned for the first
+        match of the given ensure_strategy. Raises
+        AwesomeVersionStrategyExceptionIf it is not found
+        for any of the given strategies.
     """
 
     _version: str = ""
@@ -59,6 +67,7 @@ class AwesomeVersion(_AwesomeVersionBase):
         self,
         version: VersionType,
         ensure_strategy: EnsureStrategyType = None,
+        find_first_match: bool = False,
     ) -> None:
         """Initialize AwesomeVersion."""
         if isinstance(version, AwesomeVersion):
@@ -74,6 +83,19 @@ class AwesomeVersion(_AwesomeVersionBase):
                 if isinstance(ensure_strategy, (list, tuple))
                 else [ensure_strategy]
             )
+            if AwesomeVersionStrategy.UNKNOWN in ensure_strategy:
+                raise AwesomeVersionStrategyException(
+                    f"Can't use {AwesomeVersionStrategy.UNKNOWN} as ensure_strategy"
+                )
+            if find_first_match:
+                for strategy in self._ensure_strategy or []:
+                    description = VERSION_STRATEGIES_DICT[strategy]
+                    match = compile_regex(description.regex_string).search(
+                        self._version
+                    )
+                    if match is not None:
+                        self._version = match.group(0)
+
             if self.strategy not in ensure_strategy:
                 raise AwesomeVersionStrategyException(
                     f"Strategy {self.strategy} does not match {ensure_strategy} for {version}"
@@ -226,8 +248,13 @@ class AwesomeVersion(_AwesomeVersionBase):
         if self.strategy == AwesomeVersionStrategy.SPECIALCONTAINER:
             return None
 
-        if self.strategy == AwesomeVersionStrategy.SEMVER:
-            modifier_string = get_regex_match_group(RE_SEMVER, str(self.string), 4)
+        if (
+            self.strategy_description is not None
+            and self.strategy_description.strategy == AwesomeVersionStrategy.SEMVER
+        ):
+            modifier_string = get_regex_match_group(
+                self.strategy_description.pattern, str(self.string), 4
+            )
         else:
             modifier_string = self.string.split(".")[-1]
 
@@ -239,12 +266,24 @@ class AwesomeVersion(_AwesomeVersionBase):
         if self.strategy == AwesomeVersionStrategy.SPECIALCONTAINER:
             return None
 
-        if self.strategy == AwesomeVersionStrategy.SEMVER:
-            modifier_string = get_regex_match_group(RE_SEMVER, str(self.string), 4)
+        if (
+            self.strategy_description is not None
+            and self.strategy_description.strategy == AwesomeVersionStrategy.SEMVER
+        ):
+            modifier_string = get_regex_match_group(
+                self.strategy_description.pattern, str(self.string), 4
+            )
         else:
             modifier_string = self.string.split(".")[-1]
 
         return get_regex_match_group(RE_MODIFIER, modifier_string, 3)
+
+    @property
+    def strategy_description(self) -> Optional[AwesomeVersionStrategyDescription]:
+        """Return a string representation of the strategy."""
+        if self.strategy == AwesomeVersionStrategy.UNKNOWN:
+            return None
+        return VERSION_STRATEGIES_DICT[self.strategy]
 
     @property
     def strategy(self) -> AwesomeVersionStrategy:
@@ -269,4 +308,4 @@ class AwesomeVersion(_AwesomeVersionBase):
     @property
     def simple(self) -> bool:
         """Return True if the version string is simple."""
-        return is_regex_matching(RE_SIMPLE, self.string)
+        return is_regex_matching(generate_full_string_regex(RE_SIMPLE), self.string)
