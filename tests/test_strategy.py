@@ -11,13 +11,17 @@ from awesomeversion.typing import VersionType
     [
         ("0.118.0", AwesomeVersionStrategy.SEMVER),
         ("1.2.3.4.5", AwesomeVersionStrategy.SIMPLEVER),
+        ("1.0", AwesomeVersionStrategy.SIMPLEVER),
+        ("v1.0", AwesomeVersionStrategy.SIMPLEVER),
         ("123", AwesomeVersionStrategy.BUILDVER),
         ("20.1.0", AwesomeVersionStrategy.CALVER),
         ("beta", AwesomeVersionStrategy.SPECIALCONTAINER),
         ("dev", AwesomeVersionStrategy.SPECIALCONTAINER),
         ("latest", AwesomeVersionStrategy.SPECIALCONTAINER),
         ("stable", AwesomeVersionStrategy.SPECIALCONTAINER),
-        ("string", AwesomeVersionStrategy.UNKNOWN),
+        ("", AwesomeVersionStrategy.UNKNOWN),
+        ("unknown", AwesomeVersionStrategy.UNKNOWN),
+        (None, AwesomeVersionStrategy.UNKNOWN),
     ],
 )
 def test_strategy_match(version: VersionType, strategy: AwesomeVersionStrategy) -> None:

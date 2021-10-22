@@ -21,7 +21,7 @@ RE_PEP440 = (
 RE_BUILDVER = r"\d+"
 
 RE_SPECIAL_CONTAINER = r"(latest|dev|stable|beta)"
-RE_SIMPLE = r"[v|V]?((\d+)(\d+)?\.?)+"
+RE_SIMPLE = r"[v|V]?((\d+)(\.\d+)+)"
 
 
 def compile_regex(pattern: str) -> Pattern[str]:
