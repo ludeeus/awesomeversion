@@ -9,7 +9,7 @@ if TYPE_CHECKING:
 VersionType = Union[str, float, int, object, "AwesomeVersion"]
 EnsureStrategyIterableType = Union[
     List[AwesomeVersionStrategy],
-    Tuple[AwesomeVersionStrategy],
+    Tuple[AwesomeVersionStrategy, ...],
 ]
 EnsureStrategyType = Optional[
     Union[

@@ -5,7 +5,7 @@ from .exceptions import (
     AwesomeVersionException,
     AwesomeVersionStrategyException,
 )
-from .strategy import AwesomeVersionStrategy
+from .strategy import COMPARABLE_STRATEGIES, AwesomeVersionStrategy
 
 __all__ = [
     "AwesomeVersion",
@@ -13,4 +13,5 @@ __all__ = [
     "AwesomeVersionException",
     "AwesomeVersionStrategy",
     "AwesomeVersionStrategyException",
+    "COMPARABLE_STRATEGIES",
 ]
