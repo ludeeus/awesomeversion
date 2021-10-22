@@ -1,7 +1,7 @@
 """Strategies for AwesomeVersion."""
 from dataclasses import dataclass
 from enum import Enum
-from typing import Dict, Pattern, Tuple
+from typing import Dict, Optional, Pattern, Tuple
 
 from .utils.regex import (
     RE_BUILDVER,
@@ -10,6 +10,7 @@ from .utils.regex import (
     RE_SEMVER,
     RE_SIMPLE,
     RE_SPECIAL_CONTAINER,
+    compile_regex,
     generate_full_string_regex,
 )
 
@@ -22,6 +23,7 @@ class AwesomeVersionStrategy(str, Enum):
     SEMVER = "SemVer"
     SIMPLEVER = "SimpleVer"
     PEP440 = "PEP 440"
+
     UNKNOWN = "unknown"
 
     SPECIALCONTAINER = "SpecialContainer"
@@ -34,11 +36,24 @@ class AwesomeVersionStrategyDescription:
     strategy: AwesomeVersionStrategy
     regex_string: str
 
+    _pattern: Pattern[str] = compile_regex("")
+
+    def __post_init__(self) -> None:
+        """Initialize pattern."""
+        self._pattern = generate_full_string_regex(self.regex_string)
+
     @property
     def pattern(self) -> Pattern[str]:
-        """Get pattern."""
-        return generate_full_string_regex(self.regex_string)
+        """Get regex pattern."""
+        return self._pattern
 
+
+COMPARABLE_STRATEGIES = [
+    strategy
+    for strategy in AwesomeVersionStrategy
+    if strategy
+    not in (AwesomeVersionStrategy.UNKNOWN, AwesomeVersionStrategy.SPECIALCONTAINER)
+]
 
 VERSION_STRATEGIES: Tuple[AwesomeVersionStrategyDescription, ...] = (
     AwesomeVersionStrategyDescription(
