@@ -1,7 +1,7 @@
 """Strategies for AwesomeVersion."""
 from dataclasses import dataclass
 from enum import Enum
-from typing import Dict, Optional, Pattern, Tuple
+from typing import Dict, Pattern, Tuple
 
 from .utils.regex import (
     RE_BUILDVER,
@@ -10,7 +10,6 @@ from .utils.regex import (
     RE_SEMVER,
     RE_SIMPLE,
     RE_SPECIAL_CONTAINER,
-    compile_regex,
     generate_full_string_regex,
 )
 
@@ -35,17 +34,7 @@ class AwesomeVersionStrategyDescription:
 
     strategy: AwesomeVersionStrategy
     regex_string: str
-
-    _pattern: Pattern[str] = compile_regex("")
-
-    def __post_init__(self) -> None:
-        """Initialize pattern."""
-        self._pattern = generate_full_string_regex(self.regex_string)
-
-    @property
-    def pattern(self) -> Pattern[str]:
-        """Get regex pattern."""
-        return self._pattern
+    pattern: Pattern[str]
 
 
 COMPARABLE_STRATEGIES = [
@@ -59,26 +48,32 @@ VERSION_STRATEGIES: Tuple[AwesomeVersionStrategyDescription, ...] = (
     AwesomeVersionStrategyDescription(
         strategy=AwesomeVersionStrategy.BUILDVER,
         regex_string=RE_BUILDVER,
+        pattern=generate_full_string_regex(RE_BUILDVER),
     ),
     AwesomeVersionStrategyDescription(
         strategy=AwesomeVersionStrategy.CALVER,
         regex_string=RE_CALVER,
+        pattern=generate_full_string_regex(RE_CALVER),
     ),
     AwesomeVersionStrategyDescription(
         strategy=AwesomeVersionStrategy.SEMVER,
         regex_string=RE_SEMVER,
+        pattern=generate_full_string_regex(RE_SEMVER),
     ),
     AwesomeVersionStrategyDescription(
         strategy=AwesomeVersionStrategy.SPECIALCONTAINER,
         regex_string=RE_SPECIAL_CONTAINER,
+        pattern=generate_full_string_regex(RE_SPECIAL_CONTAINER),
     ),
     AwesomeVersionStrategyDescription(
         strategy=AwesomeVersionStrategy.SIMPLEVER,
         regex_string=RE_SIMPLE,
+        pattern=generate_full_string_regex(RE_SIMPLE),
     ),
     AwesomeVersionStrategyDescription(
         strategy=AwesomeVersionStrategy.PEP440,
         regex_string=RE_PEP440,
+        pattern=generate_full_string_regex(RE_PEP440),
     ),
 )
 
