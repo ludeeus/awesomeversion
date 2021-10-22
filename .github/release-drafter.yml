@@ -6,3 +6,5 @@ template: |
   ## What’s Changed
 
   $CHANGES
+
+  **Full Changelog**: https://github.com/ludeeus/awesomeversion/compare/$PREVIOUS_TAG...$RESOLVED_VERSION
