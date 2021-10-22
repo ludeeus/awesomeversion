@@ -1,0 +1,26 @@
+name: "Feature request for AwesomeVersion"
+description: Suggest a feature/change to be added to AwesomeVersion
+labels: "enhancement"
+body:
+- type: textarea
+  validations:
+    required: true
+  attributes:
+    label: The idea
+    description: >
+      A good description of what you are suggesting.
+- type: textarea
+  validations:
+    required: true
+  attributes:
+    label: Implementation
+    description: >
+       How do you see this being implemented?
+- type: textarea
+  attributes:
+    label: Alternatives
+    description: >
+       Are there any alternative solutions or features you've considered?
+- type: textarea
+  attributes:
+    label: Additional context
