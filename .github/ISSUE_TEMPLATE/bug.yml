@@ -8,8 +8,8 @@ body:
     placeholder: >-
       Describe the issue you are experiencing here to communicate to the
       maintainers. Tell us what you were trying to do and what happened.
-validations:
-  required: true
+  validations:
+    required: true
 - type: markdown
   attributes:
     value: |
@@ -35,13 +35,13 @@ validations:
     required: true
   attributes:
     label: Problem-relevant code
-    description: >
+    description: >-
       A minimal example to reproduce the bug
     render: python
 - type: textarea
   attributes:
     label: Traceback/Error logs
-    description: >
+    description: >-
        If you come across any trace or error logs, please provide them.
     render: txt
 - type: textarea
