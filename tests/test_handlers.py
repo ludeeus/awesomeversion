@@ -1,79 +1,48 @@
-"""Test container handler."""
+"""Test compare handlers."""
+from typing import Optional
+
+import pytest
+
 from awesomeversion import AwesomeVersion
 from awesomeversion.comparehandlers.modifier import ComparelHandlerSemVerModifier
 from awesomeversion.handlers import CompareHandlers
+from awesomeversion.typing import VersionType
 
 
-def test_container() -> None:
-    """Test container compare handlers."""
-    handler = CompareHandlers(AwesomeVersion("latest"), AwesomeVersion("stable"))
-    assert handler.check()
-
-    handler = CompareHandlers(AwesomeVersion("latest"), AwesomeVersion("1"))
-    assert handler.check()
-
-    handler = CompareHandlers(AwesomeVersion("1.0.0"), AwesomeVersion("stable"))
-    assert not handler.check()
-
-
-def test_dev() -> None:
-    """Test dev compare handlers."""
-    handler = CompareHandlers(AwesomeVersion("1.dev1"), AwesomeVersion("1.dev0"))
-    assert handler.check()
-
-    handler = CompareHandlers(AwesomeVersion("1.dev0"), AwesomeVersion("1.dev1"))
-    assert not handler.check()
-
-
-def test_modifier() -> None:
-    """Test modifier compare handlers."""
-    handler = CompareHandlers(AwesomeVersion("1.0b1"), AwesomeVersion("1.0b0"))
-    assert handler.check()
-
-    handler = CompareHandlers(AwesomeVersion("1.0"), AwesomeVersion("1.0b0"))
-    assert handler.check()
-
-    handler = CompareHandlers(AwesomeVersion("1.0b0"), AwesomeVersion("1.0b1"))
-    assert not handler.check()
-
-    handler = CompareHandlers(AwesomeVersion("1.0b0"), AwesomeVersion("1.0"))
-    assert not handler.check()
+@pytest.mark.parametrize(
+    "ver_a,ver_b,result",
+    (
+        (False, True, False),
+        ("2", "1", True),
+        ("1", "2", False),
+        ("1", "1", False),
+        ("1.0", "1.0", False),
+        ("5.10", "5.10", False),
+        ("1.2.3.4.5b0", "1.2b0", True),
+        ("1.0b1", "1.0b0", True),
+        ("1.0", "1.0b0", True),
+        ("1.0b0", "1.0b1", False),
+        ("1.0b0", "1.0", False),
+        ("1.dev1", "1.dev0", True),
+        ("1.dev0", "1.dev1", False),
+        ("latest", "stable", True),
+        ("latest", "1", True),
+        ("1.0.0", "stable", False),
+    ),
+)
+def test_compare_handlers(
+    ver_a: VersionType,
+    ver_b: VersionType,
+    result: Optional[bool],
+) -> None:
+    """Test handlers."""
+    handler = CompareHandlers(AwesomeVersion(ver_a), AwesomeVersion(ver_b))
+    assert handler.check() == result
 
 
 def test_semver_modifier() -> None:
-    """Test semver modifier compare handlers."""
-
+    """Test semver modifier."""
     handler = ComparelHandlerSemVerModifier(
         AwesomeVersion("1.0"), AwesomeVersion("1.0")
     )
-    assert not handler.handler()
-
-
-def test_sectons() -> None:
-    """Test sections compare handlers."""
-    handler = CompareHandlers(AwesomeVersion("1.2.3.4.5b0"), AwesomeVersion("1.2b0"))
-    assert handler.check()
-
-
-def test_simple() -> None:
-    """Test simple compare handlers."""
-    handler = CompareHandlers(AwesomeVersion("2"), AwesomeVersion("1"))
-    assert handler.check()
-
-    handler = CompareHandlers(AwesomeVersion("1"), AwesomeVersion("2"))
-    assert not handler.check()
-
-    handler = CompareHandlers(AwesomeVersion("1"), AwesomeVersion("1"))
-    assert not handler.check()
-
-    handler = CompareHandlers(AwesomeVersion("1.0"), AwesomeVersion("1.0"))
-    assert not handler.check()
-
-    handler = CompareHandlers(AwesomeVersion("5.10"), AwesomeVersion("5.10"))
-    assert not handler.check()
-
-
-def test_no_result() -> None:
-    """Test no result compare handlers."""
-    handler = CompareHandlers(AwesomeVersion(False), AwesomeVersion(True))
-    assert not handler.check()
+    assert handler.handler() is None

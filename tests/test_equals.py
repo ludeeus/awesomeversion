@@ -22,4 +22,4 @@ def test_equals(version: VersionType) -> None:
     assert str(version_object) == version
     assert version_object.string == version
     assert version_object == AwesomeVersion(f"v{version}")
-    assert version_object == AwesomeVersion(f"v{version}")
+    assert version_object == AwesomeVersion(f"V{version}")
