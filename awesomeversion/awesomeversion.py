@@ -85,7 +85,7 @@ class AwesomeVersion(_AwesomeVersionBase):
             )
             if AwesomeVersionStrategy.UNKNOWN in ensure_strategy:
                 raise AwesomeVersionStrategyException(
-                    f"Can't use {AwesomeVersionStrategy.UNKNOWN} as ensure_strategy"
+                    f"Can't use {AwesomeVersionStrategy.UNKNOWN.value} as ensure_strategy"
                 )
             if find_first_match:
                 for strategy in self._ensure_strategy or []:
@@ -98,7 +98,8 @@ class AwesomeVersion(_AwesomeVersionBase):
 
             if self.strategy not in ensure_strategy:
                 raise AwesomeVersionStrategyException(
-                    f"Strategy {self.strategy} does not match {ensure_strategy} for {version}"
+                    f"Strategy {self.strategy.value} does not match "
+                    f"{[strategy.value for strategy in ensure_strategy]} for {version}"
                 )
 
         super().__init__(self._version)
@@ -115,7 +116,7 @@ class AwesomeVersion(_AwesomeVersionBase):
         pass
 
     def __repr__(self) -> str:
-        return f"<AwesomeVersion {self.strategy} '{self.string}'>"
+        return f"<AwesomeVersion {self.strategy.value} '{self.string}'>"
 
     def __str__(self) -> str:
         return str(self._version)
@@ -136,7 +137,7 @@ class AwesomeVersion(_AwesomeVersionBase):
             raise AwesomeVersionCompareException("Not a valid AwesomeVersion object")
         if AwesomeVersionStrategy.UNKNOWN in (self.strategy, compareto.strategy):
             raise AwesomeVersionCompareException(
-                f"Can't compare {self.strategy} and {compareto.strategy}"
+                f"Can't compare {self.strategy.value} and {compareto.strategy.value}"
             )
         return (
             self.string != compareto.string and CompareHandlers(compareto, self).check()
@@ -150,7 +151,7 @@ class AwesomeVersion(_AwesomeVersionBase):
             raise AwesomeVersionCompareException("Not a valid AwesomeVersion object")
         if AwesomeVersionStrategy.UNKNOWN in (self.strategy, compareto.strategy):
             raise AwesomeVersionCompareException(
-                f"Can't compare {self.strategy} and {compareto.strategy}"
+                f"Can't compare {self.strategy.value} and {compareto.strategy.value}"
             )
         return (
             self.string != compareto.string and CompareHandlers(self, compareto).check()
