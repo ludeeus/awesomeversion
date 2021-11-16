@@ -138,7 +138,9 @@ class AwesomeVersion(_AwesomeVersionBase):
             raise AwesomeVersionCompareException(
                 f"Can't compare {self.strategy} and {compareto.strategy}"
             )
-        return CompareHandlers(compareto, self).check()
+        return (
+            self.string != compareto.string and CompareHandlers(compareto, self).check()
+        )
 
     def __gt__(self, compareto: VersionType) -> bool:
         """Check if greater than."""
@@ -150,7 +152,9 @@ class AwesomeVersion(_AwesomeVersionBase):
             raise AwesomeVersionCompareException(
                 f"Can't compare {self.strategy} and {compareto.strategy}"
             )
-        return CompareHandlers(self, compareto).check()
+        return (
+            self.string != compareto.string and CompareHandlers(self, compareto).check()
+        )
 
     def __ne__(self, compareto: object) -> bool:
         return not self.__eq__(compareto)
