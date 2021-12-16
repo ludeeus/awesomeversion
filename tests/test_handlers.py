@@ -4,8 +4,7 @@ from typing import Optional
 import pytest
 
 from awesomeversion import AwesomeVersion
-from awesomeversion.comparehandlers.modifier import ComparelHandlerSemVerModifier
-from awesomeversion.handlers import CompareHandlers
+from awesomeversion.comparehandlers.modifier import compare_handler_semver_modifier
 from awesomeversion.typing import VersionType
 
 
@@ -36,13 +35,12 @@ def test_compare_handlers(
     result: Optional[bool],
 ) -> None:
     """Test handlers."""
-    handler = CompareHandlers(AwesomeVersion(ver_a), AwesomeVersion(ver_b))
-    assert handler.check() == result
+    assert AwesomeVersion._compare_versions(ver_a, ver_b) == result
 
 
 def test_semver_modifier() -> None:
     """Test semver modifier."""
-    handler = ComparelHandlerSemVerModifier(
+    result = compare_handler_semver_modifier(
         AwesomeVersion("1.0"), AwesomeVersion("1.0")
     )
-    assert handler.handler() is None
+    assert result is None

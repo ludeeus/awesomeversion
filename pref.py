@@ -1,7 +1,6 @@
 import time
 
 from awesomeversion import AwesomeVersion
-from packaging import version
 
 
 class Timer:
@@ -24,11 +23,4 @@ timer = Timer("AwesomeVersion")
 timer.start()
 for x in range(1, 1000):
     AwesomeVersion(x) > AwesomeVersion("1")
-timer.stop()
-
-
-timer = Timer("packaging.version")
-timer.start()
-for x in range(1, 1000):
-    version.parse(str(x)) > version.parse("1")
 timer.stop()
