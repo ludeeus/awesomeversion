@@ -7,7 +7,6 @@ from .comparehandlers.devrc import compare_handler_devrc
 from .comparehandlers.modifier import compare_handler_semver_modifier
 from .comparehandlers.sections import compare_handler_sections
 from .comparehandlers.simple import compare_handler_simple
-
 from .exceptions import AwesomeVersionCompareException, AwesomeVersionStrategyException
 from .strategy import (
     VERSION_STRATEGIES,

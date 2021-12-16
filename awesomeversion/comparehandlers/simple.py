@@ -1,9 +1,9 @@
 """Special handler for simple."""
 from typing import TYPE_CHECKING, Optional
-from .sections import compare_base_sections
 
 from awesomeversion.strategy import AwesomeVersionStrategy
 
+from .sections import compare_base_sections
 
 if TYPE_CHECKING:
     from awesomeversion import AwesomeVersion

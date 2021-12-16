@@ -11,7 +11,6 @@ from awesomeversion.typing import VersionType
 @pytest.mark.parametrize(
     "ver_a,ver_b,result",
     (
-        (False, True, False),
         ("2", "1", True),
         ("1", "2", False),
         ("1", "1", False),
@@ -35,7 +34,7 @@ def test_compare_handlers(
     result: Optional[bool],
 ) -> None:
     """Test handlers."""
-    assert AwesomeVersion._compare_versions(ver_a, ver_b) == result
+    assert (AwesomeVersion(ver_a) > ver_b) == result
 
 
 def test_semver_modifier() -> None:
