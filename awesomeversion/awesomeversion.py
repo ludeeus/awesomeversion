@@ -2,8 +2,13 @@
 from types import TracebackType
 from typing import Dict, List, Optional, Type, Union
 
+from .comparehandlers.container import compare_handler_container
+from .comparehandlers.devrc import compare_handler_devrc
+from .comparehandlers.modifier import compare_handler_semver_modifier
+from .comparehandlers.sections import compare_handler_sections
+from .comparehandlers.simple import compare_handler_simple
+
 from .exceptions import AwesomeVersionCompareException, AwesomeVersionStrategyException
-from .handlers import CompareHandlers
 from .strategy import (
     VERSION_STRATEGIES,
     VERSION_STRATEGIES_DICT,
@@ -139,8 +144,8 @@ class AwesomeVersion(_AwesomeVersionBase):
             raise AwesomeVersionCompareException(
                 f"Can't compare {self.strategy.value} and {compareto.strategy.value}"
             )
-        return (
-            self.string != compareto.string and CompareHandlers(compareto, self).check()
+        return self.string != compareto.string and self._compare_versions(
+            compareto, self
         )
 
     def __gt__(self, compareto: VersionType) -> bool:
@@ -153,8 +158,8 @@ class AwesomeVersion(_AwesomeVersionBase):
             raise AwesomeVersionCompareException(
                 f"Can't compare {self.strategy.value} and {compareto.strategy.value}"
             )
-        return (
-            self.string != compareto.string and CompareHandlers(self, compareto).check()
+        return self.string != compareto.string and self._compare_versions(
+            self, compareto
         )
 
     def __ne__(self, compareto: object) -> bool:
@@ -173,6 +178,27 @@ class AwesomeVersion(_AwesomeVersionBase):
             if match:
                 return int(match)
         return 0
+
+    @staticmethod
+    def _compare_versions(version_a: str, version_b: str) -> bool:
+        """Compare versions."""
+        for handler in (
+            compare_handler_container,
+            compare_handler_devrc,
+            compare_handler_semver_modifier,
+            compare_handler_sections,
+            compare_handler_simple,
+        ):
+            LOGGER.debug(
+                "Comparing '%s' against '%s' with '%s'",
+                version_a,
+                version_b,
+                handler.__name__,
+            )
+            result = handler(AwesomeVersion(version_a), AwesomeVersion(version_b))
+            if result is not None:
+                return result
+        return False
 
     @staticmethod
     def ensure_strategy(
