@@ -30,12 +30,7 @@ class _AwesomeVersionBase(str):
     def __init__(self, string: str):
         str.__init__(string)
 
-    def __new__(
-        cls,
-        version: str,
-        ensure_strategy: EnsureStrategyType = None,  # pylint: disable=unused-argument
-        find_first_match: bool = False,  # pylint: disable=unused-argument
-    ) -> "_AwesomeVersionBase":
+    def __new__(cls, version: str, *_, **__) -> "_AwesomeVersionBase":
         """Create a new AwesomeVersion object."""
 
         return super().__new__(cls, version)
@@ -56,7 +51,7 @@ class AwesomeVersion(_AwesomeVersionBase):
     find_first_match:
         If True, the version given will be scanned for the first
         match of the given ensure_strategy. Raises
-        AwesomeVersionStrategyExceptionIf it is not found
+        AwesomeVersionStrategyException If it is not found
         for any of the given strategies.
     """
 
