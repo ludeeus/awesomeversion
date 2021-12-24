@@ -50,7 +50,7 @@ def compare_handler_semver_modifier(
         ),
         4,
     )
-    if not ver_a_modifier:
+    if not ver_a_modifier or not ver_b_modifier:
         return True
-    if ver_b_modifier:
-        return int(ver_a_modifier) > int(ver_b_modifier)
+
+    return int(ver_a_modifier) > int(ver_b_modifier)

@@ -5,7 +5,6 @@ import pytest
 
 from awesomeversion import AwesomeVersion
 from awesomeversion.comparehandlers.modifier import compare_handler_semver_modifier
-from awesomeversion.strategy import AwesomeVersionStrategy
 from awesomeversion.typing import VersionType
 
 
