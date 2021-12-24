@@ -99,10 +99,10 @@ def test_strategy_match(version: VersionType, strategy: AwesomeVersionStrategy) 
     assert AwesomeVersion(version).strategy == strategy
 
     if strategy != AwesomeVersionStrategy.UNKNOWN:
-        av = AwesomeVersion(
+        awesome_version = AwesomeVersion(
             version,
             ensure_strategy=strategy,
             find_first_match=True,
         )
-        assert av.valid
-        assert av.strategy == strategy
+        assert awesome_version.valid
+        assert awesome_version.strategy == strategy
