@@ -4,7 +4,6 @@ from typing import Match, Optional, Pattern
 
 # General purpose patterns
 RE_DIGIT = re.compile(r"[a-z]*(\d+)[a-z]*")
-RE_VERSION = re.compile(r"^(v|V)?(.*)$")
 RE_MODIFIER = re.compile(r"^((?:\d+\-|\d|))(([a-z]+)\.?(\d*))$")
 
 

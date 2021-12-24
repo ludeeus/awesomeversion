@@ -174,9 +174,9 @@ class AwesomeVersion(_AwesomeVersionBase):
     def section(self, idx: int) -> int:
         """Return the value of the specified section of the version."""
         if self.sections >= (idx + 1):
-            match = get_regex_match_group(RE_DIGIT, (self.string.split(".")[idx]), 1)
-            if match:
-                return int(match)
+            match = RE_DIGIT.match(self.string.split(".")[idx] or "")
+            if match and match.groups():
+                return int(match.group(1))
         return 0
 
     @staticmethod
@@ -228,8 +228,6 @@ class AwesomeVersion(_AwesomeVersionBase):
     def prefix(self) -> Optional[str]:
         """Return the version prefix if any"""
         version = self._version
-        if not version:
-            return None
 
         for prefix in ("v", "V", "v.", "V."):
             if version.startswith(prefix):
