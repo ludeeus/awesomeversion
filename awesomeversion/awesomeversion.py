@@ -1,6 +1,6 @@
 """AwesomeVersion."""
 from types import TracebackType
-from typing import Dict, List, Optional, Type, Union
+from typing import Any, Dict, List, Optional, Type, Union
 
 from .comparehandlers.container import compare_handler_container
 from .comparehandlers.devrc import compare_handler_devrc
@@ -37,8 +37,8 @@ class _AwesomeVersionBase(str):
     def __new__(
         cls,
         version: str,
-        ensure_strategy: EnsureStrategyType = None,  # pylint: disable=unused-argument
-        find_first_match: bool = False,  # pylint: disable=unused-argument
+        *_: Optional[Any],
+        **__: Optional[Any],
     ) -> "_AwesomeVersionBase":
         """Create a new AwesomeVersion object."""
 
@@ -60,7 +60,7 @@ class AwesomeVersion(_AwesomeVersionBase):
     find_first_match:
         If True, the version given will be scanned for the first
         match of the given ensure_strategy. Raises
-        AwesomeVersionStrategyExceptionIf it is not found
+        AwesomeVersionStrategyException If it is not found
         for any of the given strategies.
     """
 

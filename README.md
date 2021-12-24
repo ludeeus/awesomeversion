@@ -16,6 +16,17 @@ Make anything a version object, and compare against a vast section of other vers
 python3 -m pip install awesomeversion
 ```
 
+## AwesomeVersion class
+
+The AwesomeVersion class takes a version as the first argument, you can also pass in additional arguments to customize the version object.
+
+Argument | Description
+--- | ---
+`version` | The version string to parse.
+`ensure_strategy` | Match the `AwesomeVersion` object against spesific strategies when creating if. If it does not match `AwesomeVersionStrategyException` will be raised
+`find_first_match` | If True, the version given will be scanned for the first match of the given `ensure_strategy`. Raises `AwesomeVersionStrategyException` If it is not found for any of the given strategies.
+
+
 ## Example usage
 
 These are some examples of what you can do, more examples can be found in the `tests` directory.
@@ -84,6 +95,18 @@ from awesomeversion import AwesomeVersion
 with AwesomeVersion("20.12.0") as current:
     print("2020.12.1" > current)
 > True
+```
+
+```python
+from awesomeversion import AwesomeVersion
+
+version = AwesomeVersion("2.12.0")
+print(version.major)
+> 2
+print(version.minor)
+> 12
+print(version.patch)
+> 0
 ```
 
 ## Contribute

@@ -1,6 +1,7 @@
+# Used for development
 black==21.12b0
 isort==5.10.1
-mypy==0.920
+mypy==0.930
 pre-commit==2.16.0
 pylint==2.12.2
 pytest-cov==3.0.0
