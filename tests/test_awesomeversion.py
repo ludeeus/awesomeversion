@@ -16,25 +16,32 @@ def test_awesomeversion() -> None:
     """Test awesomeversion."""
     version = AwesomeVersion("2020.12.1")
     assert not version.beta
+    assert version.valid
 
     version = AwesomeVersion("2020.12.1a0")
     assert version.alpha
+    assert version.valid
 
     version = AwesomeVersion("2020.12.1b0")
     assert version.beta
+    assert version.valid
 
     version = AwesomeVersion("2020.12.1dev0")
     assert version.dev
+    assert version.valid
 
     version = AwesomeVersion("2020.12.1d0")
     assert version.dev
+    assert version.valid
 
     version = AwesomeVersion("2020.12.1rc0")
     assert version.release_candidate
     assert version.prefix is None
+    assert version.valid
 
     version = AwesomeVersion("v2020.12.1rc0")
     assert version.prefix == "v"
+    assert version.valid
 
     version2 = AwesomeVersion(version)
     assert version == version2

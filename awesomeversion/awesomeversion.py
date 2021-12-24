@@ -283,6 +283,11 @@ class AwesomeVersion(_AwesomeVersionBase):
         return AwesomeVersion(self.section(2))
 
     @property
+    def valid(self) -> Optional["AwesomeVersion"]:
+        """Return True if the version is not UNKNOWN."""
+        return self.strategy != AwesomeVersionStrategy.UNKNOWN
+
+    @property
     def modifier(self) -> Optional[str]:
         """Return the modifier of the version if any."""
         if self.strategy == AwesomeVersionStrategy.SPECIALCONTAINER:
