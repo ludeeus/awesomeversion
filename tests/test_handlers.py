@@ -5,12 +5,14 @@ import pytest
 
 from awesomeversion import AwesomeVersion
 from awesomeversion.comparehandlers.modifier import compare_handler_semver_modifier
+from awesomeversion.strategy import AwesomeVersionStrategy
 from awesomeversion.typing import VersionType
 
 
 @pytest.mark.parametrize(
     "ver_a,ver_b,result",
     (
+        (False, True, None),
         ("2", "1", True),
         ("1", "2", False),
         ("1", "1", False),
@@ -25,6 +27,7 @@ from awesomeversion.typing import VersionType
         ("1.dev0", "1.dev1", False),
         ("latest", "stable", True),
         ("latest", "1", True),
+        ("1.2.3.4.5.6.7.8.9", "1.2.3.4.5.6.7.8.9", False),
         ("1.0.0", "stable", False),
     ),
 )
@@ -34,7 +37,14 @@ def test_compare_handlers(
     result: Optional[bool],
 ) -> None:
     """Test handlers."""
-    assert (AwesomeVersion(ver_a) > ver_b) == result
+    version_a = AwesomeVersion(ver_a)
+    version_b = AwesomeVersion(ver_b)
+
+    if (
+        version_a.strategy_description is not None
+        or version_b.strategy_description is not None
+    ):
+        assert (AwesomeVersion(ver_a) > ver_b) == result
 
 
 def test_semver_modifier() -> None:

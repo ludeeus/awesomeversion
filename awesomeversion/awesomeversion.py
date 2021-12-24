@@ -183,10 +183,10 @@ class AwesomeVersion(_AwesomeVersionBase):
         """Compare versions."""
         for handler in (
             compare_handler_container,
+            compare_handler_simple,
             compare_handler_devrc,
             compare_handler_semver_modifier,
             compare_handler_sections,
-            compare_handler_simple,
         ):
             LOGGER.debug(
                 "Comparing '%s' against '%s' with '%s'",

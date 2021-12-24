@@ -15,8 +15,7 @@ def compare_handler_simple(
 ) -> Optional[bool]:
     """Compare handler simple."""
     if version_a.simple and version_b.simple:
-        if compare_base_sections(version_a, version_b) is None:
-            return False
+        return compare_base_sections(version_a, version_b)
 
     if version_a.simple and version_b.strategy not in [
         AwesomeVersionStrategy.SPECIALCONTAINER
