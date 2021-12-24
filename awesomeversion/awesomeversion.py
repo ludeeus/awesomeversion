@@ -2,8 +2,12 @@
 from types import TracebackType
 from typing import Any, Dict, List, Optional, Type, Union
 
+from .comparehandlers.container import compare_handler_container
+from .comparehandlers.devrc import compare_handler_devrc
+from .comparehandlers.modifier import compare_handler_semver_modifier
+from .comparehandlers.sections import compare_handler_sections
+from .comparehandlers.simple import compare_handler_simple
 from .exceptions import AwesomeVersionCompareException, AwesomeVersionStrategyException
-from .handlers import CompareHandlers
 from .strategy import (
     VERSION_STRATEGIES,
     VERSION_STRATEGIES_DICT,
@@ -16,11 +20,8 @@ from .utils.regex import (
     RE_DIGIT,
     RE_MODIFIER,
     RE_SIMPLE,
-    RE_VERSION,
     compile_regex,
     generate_full_string_regex,
-    get_regex_match_group,
-    is_regex_matching,
 )
 
 
@@ -102,6 +103,9 @@ class AwesomeVersion(_AwesomeVersionBase):
                     f"{[strategy.value for strategy in ensure_strategy]} for {version}"
                 )
 
+        if self._version and self._version[-1] == ".":
+            self._version = self._version[:-1]
+
         super().__init__(self._version)
 
     def __enter__(self) -> "AwesomeVersion":
@@ -139,8 +143,8 @@ class AwesomeVersion(_AwesomeVersionBase):
             raise AwesomeVersionCompareException(
                 f"Can't compare {self.strategy.value} and {compareto.strategy.value}"
             )
-        return (
-            self.string != compareto.string and CompareHandlers(compareto, self).check()
+        return self.string != compareto.string and self._compare_versions(
+            compareto, self
         )
 
     def __gt__(self, compareto: VersionType) -> bool:
@@ -153,8 +157,8 @@ class AwesomeVersion(_AwesomeVersionBase):
             raise AwesomeVersionCompareException(
                 f"Can't compare {self.strategy.value} and {compareto.strategy.value}"
             )
-        return (
-            self.string != compareto.string and CompareHandlers(self, compareto).check()
+        return self.string != compareto.string and self._compare_versions(
+            self, compareto
         )
 
     def __ne__(self, compareto: object) -> bool:
@@ -169,10 +173,31 @@ class AwesomeVersion(_AwesomeVersionBase):
     def section(self, idx: int) -> int:
         """Return the value of the specified section of the version."""
         if self.sections >= (idx + 1):
-            match = get_regex_match_group(RE_DIGIT, (self.string.split(".")[idx]), 1)
-            if match:
-                return int(match)
+            match = RE_DIGIT.match(self.string.split(".")[idx] or "")
+            if match and match.groups():
+                return int(match.group(1))
         return 0
+
+    @staticmethod
+    def _compare_versions(version_a: str, version_b: str) -> bool:
+        """Compare versions."""
+        for handler in (
+            compare_handler_container,
+            compare_handler_simple,
+            compare_handler_devrc,
+            compare_handler_semver_modifier,
+            compare_handler_sections,
+        ):
+            LOGGER.debug(
+                "Comparing '%s' against '%s' with '%s'",
+                version_a,
+                version_b,
+                handler.__name__,
+            )
+            result = handler(AwesomeVersion(version_a), AwesomeVersion(version_b))
+            if result is not None:
+                return result
+        return False
 
     @staticmethod
     def ensure_strategy(
@@ -189,15 +214,25 @@ class AwesomeVersion(_AwesomeVersionBase):
     @property
     def string(self) -> str:
         """Return a string representaion of the version."""
-        if self._version.endswith("."):
-            self._version = self._version[:-1]
-        version = get_regex_match_group(RE_VERSION, str(self._version), 2)
-        return version or self._version
+        if not self._version:
+            return self._version
+
+        prefix = self.prefix
+
+        if prefix is None:
+            return self._version
+        return self._version[len(prefix) :]
 
     @property
     def prefix(self) -> Optional[str]:
         """Return the version prefix if any"""
-        return get_regex_match_group(RE_VERSION, str(self._version), 1)
+        version = self._version
+
+        for prefix in ("v", "V", "v.", "V."):
+            if version.startswith(prefix):
+                return prefix
+
+        return None
 
     @property
     def alpha(self) -> bool:
@@ -253,35 +288,36 @@ class AwesomeVersion(_AwesomeVersionBase):
         if self.strategy == AwesomeVersionStrategy.SPECIALCONTAINER:
             return None
 
+        modifier_string = None
+
         if (
             self.strategy_description is not None
             and self.strategy_description.strategy == AwesomeVersionStrategy.SEMVER
         ):
-            modifier_string = get_regex_match_group(
-                self.strategy_description.pattern, str(self.string), 4
-            )
+            match = self.strategy_description.pattern.match(self.string)
+            if match and len(match.groups()) >= 4:
+                modifier_string = match.group(4)
+
         else:
             modifier_string = self.string.split(".")[-1]
 
-        return get_regex_match_group(RE_MODIFIER, modifier_string, 2)
+        if not modifier_string:
+            return None
+
+        match = RE_MODIFIER.match(modifier_string)
+        if match and len(match.groups()) >= 2:
+            return match.group(2)
+
+        return None
 
     @property
     def modifier_type(self) -> Optional[str]:
         """Return the modifier type of the version if any."""
-        if self.strategy == AwesomeVersionStrategy.SPECIALCONTAINER:
-            return None
+        match = RE_MODIFIER.match(self.modifier or "")
+        if match and len(match.groups()) >= 3:
+            return match.group(3)
 
-        if (
-            self.strategy_description is not None
-            and self.strategy_description.strategy == AwesomeVersionStrategy.SEMVER
-        ):
-            modifier_string = get_regex_match_group(
-                self.strategy_description.pattern, str(self.string), 4
-            )
-        else:
-            modifier_string = self.string.split(".")[-1]
-
-        return get_regex_match_group(RE_MODIFIER, modifier_string, 3)
+        return None
 
     @property
     def strategy_description(self) -> Optional[AwesomeVersionStrategyDescription]:
@@ -305,7 +341,7 @@ class AwesomeVersion(_AwesomeVersionBase):
                 version_strategies[description.strategy] = description
 
         for description in version_strategies.values():
-            if is_regex_matching(description.pattern, self.string):
+            if description.pattern.match(self.string) is not None:
                 return description.strategy
 
         return AwesomeVersionStrategy.UNKNOWN
@@ -313,4 +349,4 @@ class AwesomeVersion(_AwesomeVersionBase):
     @property
     def simple(self) -> bool:
         """Return True if the version string is simple."""
-        return is_regex_matching(generate_full_string_regex(RE_SIMPLE), self.string)
+        return generate_full_string_regex(RE_SIMPLE).match(self.string) is not None

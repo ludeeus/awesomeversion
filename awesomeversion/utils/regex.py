@@ -1,10 +1,9 @@
 """Regex utils for AwesomeVersion."""
 import re
-from typing import Any, Match, Optional, Pattern
+from typing import Pattern
 
 # General purpose patterns
 RE_DIGIT = re.compile(r"[a-z]*(\d+)[a-z]*")
-RE_VERSION = re.compile(r"^(v|V)?(.*)$")
 RE_MODIFIER = re.compile(r"^((?:\d+\-|\d|))(([a-z]+)\.?(\d*))$")
 
 
@@ -29,32 +28,6 @@ def compile_regex(pattern: str) -> Pattern[str]:
     return re.compile(pattern)
 
 
-def get_regex_match_group(
-    pattern: Pattern[str], string: Optional[str], group: int = 0
-) -> Optional[str]:
-    """Return the requested group in the regex."""
-    match = get_regex_match(pattern, string or "")
-    return get_group_from_regex_match(match, group) if match else None
-
-
 def generate_full_string_regex(string: str) -> Pattern[str]:
     """Generate a regex that matches the full string."""
     return compile_regex(r"^" + string + r"$")
-
-
-def get_regex_match(pattern: Pattern[str], string: Any) -> Optional[Match[str]]:
-    """Return the requested group in the regex."""
-    return pattern.match(str(string))
-
-
-def is_regex_matching(pattern: Pattern[str], string: str) -> bool:
-    """Return whether the regex matches the string."""
-    return get_regex_match(pattern, string) is not None
-
-
-def get_group_from_regex_match(match: Match[str], group: int = 0) -> Optional[str]:
-    """Return the requested group in the regex."""
-    try:
-        return match.group(group)
-    except IndexError:
-        return None
