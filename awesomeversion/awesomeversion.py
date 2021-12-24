@@ -20,7 +20,6 @@ from .utils.regex import (
     RE_DIGIT,
     RE_MODIFIER,
     RE_SIMPLE,
-    RE_VERSION,
     compile_regex,
     generate_full_string_regex,
     get_regex_match_group,
@@ -104,6 +103,9 @@ class AwesomeVersion(_AwesomeVersionBase):
                     f"Strategy {self.strategy.value} does not match "
                     f"{[strategy.value for strategy in ensure_strategy]} for {version}"
                 )
+
+        if self._version and self._version[-1] == ".":
+            self._version = self._version[:-1]
 
         super().__init__(self._version)
 
@@ -213,15 +215,27 @@ class AwesomeVersion(_AwesomeVersionBase):
     @property
     def string(self) -> str:
         """Return a string representaion of the version."""
-        if self._version.endswith("."):
-            self._version = self._version[:-1]
-        version = get_regex_match_group(RE_VERSION, str(self._version), 2)
-        return version or self._version
+        if not self._version:
+            return self._version
+
+        prefix = self.prefix
+
+        if prefix is None:
+            return self._version
+        return self._version[len(prefix) :]
 
     @property
     def prefix(self) -> Optional[str]:
         """Return the version prefix if any"""
-        return get_regex_match_group(RE_VERSION, str(self._version), 1)
+        version = self._version
+        if not version:
+            return None
+
+        for prefix in ("v", "V", "v.", "V."):
+            if version.startswith(prefix):
+                return prefix
+
+        return None
 
     @property
     def alpha(self) -> bool:
