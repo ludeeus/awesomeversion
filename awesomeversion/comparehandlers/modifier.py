@@ -1,13 +1,8 @@
 """Special handler for modifier."""
 from typing import TYPE_CHECKING, Optional
 
-from ..strategy import AwesomeVersionStrategy
-from ..utils.regex import (
-    RE_MODIFIER,
-    RE_SEMVER,
-    generate_full_string_regex,
-    get_regex_match_group,
-)
+from ..strategy import VERSION_STRATEGIES_DICT, AwesomeVersionStrategy
+from ..utils.regex import RE_MODIFIER
 
 SEMVER_MODIFIER_MAP = {"alpha": 1, "beta": 2, "rc": 3}
 
@@ -36,20 +31,22 @@ def compare_handler_semver_modifier(
             > SEMVER_MODIFIER_MAP[version_b.modifier_type]
         )
 
-    ver_a_modifier = get_regex_match_group(
-        RE_MODIFIER,
-        get_regex_match_group(
-            generate_full_string_regex(RE_SEMVER), version_a.string, 4
-        ),
-        4,
-    )
-    ver_b_modifier = get_regex_match_group(
-        RE_MODIFIER,
-        get_regex_match_group(
-            generate_full_string_regex(RE_SEMVER), version_b.string, 4
-        ),
-        4,
-    )
+    ver_a_modifier, ver_b_modifier = None, None
+
+    semver_pattern = VERSION_STRATEGIES_DICT[AwesomeVersionStrategy.SEMVER].pattern
+
+    semver_match = semver_pattern.match(version_a.string)
+    if semver_match and len(semver_match.groups()) >= 4:
+        modifier_match = RE_MODIFIER.match(semver_match.group(4))
+        if modifier_match and len(modifier_match.groups()) >= 4:
+            ver_a_modifier = modifier_match.group(4)
+
+    semver_match = semver_pattern.match(version_b.string)
+    if semver_match and len(semver_match.groups()) >= 4:
+        modifier_match = RE_MODIFIER.match(semver_match.group(4))
+        if modifier_match and len(modifier_match.groups()) >= 4:
+            ver_b_modifier = modifier_match.group(4)
+
     if not ver_a_modifier or not ver_b_modifier:
         return True
 

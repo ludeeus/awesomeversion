@@ -22,7 +22,6 @@ from .utils.regex import (
     RE_SIMPLE,
     compile_regex,
     generate_full_string_regex,
-    get_regex_match_group,
 )
 
 
@@ -289,35 +288,36 @@ class AwesomeVersion(_AwesomeVersionBase):
         if self.strategy == AwesomeVersionStrategy.SPECIALCONTAINER:
             return None
 
+        modifier_string = None
+
         if (
             self.strategy_description is not None
             and self.strategy_description.strategy == AwesomeVersionStrategy.SEMVER
         ):
-            modifier_string = get_regex_match_group(
-                self.strategy_description.pattern, str(self.string), 4
-            )
+            match = self.strategy_description.pattern.match(self.string)
+            if match and len(match.groups()) >= 4:
+                modifier_string = match.group(4)
+
         else:
             modifier_string = self.string.split(".")[-1]
 
-        return get_regex_match_group(RE_MODIFIER, modifier_string, 2)
+        if not modifier_string:
+            return None
+
+        match = RE_MODIFIER.match(modifier_string)
+        if match and len(match.groups()) >= 2:
+            return match.group(2)
+
+        return None
 
     @property
     def modifier_type(self) -> Optional[str]:
         """Return the modifier type of the version if any."""
-        if self.strategy == AwesomeVersionStrategy.SPECIALCONTAINER:
-            return None
+        match = RE_MODIFIER.match(self.modifier or "")
+        if match and len(match.groups()) >= 3:
+            return match.group(3)
 
-        if (
-            self.strategy_description is not None
-            and self.strategy_description.strategy == AwesomeVersionStrategy.SEMVER
-        ):
-            modifier_string = get_regex_match_group(
-                self.strategy_description.pattern, str(self.string), 4
-            )
-        else:
-            modifier_string = self.string.split(".")[-1]
-
-        return get_regex_match_group(RE_MODIFIER, modifier_string, 3)
+        return None
 
     @property
     def strategy_description(self) -> Optional[AwesomeVersionStrategyDescription]:

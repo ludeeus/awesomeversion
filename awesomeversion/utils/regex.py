@@ -1,6 +1,6 @@
 """Regex utils for AwesomeVersion."""
 import re
-from typing import Match, Optional, Pattern
+from typing import Pattern
 
 # General purpose patterns
 RE_DIGIT = re.compile(r"[a-z]*(\d+)[a-z]*")
@@ -28,22 +28,6 @@ def compile_regex(pattern: str) -> Pattern[str]:
     return re.compile(pattern)
 
 
-def get_regex_match_group(
-    pattern: Pattern[str], string: Optional[str], group: int = 0
-) -> Optional[str]:
-    """Return the requested group in the regex."""
-    match = pattern.match(string or "")
-    return get_group_from_regex_match(match, group) if match else None
-
-
 def generate_full_string_regex(string: str) -> Pattern[str]:
     """Generate a regex that matches the full string."""
     return compile_regex(r"^" + string + r"$")
-
-
-def get_group_from_regex_match(match: Match[str], group: int = 0) -> Optional[str]:
-    """Return the requested group in the regex."""
-    try:
-        return match.group(group)
-    except IndexError:
-        return None
