@@ -24,7 +24,6 @@ from .utils.regex import (
     compile_regex,
     generate_full_string_regex,
     get_regex_match_group,
-    is_regex_matching,
 )
 
 
@@ -330,7 +329,7 @@ class AwesomeVersion(_AwesomeVersionBase):
                 version_strategies[description.strategy] = description
 
         for description in version_strategies.values():
-            if is_regex_matching(description.pattern, self.string):
+            if description.pattern.match(self.string) is not None:
                 return description.strategy
 
         return AwesomeVersionStrategy.UNKNOWN
@@ -338,4 +337,4 @@ class AwesomeVersion(_AwesomeVersionBase):
     @property
     def simple(self) -> bool:
         """Return True if the version string is simple."""
-        return is_regex_matching(generate_full_string_regex(RE_SIMPLE), self.string)
+        return generate_full_string_regex(RE_SIMPLE).match(self.string) is not None

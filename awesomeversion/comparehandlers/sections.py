@@ -1,7 +1,7 @@
 """Special handler for sections."""
 from typing import TYPE_CHECKING, Optional
 
-from ..utils.regex import RE_MODIFIER, get_regex_match
+from ..utils.regex import RE_MODIFIER
 
 if TYPE_CHECKING:
     from ..awesomeversion import AwesomeVersion
@@ -46,12 +46,8 @@ def compare_modifier_section(
 ) -> Optional[bool]:
     """Compare sections between two AwesomeVersion objects."""
     if version_a.modifier is not None and version_b.modifier is not None:
-        version_a_modifier = get_regex_match(
-            RE_MODIFIER, version_a.string.split(".")[-1]
-        )
-        version_b_modifier = get_regex_match(
-            RE_MODIFIER, version_b.string.split(".")[-1]
-        )
+        version_a_modifier = RE_MODIFIER.match(version_a.string.split(".")[-1])
+        version_b_modifier = RE_MODIFIER.match(version_b.string.split(".")[-1])
         if version_a_modifier and version_b_modifier:
             if version_a_modifier.group(3) == version_b_modifier.group(3):
                 return int(version_a_modifier.group(4)) > int(
