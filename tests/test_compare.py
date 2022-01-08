@@ -103,22 +103,20 @@ def test_invalid_compare() -> None:
         assert AwesomeVersion("2020.12.1") == invalid
 
     with pytest.raises(
-        AwesomeVersionCompareException, match="Can't compare CalVer and unknown"
+        AwesomeVersionCompareException,
+        match="Can't compare <CalVer 2020.12.1> and <unknown string>",
     ):
         assert AwesomeVersion("2020.12.1") > AwesomeVersion("string")
 
     with pytest.raises(
-        AwesomeVersionCompareException, match="Can't compare CalVer and unknown"
-    ):
-        assert AwesomeVersion("2020.12.1") < AwesomeVersion("string")
-
-    with pytest.raises(
-        AwesomeVersionCompareException, match="Can't compare CalVer and unknown"
+        AwesomeVersionCompareException,
+        match="Can't compare <CalVer 2020.12.1> and <unknown >",
     ):
         assert AwesomeVersion("2020.12.1") < AwesomeVersion("")
 
     with pytest.raises(
-        AwesomeVersionCompareException, match="Can't compare CalVer and unknown"
+        AwesomeVersionCompareException,
+        match="Can't compare <CalVer 2020.12.1> and <unknown None>",
     ):
         assert AwesomeVersion("2020.12.1") < AwesomeVersion(None)
 

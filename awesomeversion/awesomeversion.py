@@ -141,7 +141,8 @@ class AwesomeVersion(_AwesomeVersionBase):
             raise AwesomeVersionCompareException("Not a valid AwesomeVersion object")
         if AwesomeVersionStrategy.UNKNOWN in (self.strategy, compareto.strategy):
             raise AwesomeVersionCompareException(
-                f"Can't compare {self.strategy.value} and {compareto.strategy.value}"
+                f"Can't compare <{self.strategy.value} {self._version}> and "
+                f"<{compareto.strategy.value} {compareto._version}>"
             )
         return self.string != compareto.string and self._compare_versions(
             compareto, self
@@ -155,7 +156,8 @@ class AwesomeVersion(_AwesomeVersionBase):
             raise AwesomeVersionCompareException("Not a valid AwesomeVersion object")
         if AwesomeVersionStrategy.UNKNOWN in (self.strategy, compareto.strategy):
             raise AwesomeVersionCompareException(
-                f"Can't compare {self.strategy.value} and {compareto.strategy.value}"
+                f"Can't compare <{self.strategy.value} {self._version}> and "
+                f"<{compareto.strategy.value} {compareto._version}>"
             )
         return self.string != compareto.string and self._compare_versions(
             self, compareto
