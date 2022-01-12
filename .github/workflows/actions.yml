@@ -37,6 +37,9 @@ jobs:
       - name: 🔤 Lint with isort
         run: make isort-check
 
+      - name: 🛠 Build
+        run: poetry build
+
   test:
     name: Test with Python ${{ matrix.python-version }}
     needs: lint

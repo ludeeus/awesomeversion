@@ -5,8 +5,12 @@ help: ## Shows this help message
 	@awk 'BEGIN {FS = ":.*##";} /^[a-zA-Z_-]+:.*?##/ { printf " \033[36m make %-25s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' $(MAKEFILE_LIST);
 	@echo
 
-requirements: ## Install requirements
-	@python3 -m pip --disable-pip-version-check install -r requirements.txt
+requirements: install-poetry ## Install requirements
+	@poetry install
+	@poetry check
+
+install-poetry:
+	@curl -sSL https://install.python-poetry.org | python3 -
 
 test: ## Run all tests
 	@python3 -m pytest tests -rxf -x -vv -l -s --cov=./ --cov-report=xml
