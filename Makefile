@@ -29,7 +29,7 @@ lint: isort black mypy pylint ## Lint all files
 
 coverage: ## Check the coverage of the package
 	@poetry run pytest tests -rxf -x -v -l --cov=./ --cov-report=xml > /dev/null
-	@coverage report
+	@poetry run coverage report
 
 isort:
 	@poetry run isort awesomeversion tests
