@@ -9,11 +9,20 @@ requirements: install-poetry ## Install requirements
 	@poetry install
 	@poetry check
 
+install: ## Install awesomeversion
+	@poetry install
+
 install-poetry:
 	@curl -sSL https://install.python-poetry.org | python3 -
 
 test: ## Run all tests
 	@poetry run pytest tests -rxf -x -vv -l -s --cov=./ --cov-report=xml
+
+basic-test: ## Run a basic test
+	@poetry run python tests/basic_test.py
+
+build: ## Build the package
+	@poetry build
 
 lint: isort black mypy pylint ## Lint all files
 

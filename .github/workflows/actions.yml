@@ -54,13 +54,21 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
       - name: 📦 Install dependencies
+        if: matrix.python-version != '3.11-dev'
         run: make requirements
 
       - name: 🏃 Run tests
+        if: matrix.python-version != '3.11-dev'
         run: make test
 
       - name: 🛠 Build
-        run: poetry build
+        run: make build
+
+      - name: 📦 Install the package
+        run: make install
+
+      - name: 🏃 Run basic usage test
+        run: make basic-test
 
   coverage:
     name: Upload coverage to Codecov
