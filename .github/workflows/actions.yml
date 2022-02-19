@@ -72,9 +72,6 @@ jobs:
       - name: 📦 Install the package
         run: make install
 
-      - name: 🏃 Run basic usage test
-        run: make basic-test
-
   coverage:
     name: Upload coverage to Codecov
     needs: test

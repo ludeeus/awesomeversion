@@ -18,9 +18,6 @@ install-poetry:
 test: ## Run all tests
 	@poetry run pytest tests -rxf -x -vv -l -s --cov=./ --cov-report=xml
 
-basic-test: ## Run a basic test
-	@poetry run python tests/basic_test.py
-
 build: ## Build the package
 	@poetry build
 
