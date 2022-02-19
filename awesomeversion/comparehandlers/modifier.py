@@ -17,14 +17,10 @@ def compare_handler_semver_modifier(
     version_b: AwesomeVersion,
 ) -> bool | None:
     """Compare handler sections."""
-    if (
-        AwesomeVersionStrategy.SEMVER
-        not in (
-            version_a.strategy,
-            version_b.strategy,
-        )
-        or (version_a.modifier_type is None or version_b.modifier_type is None)
-    ):
+    if AwesomeVersionStrategy.SEMVER not in (
+        version_a.strategy,
+        version_b.strategy,
+    ) or (version_a.modifier_type is None or version_b.modifier_type is None):
         return None
 
     if version_a.modifier_type != version_b.modifier_type:
