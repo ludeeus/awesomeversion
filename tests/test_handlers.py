@@ -1,4 +1,6 @@
 """Test compare handlers."""
+from __future__ import annotations
+
 import pytest
 
 from awesomeversion import AwesomeVersion
