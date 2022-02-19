@@ -1,6 +1,4 @@
 """Test compare handlers."""
-from typing import Optional
-
 import pytest
 
 from awesomeversion import AwesomeVersion
@@ -33,7 +31,7 @@ from awesomeversion.typing import VersionType
 def test_compare_handlers(
     ver_a: VersionType,
     ver_b: VersionType,
-    result: Optional[bool],
+    result: bool | None,
 ) -> None:
     """Test handlers."""
     version_a = AwesomeVersion(ver_a)

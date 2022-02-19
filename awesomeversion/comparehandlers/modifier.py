@@ -1,5 +1,7 @@
 """Special handler for modifier."""
-from typing import TYPE_CHECKING, Optional
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
 
 from ..strategy import VERSION_STRATEGIES_DICT, AwesomeVersionStrategy
 from ..utils.regex import RE_MODIFIER
@@ -11,9 +13,9 @@ if TYPE_CHECKING:
 
 
 def compare_handler_semver_modifier(
-    version_a: "AwesomeVersion",
-    version_b: "AwesomeVersion",
-) -> Optional[bool]:
+    version_a: AwesomeVersion,
+    version_b: AwesomeVersion,
+) -> bool | None:
     """Compare handler sections."""
     if (
         AwesomeVersionStrategy.SEMVER

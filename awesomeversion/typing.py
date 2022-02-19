@@ -1,5 +1,5 @@
 """"Custom types for AwesomeVersion."""
-from typing import TYPE_CHECKING, List, Optional, Tuple, Union
+from typing import TYPE_CHECKING, Union
 
 from .strategy import AwesomeVersionStrategy
 
@@ -8,12 +8,8 @@ if TYPE_CHECKING:
 
 VersionType = Union[str, float, int, object, "AwesomeVersion"]
 EnsureStrategyIterableType = Union[
-    List[AwesomeVersionStrategy],
-    Tuple[AwesomeVersionStrategy, ...],
+    list[AwesomeVersionStrategy], tuple[AwesomeVersionStrategy, ...]
 ]
-EnsureStrategyType = Optional[
-    Union[
-        AwesomeVersionStrategy,
-        EnsureStrategyIterableType,
-    ]
-]
+
+
+EnsureStrategyType = Union[AwesomeVersionStrategy, EnsureStrategyIterableType, None]
