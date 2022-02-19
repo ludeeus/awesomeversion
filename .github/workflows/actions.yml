@@ -55,22 +55,13 @@ jobs:
 
 
       - name: 📦 Install dependencies
-        if: matrix.python-version != '3.11-dev' # Full tests are disabled for 3.11 for now due to dev dependency issues
         run: make requirements
 
       - name: 🏃 Run tests
-        if: matrix.python-version != '3.11-dev' # Full tests are disabled for 3.11 for now due to dev dependency issues
         run: make test
-
-      - name: 📦 Install poetry
-        if: matrix.python-version == '3.11-dev' # Full tests are disabled for 3.11 for now due to dev dependency issues
-        run: make install-poetry
 
       - name: 🛠 Build
         run: make build
-
-      - name: 📦 Install the package
-        run: make install
 
   coverage:
     name: Upload coverage to Codecov
