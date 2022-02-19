@@ -1,4 +1,0 @@
-#!/bin/bash
-
-python3 -m pip install requests
-python3 ./scripts/create_test_from_issue.py $1
