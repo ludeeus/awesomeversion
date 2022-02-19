@@ -1,6 +1,8 @@
 """AwesomeVersion."""
+from __future__ import annotations
+
 from types import TracebackType
-from typing import Any, Dict, List, Optional, Type, Union
+from typing import Any, Type
 
 from .comparehandlers.container import compare_handler_container
 from .comparehandlers.devrc import compare_handler_devrc
@@ -34,8 +36,8 @@ class _AwesomeVersionBase(str):
     def __new__(
         cls,
         version: str,
-        *_: Optional[Any],
-        **__: Optional[Any],
+        *_: Any,
+        **__: Any,
     ) -> "_AwesomeVersionBase":
         """Create a new AwesomeVersion object."""
 
@@ -108,14 +110,14 @@ class AwesomeVersion(_AwesomeVersionBase):
 
         super().__init__(self._version)
 
-    def __enter__(self) -> "AwesomeVersion":
+    def __enter__(self) -> AwesomeVersion:
         return self
 
     def __exit__(
         self,
-        exctype: Optional[Type[BaseException]],
-        excinst: Optional[BaseException],
-        exctb: Optional[TracebackType],
+        exctype: Type[BaseException] | None,
+        excinst: BaseException | None,
+        exctb: TracebackType | None,
     ) -> bool:
         pass
 
@@ -203,9 +205,9 @@ class AwesomeVersion(_AwesomeVersionBase):
 
     @staticmethod
     def ensure_strategy(
-        version: Union[str, float, int, "AwesomeVersion"],
-        strategy: Union[AwesomeVersionStrategy, List[AwesomeVersionStrategy]],
-    ) -> "AwesomeVersion":
+        version: str | float | int | AwesomeVersion,
+        strategy: AwesomeVersionStrategy | list[AwesomeVersionStrategy],
+    ) -> AwesomeVersion:
         """Return a AwesomeVersion object, or raise on creation."""
         LOGGER.warning(
             "Using AwesomeVersion.ensure_strategy(version, strategy) is deprecated, "
@@ -226,7 +228,7 @@ class AwesomeVersion(_AwesomeVersionBase):
         return self._version[len(prefix) :]
 
     @property
-    def prefix(self) -> Optional[str]:
+    def prefix(self) -> str | None:
         """Return the version prefix if any"""
         version = self._version
 
@@ -264,21 +266,21 @@ class AwesomeVersion(_AwesomeVersionBase):
         return len(self.string.split("."))
 
     @property
-    def major(self) -> Optional["AwesomeVersion"]:
+    def major(self) -> AwesomeVersion | None:
         """Return a AwesomeVersion representation of the major version."""
         if self.strategy != AwesomeVersionStrategy.SEMVER:
             return None
         return AwesomeVersion(self.section(0))
 
     @property
-    def minor(self) -> Optional["AwesomeVersion"]:
+    def minor(self) -> AwesomeVersion | None:
         """Return a AwesomeVersion representation of the minor version."""
         if self.strategy != AwesomeVersionStrategy.SEMVER:
             return None
         return AwesomeVersion(self.section(1))
 
     @property
-    def patch(self) -> Optional["AwesomeVersion"]:
+    def patch(self) -> AwesomeVersion | None:
         """Return a AwesomeVersion representation of the patch version."""
         if self.strategy != AwesomeVersionStrategy.SEMVER:
             return None
@@ -290,7 +292,7 @@ class AwesomeVersion(_AwesomeVersionBase):
         return self.strategy != AwesomeVersionStrategy.UNKNOWN
 
     @property
-    def modifier(self) -> Optional[str]:
+    def modifier(self) -> str | None:
         """Return the modifier of the version if any."""
         if self.strategy == AwesomeVersionStrategy.SPECIALCONTAINER:
             return None
@@ -318,7 +320,7 @@ class AwesomeVersion(_AwesomeVersionBase):
         return None
 
     @property
-    def modifier_type(self) -> Optional[str]:
+    def modifier_type(self) -> str | None:
         """Return the modifier type of the version if any."""
         match = RE_MODIFIER.match(self.modifier or "")
         if match and len(match.groups()) >= 3:
@@ -327,7 +329,7 @@ class AwesomeVersion(_AwesomeVersionBase):
         return None
 
     @property
-    def strategy_description(self) -> Optional[AwesomeVersionStrategyDescription]:
+    def strategy_description(self) -> AwesomeVersionStrategyDescription | None:
         """Return a string representation of the strategy."""
         if self.strategy == AwesomeVersionStrategy.UNKNOWN:
             return None
@@ -336,7 +338,7 @@ class AwesomeVersion(_AwesomeVersionBase):
     @property
     def strategy(self) -> AwesomeVersionStrategy:
         """Return the version strategy."""
-        version_strategies: Dict[
+        version_strategies: dict[
             AwesomeVersionStrategy, AwesomeVersionStrategyDescription
         ] = {}
 

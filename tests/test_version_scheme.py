@@ -1,5 +1,5 @@
 """Test test_version_scheme."""
-from typing import Optional
+from __future__ import annotations
 
 import pytest
 
@@ -24,7 +24,7 @@ def test_version_scheme(
     strategy: AwesomeVersionStrategy,
     dev: bool,
     beta: bool,
-    modifier_type: Optional[str],
+    modifier_type: str | None,
 ) -> None:
     """Test that the version matches the expected scheme."""
     version_object = AwesomeVersion(version)
