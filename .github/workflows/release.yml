@@ -2,7 +2,8 @@ name: Release
 
 on:
   release:
-    types: ["published"]
+    types:
+      - published
 
 jobs:
   deploy:
@@ -12,25 +13,21 @@ jobs:
       - name: 📥 Checkout the repository
         uses: actions/checkout@v2
 
-      - name: 🛠 Set up Python ${{ matrix.python-version }}
+      - name: 🛠 Set up Python
         uses: actions/setup-python@v2.3.1
         id: python
         with:
           python-version: 3.x
 
-      - name: 📦 Install dependencies
-        run:  python3 -m pip install setuptools wheel twine
+      - name: 📦 Install poetry
+        run:  make install-poetry
 
       - name: 🔢 Set version number
         run: |
           export version=${{ github.ref }}
-          sed -i "s|main|${version##*/}|" ./setup.py
-          cat ./setup.py
+          poetry version "${version##*/}"
 
       - name: 🚀 Publish to PyPi
         env:
-          TWINE_USERNAME: __token__
-          TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
-        run: |
-          python setup.py sdist bdist_wheel
-          twine upload dist/*
+          POETRY_PYPI_TOKEN_PYPI: ${{ secrets.PYPI_TOKEN }}
+        run: poetry publish --build --no-interaction
