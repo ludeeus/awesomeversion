@@ -1,5 +1,7 @@
 """Special handler for dev."""
-from typing import TYPE_CHECKING, Optional
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
 
 from .sections import compare_base_sections
 
@@ -8,9 +10,9 @@ if TYPE_CHECKING:
 
 
 def compare_handler_devrc(
-    version_a: "AwesomeVersion",
-    version_b: "AwesomeVersion",
-) -> Optional[bool]:
+    version_a: AwesomeVersion,
+    version_b: AwesomeVersion,
+) -> bool | None:
     """Compare handler devrc."""
     a_last = version_a.string.split(".")[-1]
     b_last = version_b.string.split(".")[-1]

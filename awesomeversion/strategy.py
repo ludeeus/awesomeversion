@@ -1,7 +1,9 @@
 """Strategies for AwesomeVersion."""
+from __future__ import annotations
+
 from dataclasses import dataclass
 from enum import Enum
-from typing import Dict, Pattern, Tuple
+from typing import Pattern, Tuple
 
 from .utils.regex import (
     RE_BUILDVER,
@@ -78,6 +80,6 @@ VERSION_STRATEGIES: Tuple[AwesomeVersionStrategyDescription, ...] = (
 )
 
 
-VERSION_STRATEGIES_DICT: Dict[
+VERSION_STRATEGIES_DICT: dict[
     AwesomeVersionStrategy, AwesomeVersionStrategyDescription
 ] = {description.strategy: description for description in VERSION_STRATEGIES}

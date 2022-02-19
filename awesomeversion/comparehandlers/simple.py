@@ -1,5 +1,7 @@
 """Special handler for simple."""
-from typing import TYPE_CHECKING, Optional
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
 
 from awesomeversion.strategy import AwesomeVersionStrategy
 
@@ -10,9 +12,9 @@ if TYPE_CHECKING:
 
 
 def compare_handler_simple(
-    version_a: "AwesomeVersion",
-    version_b: "AwesomeVersion",
-) -> Optional[bool]:
+    version_a: AwesomeVersion,
+    version_b: AwesomeVersion,
+) -> bool | None:
     """Compare handler simple."""
     if version_a.simple and version_b.simple:
         return compare_base_sections(version_a, version_b)
