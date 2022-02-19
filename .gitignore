@@ -1,5 +1,6 @@
 __pycache__
 __target__
+.mypy_cache
 .pytest_cache
 .coverage
 coverage.xml
