@@ -5,6 +5,7 @@ import pytest
 
 from awesomeversion import AwesomeVersion
 from awesomeversion.comparehandlers.modifier import compare_handler_semver_modifier
+from awesomeversion.comparehandlers.sections import compare_modifier_section
 from awesomeversion.typing import VersionType
 
 
@@ -52,3 +53,29 @@ def test_semver_modifier() -> None:
         AwesomeVersion("1.0"), AwesomeVersion("1.0")
     )
     assert result is None
+
+
+@pytest.mark.parametrize(
+    "ver_a,ver_b,result",
+    (
+        ("1.0.b2", "1.0.invalid4", False),
+        ("2", "1", None),
+        ("1.0.rc2", "1.0.dev1", True),
+        ("1.0.rc2", "1.0.d1", True),
+        ("1.0.b0", "1.0.dev1", True),
+        ("1.0.0beta0", "1.0.dev1", True),
+        ("1.0.b0", "1.0.b1", False),
+        ("1.0.0beta0", "1.0.dev1", True),
+        ("1.0.a0", "1.0.dev1", True),
+        ("1.0.dev0", "1.0.alpha1", False),
+    ),
+)
+def test_compare_modifier_section(
+    ver_a: VersionType,
+    ver_b: VersionType,
+    result: bool | None,
+) -> None:
+    """Test compare_modifier_section."""
+    assert (
+        compare_modifier_section(AwesomeVersion(ver_a), AwesomeVersion(ver_b)) == result
+    )
