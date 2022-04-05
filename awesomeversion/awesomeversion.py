@@ -141,14 +141,15 @@ class AwesomeVersion(_AwesomeVersionBase):
             compareto = AwesomeVersion(compareto)
         if not isinstance(compareto, AwesomeVersion):
             raise AwesomeVersionCompareException("Not a valid AwesomeVersion object")
+        if self.string == compareto.string:
+            return False
+
         if AwesomeVersionStrategy.UNKNOWN in (self.strategy, compareto.strategy):
             raise AwesomeVersionCompareException(
                 f"Can't compare <{self.strategy.value} {self._version}> and "
                 f"<{compareto.strategy.value} {compareto._version}>"
             )
-        return self.string != compareto.string and self._compare_versions(
-            compareto, self
-        )
+        return self._compare_versions(compareto, self)
 
     def __gt__(self, compareto: VersionType) -> bool:
         """Check if greater than."""
@@ -156,14 +157,15 @@ class AwesomeVersion(_AwesomeVersionBase):
             compareto = AwesomeVersion(compareto)
         if not isinstance(compareto, AwesomeVersion):
             raise AwesomeVersionCompareException("Not a valid AwesomeVersion object")
+        if self.string == compareto.string:
+            return False
+
         if AwesomeVersionStrategy.UNKNOWN in (self.strategy, compareto.strategy):
             raise AwesomeVersionCompareException(
                 f"Can't compare <{self.strategy.value} {self._version}> and "
                 f"<{compareto.strategy.value} {compareto._version}>"
             )
-        return self.string != compareto.string and self._compare_versions(
-            self, compareto
-        )
+        return self._compare_versions(self, compareto)
 
     def __ne__(self, compareto: object) -> bool:
         return not self.__eq__(compareto)
@@ -192,12 +194,6 @@ class AwesomeVersion(_AwesomeVersionBase):
             compare_handler_semver_modifier,
             compare_handler_sections,
         ):
-            LOGGER.debug(
-                "Comparing '%s' against '%s' with '%s'",
-                version_a,
-                version_b,
-                handler.__name__,
-            )
             result = handler(AwesomeVersion(version_a), AwesomeVersion(version_b))
             if result is not None:
                 return result
