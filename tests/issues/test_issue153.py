@@ -3,13 +3,6 @@
 from awesomeversion import AwesomeVersion
 
 
-def test_1():
-    """Test for issue #153."""
-    dev1 = AwesomeVersion("v1.11.0-dev.1")
-    dev2 = AwesomeVersion("v2.0.0-dev.1")
-    assert dev1 < dev2
-
-
 def test() -> None:
     """Test for issue #153."""
     current = AwesomeVersion("v1.10.0")
