@@ -191,8 +191,8 @@ class AwesomeVersion(_AwesomeVersionBase):
             compare_handler_container,
             compare_handler_simple,
             compare_handler_devrc,
-            compare_handler_semver_modifier,
             compare_handler_sections,
+            compare_handler_semver_modifier,
         ):
             result = handler(AwesomeVersion(version_a), AwesomeVersion(version_b))
             if result is not None:

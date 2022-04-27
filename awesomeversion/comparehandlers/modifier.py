@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING
 from ..strategy import VERSION_STRATEGIES_DICT, AwesomeVersionStrategy
 from ..utils.regex import RE_MODIFIER
 
-SEMVER_MODIFIER_MAP = {"alpha": 1, "beta": 2, "rc": 3}
+SEMVER_MODIFIER_MAP = {"dev": 0, "alpha": 1, "beta": 2, "rc": 3}
 
 if TYPE_CHECKING:
     from awesomeversion import AwesomeVersion
