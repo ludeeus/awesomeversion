@@ -26,6 +26,7 @@ from awesomeversion.typing import VersionType
         ("1.dev1", "1.dev0", True),
         ("1.dev0", "1.dev1", False),
         ("latest", "stable", True),
+        ("1.2.3-dev.1", "1.2.3-alpha.1", False),
         ("latest", "1", True),
         ("1.2.3.4.5.6.7.8.9", "1.2.3.4.5.6.7.8.9", False),
         ("1.0.0", "stable", False),
