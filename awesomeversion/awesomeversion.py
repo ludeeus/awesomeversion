@@ -5,7 +5,6 @@ from types import TracebackType
 from typing import Any, Type
 
 from .comparehandlers.container import compare_handler_container
-from .comparehandlers.devrc import compare_handler_devrc
 from .comparehandlers.modifier import compare_handler_semver_modifier
 from .comparehandlers.sections import compare_handler_sections
 from .comparehandlers.simple import compare_handler_simple
@@ -64,6 +63,10 @@ class AwesomeVersion(_AwesomeVersionBase):
     """
 
     _version: str = ""
+    _modifier: str | None = None
+    _modifier_type: str | None = None
+    _sections: int | None = None
+    _simple: bool | None = None
     _ensure_strategy: EnsureStrategyIterableType = []
 
     def __init__(
@@ -190,7 +193,6 @@ class AwesomeVersion(_AwesomeVersionBase):
         for handler in (
             compare_handler_container,
             compare_handler_simple,
-            compare_handler_devrc,
             compare_handler_sections,
             compare_handler_semver_modifier,
         ):
@@ -257,9 +259,21 @@ class AwesomeVersion(_AwesomeVersionBase):
     @property
     def sections(self) -> int:
         """Return a int representaion of the number of sections in the version."""
+        if self._sections is not None:
+            return self._sections
+
         if self.strategy == AwesomeVersionStrategy.SEMVER:
-            return 3
-        return len(self.string.split("."))
+            self._sections = 3
+        else:
+            modifier = self.modifier
+            self._sections = len(
+                [
+                    section.split(self.modifier_type)[-1]
+                    for section in self.string.split(".")
+                    if modifier is None or section != modifier
+                ]
+            )
+        return self._sections
 
     @property
     def major(self) -> AwesomeVersion | None:
@@ -290,6 +304,9 @@ class AwesomeVersion(_AwesomeVersionBase):
     @property
     def modifier(self) -> str | None:
         """Return the modifier of the version if any."""
+        if self._modifier is not None:
+            return self._modifier
+
         if self.strategy == AwesomeVersionStrategy.SPECIALCONTAINER:
             return None
 
@@ -311,18 +328,20 @@ class AwesomeVersion(_AwesomeVersionBase):
 
         match = RE_MODIFIER.match(modifier_string)
         if match and len(match.groups()) >= 2:
-            return match.group(2)
+            self._modifier = match.group(2)
 
-        return None
+        return self._modifier
 
     @property
     def modifier_type(self) -> str | None:
         """Return the modifier type of the version if any."""
+        if self._modifier_type is not None:
+            return self._modifier_type
         match = RE_MODIFIER.match(self.modifier or "")
         if match and len(match.groups()) >= 3:
-            return match.group(3)
+            self._modifier_type = match.group(3)
 
-        return None
+        return self._modifier_type
 
     @property
     def strategy_description(self) -> AwesomeVersionStrategyDescription | None:
@@ -354,4 +373,8 @@ class AwesomeVersion(_AwesomeVersionBase):
     @property
     def simple(self) -> bool:
         """Return True if the version string is simple."""
-        return generate_full_string_regex(RE_SIMPLE).match(self.string) is not None
+        if self._simple is None:
+            self._simple = (
+                generate_full_string_regex(RE_SIMPLE).match(self.string) is not None
+            )
+        return self._simple
