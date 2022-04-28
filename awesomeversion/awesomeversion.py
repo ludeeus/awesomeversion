@@ -5,7 +5,6 @@ from types import TracebackType
 from typing import Any, Type
 
 from .comparehandlers.container import compare_handler_container
-from .comparehandlers.devrc import compare_handler_devrc
 from .comparehandlers.modifier import compare_handler_semver_modifier
 from .comparehandlers.sections import compare_handler_sections
 from .comparehandlers.simple import compare_handler_simple
@@ -190,7 +189,6 @@ class AwesomeVersion(_AwesomeVersionBase):
         for handler in (
             compare_handler_container,
             compare_handler_simple,
-            compare_handler_devrc,
             compare_handler_sections,
             compare_handler_semver_modifier,
         ):
@@ -259,7 +257,13 @@ class AwesomeVersion(_AwesomeVersionBase):
         """Return a int representaion of the number of sections in the version."""
         if self.strategy == AwesomeVersionStrategy.SEMVER:
             return 3
-        return len(self.string.split("."))
+        return len(
+            [
+                section
+                for section in self.string.split(".")
+                if self.modifier_type is None or self.modifier_type not in section
+            ]
+        )
 
     @property
     def major(self) -> AwesomeVersion | None:

@@ -49,6 +49,8 @@ def compare_modifier_section(
     version_b: AwesomeVersion,
 ) -> bool | None:
     """Compare modifiers between two AwesomeVersion objects."""
+    if version_a.modifier is None and version_b.modifier is not None:
+        return True
     if version_a.modifier is not None and version_b.modifier is not None:
         version_a_modifier = RE_MODIFIER.match(version_a.string.split(".")[-1])
         version_b_modifier = RE_MODIFIER.match(version_b.string.split(".")[-1])
