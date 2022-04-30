@@ -45,3 +45,9 @@ mypy:
 
 pylint:
 	@poetry run pylint awesomeversion tests
+
+documentation-make: ## Update the documentation
+	@poetry run pdoc --output-dir docs awesomeversion
+
+documentation-serve: ## Serve the documentation
+	@poetry run pdoc awesomeversion -p 8888

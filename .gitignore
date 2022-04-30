@@ -7,3 +7,4 @@ coverage.xml
 dist
 build
 *.egg-info
+docs/*

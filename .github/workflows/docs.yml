@@ -1,0 +1,40 @@
+name: Documentation
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v3
+
+      - name: 📦 Install dependencies
+        run: make requirements
+
+      - run: make documentation
+
+      - run: tar --directory docs/ -hcf artifact.tar .
+      - uses: actions/upload-artifact@v3
+        with:
+          name: github-pages
+          path: ./artifact.tar
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v1
