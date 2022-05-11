@@ -59,6 +59,30 @@ def test_awesomeversion() -> None:
             assert upstream > current
 
 
+def test_major() -> None:
+    """Test major."""
+    assert AwesomeVersion("1.0.0.0").major == 1
+    assert AwesomeVersion("1.0.0").major == 1
+    assert AwesomeVersion("1.0").major == 1
+    assert AwesomeVersion("1").major == 1
+
+
+def test_minor() -> None:
+    """Test minor."""
+    assert AwesomeVersion("1.1.0.0").minor == 1
+    assert AwesomeVersion("1.1.0").minor == 1
+    assert AwesomeVersion("1.1").minor == 1
+    assert AwesomeVersion("1").minor is None
+
+
+def test_patch() -> None:
+    """Test patch."""
+    assert AwesomeVersion("1.1.1.1").patch == 1
+    assert AwesomeVersion("1.1.1").patch == 1
+    assert AwesomeVersion("1.1").patch is None
+    assert AwesomeVersion("1").patch is None
+
+
 def test_serialization() -> None:
     """Test to and from JSON serialization."""
     version = AwesomeVersion("20.12.1")

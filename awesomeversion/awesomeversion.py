@@ -277,22 +277,51 @@ class AwesomeVersion(_AwesomeVersionBase):
 
     @property
     def major(self) -> AwesomeVersion | None:
-        """Return a AwesomeVersion representation of the major version."""
-        if self.strategy != AwesomeVersionStrategy.SEMVER:
+        """
+        Return a AwesomeVersion representation of the major version.
+
+        Will return None if the versions is not semver/buildver/simplever.
+        """
+        if self.strategy not in (
+            AwesomeVersionStrategy.SEMVER,
+            AwesomeVersionStrategy.BUILDVER,
+            AwesomeVersionStrategy.SIMPLEVER,
+        ):
             return None
         return AwesomeVersion(self.section(0))
 
     @property
     def minor(self) -> AwesomeVersion | None:
-        """Return a AwesomeVersion representation of the minor version."""
-        if self.strategy != AwesomeVersionStrategy.SEMVER:
+        """
+        Return a AwesomeVersion representation of the minor version.
+
+        Will return None if the versions is not semver/simplever
+        Will return None if the version does not have at least 2 sections.
+        """
+        if self.strategy not in (
+            AwesomeVersionStrategy.SEMVER,
+            AwesomeVersionStrategy.SIMPLEVER,
+        ):
             return None
+
         return AwesomeVersion(self.section(1))
 
     @property
     def patch(self) -> AwesomeVersion | None:
-        """Return a AwesomeVersion representation of the patch version."""
-        if self.strategy != AwesomeVersionStrategy.SEMVER:
+        """
+        Return a AwesomeVersion representation of the patch version.
+
+        Will return None if the versions is not semver/simplever
+        Will return None if the version does not have at least 3 sections.
+        """
+        if (
+            self.strategy
+            not in (
+                AwesomeVersionStrategy.SEMVER,
+                AwesomeVersionStrategy.SIMPLEVER,
+            )
+            or self.sections < 3
+        ):
             return None
         return AwesomeVersion(self.section(2))
 
