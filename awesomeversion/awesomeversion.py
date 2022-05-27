@@ -347,8 +347,7 @@ class AwesomeVersion(_AwesomeVersionBase):
         ):
             match = self.strategy_description.pattern.match(self.string)
             if match and len(match.groups()) >= 4:
-                modifier_string = match.group(4)
-
+                self._modifier = modifier_string = match.group(4)
         else:
             modifier_string = self.string.split(".")[-1]
 

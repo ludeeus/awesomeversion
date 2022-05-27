@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from ..utils.regex import RE_MODIFIER
+from ..utils.regex import RE_IS_SINGLE_DIGIT, RE_MODIFIER
 
 if TYPE_CHECKING:
     from ..awesomeversion import AwesomeVersion
@@ -64,4 +64,8 @@ def compare_modifier_section(
             if mod_a is not None and mod_b is not None:
                 return mod_a > mod_b
             return version_a_modifier.group(3) > version_a_modifier.group(3)
+        if RE_IS_SINGLE_DIGIT.match(version_a.modifier) and RE_IS_SINGLE_DIGIT.match(
+            version_b.modifier
+        ):
+            return int(version_a.modifier) > int(version_b.modifier)
     return None
