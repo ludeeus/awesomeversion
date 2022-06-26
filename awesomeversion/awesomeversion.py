@@ -16,7 +16,6 @@ from .strategy import (
     AwesomeVersionStrategyDescription,
 )
 from .typing import EnsureStrategyIterableType, EnsureStrategyType, VersionType
-from .utils.logger import LOGGER
 from .utils.regex import (
     RE_DIGIT,
     RE_MODIFIER,
