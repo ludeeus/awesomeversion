@@ -56,8 +56,8 @@ def compare_modifier_section(
         version_b_modifier = RE_MODIFIER.match(version_b.string.split(".")[-1])
         if version_a_modifier and version_b_modifier:
             if version_a_modifier.group(3) == version_b_modifier.group(3):
-                return int(version_a_modifier.group(4)) > int(
-                    version_b_modifier.group(4)
+                return int(version_a_modifier.group(4) or 0) > int(
+                    version_b_modifier.group(4) or 0
                 )
             mod_a = MODIFIERS.get(version_a_modifier.group(3))
             mod_b = MODIFIERS.get(version_b_modifier.group(3))

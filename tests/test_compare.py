@@ -46,6 +46,7 @@ from awesomeversion.typing import VersionType
         ("latest", "beta"),
         ("1.0.0-beta0", "1.0.0-alpha1"),
         ("1.0.0-beta", "1.0.0-beta.1"),
+        ("1.0.0-beta1", "1.0.0-beta"),
         ("1.0.0-beta.2", "1.0.0-beta.1"),
         ("1.0.0-rc0", "1.0.0-alpha1"),
         ("1.0.0-beta", "1.0.0-alpha"),

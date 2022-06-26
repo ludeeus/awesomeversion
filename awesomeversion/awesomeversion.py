@@ -184,7 +184,7 @@ class AwesomeVersion(_AwesomeVersionBase):
         if self.sections >= (idx + 1):
             match = RE_DIGIT.match(self.string.split(".")[idx] or "")
             if match and match.groups():
-                return int(match.group(1))
+                return int(match.group(1) or 0)
         return 0
 
     @staticmethod
