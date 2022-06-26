@@ -41,6 +41,7 @@ from awesomeversion.typing import VersionType
         ("2021.2.0b0", "2021.1.0"),
         ("2021.2.0b10", "2021.1.0b2"),
         ("beta", "stable"),
+        ("1.2.3-2", "1.2.3-1"),
         ("dev", "latest"),
         ("latest", "2020.21.1"),
         ("latest", "beta"),
