@@ -162,12 +162,6 @@ def test_ensure_strategy(caplog: pytest.LogCaptureFixture) -> None:
             [AwesomeVersionStrategy.SEMVER, AwesomeVersionStrategy.SPECIALCONTAINER],
         )
 
-    obj = AwesomeVersion.ensure_strategy("1.0.0", AwesomeVersionStrategy.SEMVER)
-    assert (
-        "Using AwesomeVersion.ensure_strategy(version, strategy) is deprecated"
-        in caplog.text
-    )
-
 
 @pytest.mark.parametrize(
     "version,strategy,result",
