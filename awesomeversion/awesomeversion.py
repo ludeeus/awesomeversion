@@ -16,7 +16,6 @@ from .strategy import (
     AwesomeVersionStrategyDescription,
 )
 from .typing import EnsureStrategyIterableType, EnsureStrategyType, VersionType
-from .utils.logger import LOGGER
 from .utils.regex import (
     RE_DIGIT,
     RE_MODIFIER,
@@ -200,18 +199,6 @@ class AwesomeVersion(_AwesomeVersionBase):
             if result is not None:
                 return result
         return False
-
-    @staticmethod
-    def ensure_strategy(
-        version: str | float | int | AwesomeVersion,
-        strategy: AwesomeVersionStrategy | list[AwesomeVersionStrategy],
-    ) -> AwesomeVersion:
-        """Return a AwesomeVersion object, or raise on creation."""
-        LOGGER.warning(
-            "Using AwesomeVersion.ensure_strategy(version, strategy) is deprecated, "
-            "use AwesomeVersion(version, strategy) instead"
-        )
-        return AwesomeVersion(version, strategy)
 
     @property
     def string(self) -> str:
