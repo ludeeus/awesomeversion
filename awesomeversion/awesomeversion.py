@@ -45,21 +45,23 @@ class AwesomeVersion(_AwesomeVersionBase):
     """
     AwesomeVersion class.
 
-    args:
-        version:
-            The version to create a AwesomeVersion object from
+    **args**:
 
-    kwargs:
-        ensure_strategy:
-            Match the AwesomeVersion object against spesific
-            strategies when creating if. If it does not match
-            AwesomeVersionStrategyException will be raised
+    version:
+        The version to create a AwesomeVersion object from
 
-        find_first_match:
-            If True, the version given will be scanned for the first
-            match of the given ensure_strategy. Raises
-            AwesomeVersionStrategyException If it is not found
-            for any of the given strategies.
+    **kwargs**:
+
+    ensure_strategy:
+        Match the AwesomeVersion object against spesific
+        strategies when creating if. If it does not match
+        AwesomeVersionStrategyException will be raised
+
+    find_first_match:
+        If True, the version given will be scanned for the first
+        match of the given ensure_strategy. Raises
+        AwesomeVersionStrategyException If it is not found
+        for any of the given strategies.
     """
 
     _version: str = ""
