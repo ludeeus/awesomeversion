@@ -1,8 +1,7 @@
 """AwesomeVersion."""
 from __future__ import annotations
 
-from types import TracebackType
-from typing import Any, Type
+from typing import Any
 
 from .comparehandlers.container import compare_handler_container
 from .comparehandlers.modifier import compare_handler_semver_modifier
@@ -46,19 +45,21 @@ class AwesomeVersion(_AwesomeVersionBase):
     """
     AwesomeVersion class.
 
-    version:
-        The version to create a AwesomeVersion object from
+    args:
+        version:
+            The version to create a AwesomeVersion object from
 
-    ensure_strategy:
-        Match the AwesomeVersion object against spesific
-        strategies when creating if. If it does not match
-        AwesomeVersionStrategyException will be raised
+    kwargs:
+        ensure_strategy:
+            Match the AwesomeVersion object against spesific
+            strategies when creating if. If it does not match
+            AwesomeVersionStrategyException will be raised
 
-    find_first_match:
-        If True, the version given will be scanned for the first
-        match of the given ensure_strategy. Raises
-        AwesomeVersionStrategyException If it is not found
-        for any of the given strategies.
+        find_first_match:
+            If True, the version given will be scanned for the first
+            match of the given ensure_strategy. Raises
+            AwesomeVersionStrategyException If it is not found
+            for any of the given strategies.
     """
 
     _version: str = ""
@@ -69,12 +70,22 @@ class AwesomeVersion(_AwesomeVersionBase):
     _ensure_strategy: EnsureStrategyIterableType = []
 
     def __init__(
-        self,
+        self,  # pylint: disable=unused-argument
         version: VersionType,
+        *args: Any,
         ensure_strategy: EnsureStrategyType = None,
         find_first_match: bool = False,
+        **kwargs: Any,
     ) -> None:
         """Initialize AwesomeVersion."""
+        if args:
+            # Allow old-style args
+            # Deprecated, will be removed in future version (sometime after 23.1.0)
+            # Start logging deprecation warning after 22.8.0
+            ensure_strategy = args[0]
+            if len(args) == 2:
+                find_first_match = args[1]
+
         if isinstance(version, AwesomeVersion):
             self._version = version._version
         else:
@@ -115,12 +126,7 @@ class AwesomeVersion(_AwesomeVersionBase):
     def __enter__(self) -> AwesomeVersion:
         return self
 
-    def __exit__(
-        self,
-        exctype: Type[BaseException] | None,
-        excinst: BaseException | None,
-        exctb: TracebackType | None,
-    ) -> bool:
+    def __exit__(self, *_: Any, **__: Any) -> bool:
         pass
 
     def __repr__(self) -> str:

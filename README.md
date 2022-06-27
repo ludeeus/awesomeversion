@@ -18,7 +18,7 @@ python3 -m pip install awesomeversion
 
 ## AwesomeVersion class
 
-The AwesomeVersion class takes a version as the first argument, you can also pass in additional arguments to customize the version object.
+The AwesomeVersion class takes a version as the first argument, you can also pass in additional kwargs to customize the version object.
 
 Argument | Description
 --- | ---
