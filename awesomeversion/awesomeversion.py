@@ -1,8 +1,8 @@
 """AwesomeVersion."""
 from __future__ import annotations
 
-from types import TracebackType
-from typing import Any, Type
+from typing import Any
+from warnings import warn
 
 from .comparehandlers.container import compare_handler_container
 from .comparehandlers.modifier import compare_handler_semver_modifier
@@ -46,8 +46,12 @@ class AwesomeVersion(_AwesomeVersionBase):
     """
     AwesomeVersion class.
 
+    **args**:
+
     version:
         The version to create a AwesomeVersion object from
+
+    **kwargs**:
 
     ensure_strategy:
         Match the AwesomeVersion object against spesific
@@ -69,12 +73,31 @@ class AwesomeVersion(_AwesomeVersionBase):
     _ensure_strategy: EnsureStrategyIterableType = []
 
     def __init__(
-        self,
+        self,  # pylint: disable=unused-argument
         version: VersionType,
+        *args: Any,
         ensure_strategy: EnsureStrategyType = None,
         find_first_match: bool = False,
+        **kwargs: Any,
     ) -> None:
         """Initialize AwesomeVersion."""
+        if args:
+            warn(
+                "Positional argument for ensure_strategy is deprecated. "
+                "This will be removed in 2023, use keyword argument instead",
+                DeprecationWarning,
+                stacklevel=2,
+            )
+            ensure_strategy = args[0]
+            if len(args) == 2:
+                warn(
+                    "Positional argument for find_first_match is deprecated. "
+                    "This will be removed in 2023, use keyword argument instead",
+                    DeprecationWarning,
+                    stacklevel=2,
+                )
+                find_first_match = args[1]
+
         if isinstance(version, AwesomeVersion):
             self._version = version._version
         else:
@@ -115,12 +138,7 @@ class AwesomeVersion(_AwesomeVersionBase):
     def __enter__(self) -> AwesomeVersion:
         return self
 
-    def __exit__(
-        self,
-        exctype: Type[BaseException] | None,
-        excinst: BaseException | None,
-        exctb: TracebackType | None,
-    ) -> bool:
+    def __exit__(self, *_: Any, **__: Any) -> bool:
         pass
 
     def __repr__(self) -> str:

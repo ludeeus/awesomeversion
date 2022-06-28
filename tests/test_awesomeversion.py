@@ -211,3 +211,4 @@ def test_find_first_match(
         find_first_match=True,
     )
     assert obj.string == result
+    assert AwesomeVersion(version, strategy, True).string == obj.string
