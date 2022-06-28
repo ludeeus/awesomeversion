@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from typing import Any
+from warnings import warn
 
 from .comparehandlers.container import compare_handler_container
 from .comparehandlers.modifier import compare_handler_semver_modifier
@@ -81,11 +82,20 @@ class AwesomeVersion(_AwesomeVersionBase):
     ) -> None:
         """Initialize AwesomeVersion."""
         if args:
-            # Allow old-style args
-            # Deprecated, will be removed in future version (sometime after 23.1.0)
-            # Start logging deprecation warning after 22.8.0
+            warn(
+                "Positional argument for ensure_strategy is deprecated. "
+                "This will be removed in 2023, use keyword argument instead",
+                DeprecationWarning,
+                stacklevel=2,
+            )
             ensure_strategy = args[0]
             if len(args) == 2:
+                warn(
+                    "Positional argument for find_first_match is deprecated. "
+                    "This will be removed in 2023, use keyword argument instead",
+                    DeprecationWarning,
+                    stacklevel=2,
+                )
                 find_first_match = args[1]
 
         if isinstance(version, AwesomeVersion):
