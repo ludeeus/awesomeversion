@@ -1,11 +1,11 @@
 """Test awesomeversion."""
 import json
+import warnings
 
 import pytest
 
 from awesomeversion import (
     AwesomeVersion,
-    AwesomeVersionException,
     AwesomeVersionStrategy,
     AwesomeVersionStrategyException,
 )
@@ -217,8 +217,8 @@ def test_find_first_match(
 
 def test_find_first_match_exception() -> None:
     """Test"""
-    with pytest.raises(
-        AwesomeVersionException,
-        match="Can not use find_first_match without ensure_strategy",
-    ):
-        AwesomeVersion("1", find_first_match=True)
+    with warnings.catch_warnings(record=True) as warning_list:
+        assert AwesomeVersion("1", find_first_match=True)
+        assert "Can not use find_first_match without ensure_strategy" in str(
+            warning_list[-1].message
+        )

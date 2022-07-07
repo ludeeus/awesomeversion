@@ -8,11 +8,7 @@ from .comparehandlers.container import compare_handler_container
 from .comparehandlers.modifier import compare_handler_semver_modifier
 from .comparehandlers.sections import compare_handler_sections
 from .comparehandlers.simple import compare_handler_simple
-from .exceptions import (
-    AwesomeVersionCompareException,
-    AwesomeVersionException,
-    AwesomeVersionStrategyException,
-)
+from .exceptions import AwesomeVersionCompareException, AwesomeVersionStrategyException
 from .strategy import (
     VERSION_STRATEGIES,
     VERSION_STRATEGIES_DICT,
@@ -89,7 +85,7 @@ class AwesomeVersion(_AwesomeVersionBase):
             warn(
                 "Positional argument for ensure_strategy is deprecated. "
                 "This will be removed in 2023, use keyword argument instead",
-                DeprecationWarning,
+                category=DeprecationWarning,
                 stacklevel=2,
             )
             ensure_strategy = args[0]
@@ -97,7 +93,7 @@ class AwesomeVersion(_AwesomeVersionBase):
                 warn(
                     "Positional argument for find_first_match is deprecated. "
                     "This will be removed in 2023, use keyword argument instead",
-                    DeprecationWarning,
+                    category=DeprecationWarning,
                     stacklevel=2,
                 )
                 find_first_match = args[1]
@@ -110,8 +106,9 @@ class AwesomeVersion(_AwesomeVersionBase):
             self._version = self._version.strip()
 
         if find_first_match and not ensure_strategy:
-            raise AwesomeVersionException(
-                "Can not use find_first_match without ensure_strategy"
+            warn(
+                "Can not use find_first_match without ensure_strategy",
+                stacklevel=2,
             )
 
         if ensure_strategy is not None:
