@@ -8,7 +8,11 @@ from .comparehandlers.container import compare_handler_container
 from .comparehandlers.modifier import compare_handler_semver_modifier
 from .comparehandlers.sections import compare_handler_sections
 from .comparehandlers.simple import compare_handler_simple
-from .exceptions import AwesomeVersionCompareException, AwesomeVersionStrategyException
+from .exceptions import (
+    AwesomeVersionCompareException,
+    AwesomeVersionException,
+    AwesomeVersionStrategyException,
+)
 from .strategy import (
     VERSION_STRATEGIES,
     VERSION_STRATEGIES_DICT,
@@ -98,12 +102,17 @@ class AwesomeVersion(_AwesomeVersionBase):
                 )
                 find_first_match = args[1]
 
-        if isinstance(version, AwesomeVersion):
-            self._version = version._version
-        else:
-            self._version = str(version)
+        self._version = (
+            version._version if isinstance(version, AwesomeVersion) else str(version)
+        )
+
         if isinstance(self._version, str):
             self._version = self._version.strip()
+
+        if find_first_match and not ensure_strategy:
+            raise AwesomeVersionException(
+                "Can not use find_first_match without ensure_strategy"
+            )
 
         if ensure_strategy is not None:
             self._ensure_strategy = ensure_strategy = (
