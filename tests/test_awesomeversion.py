@@ -5,6 +5,7 @@ import pytest
 
 from awesomeversion import (
     AwesomeVersion,
+    AwesomeVersionException,
     AwesomeVersionStrategy,
     AwesomeVersionStrategyException,
 )
@@ -212,3 +213,9 @@ def test_find_first_match(
     )
     assert obj.string == result
     assert AwesomeVersion(version, strategy, True).string == obj.string
+
+
+def test_find_first_match_exception() -> None:
+    """Test"""
+    with pytest.raises(AwesomeVersionException, match="Can not use find_first_match without ensure_strategy"):
+        AwesomeVersion("1", find_first_match=True)
