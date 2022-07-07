@@ -102,10 +102,10 @@ class AwesomeVersion(_AwesomeVersionBase):
                 )
                 find_first_match = args[1]
 
-        if isinstance(version, AwesomeVersion):
-            self._version = version._version
-        else:
-            self._version = str(version)
+        self._version = (
+            version._version if isinstance(version, AwesomeVersion) else str(version)
+        )
+
         if isinstance(self._version, str):
             self._version = self._version.strip()
 

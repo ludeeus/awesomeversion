@@ -217,5 +217,8 @@ def test_find_first_match(
 
 def test_find_first_match_exception() -> None:
     """Test"""
-    with pytest.raises(AwesomeVersionException, match="Can not use find_first_match without ensure_strategy"):
+    with pytest.raises(
+        AwesomeVersionException,
+        match="Can not use find_first_match without ensure_strategy",
+    ):
         AwesomeVersion("1", find_first_match=True)
