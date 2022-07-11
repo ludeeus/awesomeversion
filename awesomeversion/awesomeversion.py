@@ -226,7 +226,7 @@ class AwesomeVersion(_AwesomeVersionBase):
 
     @property
     def string(self) -> str:
-        """Return a string representaion of the version."""
+        """Return a string representation of the version."""
         if not self._version:
             return self._version
 
@@ -269,7 +269,7 @@ class AwesomeVersion(_AwesomeVersionBase):
 
     @property
     def sections(self) -> int:
-        """Return a int representaion of the number of sections in the version."""
+        """Return a int representation of the number of sections in the version."""
         if self._sections is not None:
             return self._sections
 
