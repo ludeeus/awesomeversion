@@ -24,10 +24,10 @@ def compare_handler_semver_modifier(
         return None
 
     if version_a.modifier_type != version_b.modifier_type:
-        return (
-            SEMVER_MODIFIER_MAP[version_a.modifier_type]
-            > SEMVER_MODIFIER_MAP[version_b.modifier_type]
-        )
+        mod_a = SEMVER_MODIFIER_MAP.get(version_a.modifier_type)
+        mod_b = SEMVER_MODIFIER_MAP.get(version_b.modifier_type)
+        if mod_a is not None and mod_b is not None:
+            return mod_a > mod_b
 
     ver_a_modifier, ver_b_modifier = None, None
 
