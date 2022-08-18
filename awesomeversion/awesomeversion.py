@@ -211,7 +211,7 @@ class AwesomeVersion(_AwesomeVersionBase):
         return 0
 
     @staticmethod
-    def _compare_versions(version_a: str, version_b: str) -> bool:
+    def _compare_versions(version_a: AwesomeVersion, version_b: AwesomeVersion) -> bool:
         """Compare versions."""
         for handler in (
             compare_handler_container,
@@ -219,7 +219,7 @@ class AwesomeVersion(_AwesomeVersionBase):
             compare_handler_sections,
             compare_handler_semver_modifier,
         ):
-            result = handler(AwesomeVersion(version_a), AwesomeVersion(version_b))
+            result = handler(version_a, version_b)
             if result is not None:
                 return result
         return False
