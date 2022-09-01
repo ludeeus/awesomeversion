@@ -24,7 +24,7 @@ version = "0"
 python = "^3.7"
 
 [tool.poetry.dev-dependencies]
-black = "^22.6"
+black = "^22.8"
 isort = "^5.10.1"
 mypy = "^0.971"
 pylint = "^2.13.9"
