@@ -240,5 +240,9 @@ def test_diff() -> None:
     assert version.diff("2021.12.1dev2").modifier
     assert version.diff("2.11.1").strategy
 
+    diff = version - "2021.12.1"
+    assert diff.major
+    assert diff.__repr__().startswith("AwesomeVersionDiff(")
+
     with pytest.raises(AwesomeVersionException):
         version.diff(None)
