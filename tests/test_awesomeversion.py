@@ -9,6 +9,7 @@ from awesomeversion import (
     AwesomeVersionStrategy,
     AwesomeVersionStrategyException,
 )
+from awesomeversion.exceptions import AwesomeVersionException
 from awesomeversion.strategy import COMPARABLE_STRATEGIES
 from awesomeversion.typing import VersionType
 
@@ -222,3 +223,26 @@ def test_find_first_match_exception() -> None:
         assert "Can not use find_first_match without ensure_strategy" in str(
             warning_list[-1].message
         )
+
+
+def test_diff() -> None:
+    """Test .diff"""
+    version = AwesomeVersion("2020.12.1")
+
+    assert version.diff("2021.12.1").major
+    assert not version.diff("2021.12.1").minor
+    assert not version.diff("2021.12.1").patch
+    assert not version.diff("2021.12.1").modifier
+    assert not version.diff("2021.12.1").strategy
+
+    assert version.diff("2021.11.1").minor
+    assert version.diff("2021.12.2").patch
+    assert version.diff("2021.12.1dev2").modifier
+    assert version.diff("2.11.1").strategy
+
+    diff = version - "2021.12.1"
+    assert diff.major
+    assert diff.__repr__().startswith("AwesomeVersionDiff(")
+
+    with pytest.raises(AwesomeVersionException):
+        version.diff(None)

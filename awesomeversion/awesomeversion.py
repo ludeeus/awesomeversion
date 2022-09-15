@@ -1,7 +1,7 @@
 """AwesomeVersion."""
 from __future__ import annotations
 
-from typing import Any
+from typing import TYPE_CHECKING, Any, Dict
 from warnings import warn
 
 from .comparehandlers.container import compare_handler_container
@@ -15,7 +15,6 @@ from .strategy import (
     AwesomeVersionStrategy,
     AwesomeVersionStrategyDescription,
 )
-from .typing import EnsureStrategyIterableType, EnsureStrategyType, VersionType
 from .utils.regex import (
     RE_DIGIT,
     RE_MODIFIER,
@@ -23,6 +22,9 @@ from .utils.regex import (
     compile_regex,
     generate_full_string_regex,
 )
+
+if TYPE_CHECKING:
+    from .typing import EnsureStrategyIterableType, EnsureStrategyType, VersionType
 
 
 class _AwesomeVersionBase(str):
@@ -201,6 +203,25 @@ class AwesomeVersion(_AwesomeVersionBase):
 
     def __ge__(self, compareto: object) -> bool:
         return self.__eq__(compareto) or self.__gt__(compareto)
+
+    def __sub__(self, compareto: object) -> AwesomeVersionDiff:
+        return self.diff(compareto)
+
+    def diff(self, compareto: VersionType) -> AwesomeVersionDiff:
+        """Return a dictionary with differences between 2 AwesomeVersion objects."""
+        if isinstance(compareto, (str, float, int)):
+            compareto = AwesomeVersion(compareto)
+        if not isinstance(compareto, AwesomeVersion):
+            raise AwesomeVersionCompareException("Not a valid AwesomeVersion object")
+        return AwesomeVersionDiff(
+            {
+                "major": self.major != compareto.major,
+                "minor": self.minor != compareto.minor,
+                "patch": self.patch != compareto.patch,
+                "modifier": self.modifier != compareto.modifier,
+                "strategy": self.strategy != compareto.strategy,
+            }
+        )
 
     def section(self, idx: int) -> int:
         """Return the value of the specified section of the version."""
@@ -430,3 +451,42 @@ class AwesomeVersion(_AwesomeVersionBase):
                 generate_full_string_regex(RE_SIMPLE).match(self.string) is not None
             )
         return self._simple
+
+
+class AwesomeVersionDiff:
+    """Structured output of AwesomeVersion.diff"""
+
+    def __init__(self, changes: Dict[str, bool]) -> None:
+        """Initialize the AwesomeVersionDiff."""
+        self._changes = changes
+
+    def __repr__(self) -> str:
+        return (
+            f"AwesomeVersionDiff(major={self.major}, minor={self.minor}, "
+            f"patch={self.patch}, modifier={self.modifier}, strategy={self.strategy})"
+        )
+
+    @property
+    def major(self) -> bool:
+        """Return True if the major version has changed."""
+        return self._changes["major"]
+
+    @property
+    def minor(self) -> bool:
+        """Return True if the minor version has changed."""
+        return self._changes["minor"]
+
+    @property
+    def patch(self) -> bool:
+        """Return True if the patch version has changed."""
+        return self._changes["patch"]
+
+    @property
+    def modifier(self) -> bool:
+        """Return True if the modifier version has changed."""
+        return self._changes["modifier"]
+
+    @property
+    def strategy(self) -> bool:
+        """Return True if the strategy has changed."""
+        return self._changes["strategy"]
