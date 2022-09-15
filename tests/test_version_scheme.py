@@ -49,9 +49,19 @@ def test_semver_sections() -> None:
     assert ver_a.major < ver_b.major
 
 
-def test_semver_sections_for_non_semver() -> None:
-    """Test semver sections for non semver versions."""
-    version = AwesomeVersion("2020.01.1")
-    assert version.major is None
+def test_named_sections() -> None:
+    """Test named sections."""
+    version = AwesomeVersion("2020.1.1")
+    assert version.major == version.year == "2020"
+    assert version.minor == "1"
+    assert version.patch == "1"
+    assert version.micro == version.patch == "1"
+
+
+def test_named_sections_invalid() -> None:
+    """Test invalid named sections."""
+    version = AwesomeVersion("latest")
+    assert version.major == version.year is None
     assert version.minor is None
     assert version.patch is None
+    assert version.micro == version.patch is None

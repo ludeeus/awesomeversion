@@ -291,11 +291,12 @@ class AwesomeVersion(_AwesomeVersionBase):
         """
         Return a AwesomeVersion representation of the major version.
 
-        Will return None if the versions is not semver/buildver/simplever.
+        Will return None if the versions is not semver/buildver/calver/simplever.
         """
         if self.strategy not in (
             AwesomeVersionStrategy.SEMVER,
             AwesomeVersionStrategy.BUILDVER,
+            AwesomeVersionStrategy.CALVER,
             AwesomeVersionStrategy.SIMPLEVER,
         ):
             return None
@@ -306,11 +307,12 @@ class AwesomeVersion(_AwesomeVersionBase):
         """
         Return a AwesomeVersion representation of the minor version.
 
-        Will return None if the versions is not semver/simplever
+        Will return None if the versions is not semver/simplever/calver
         Will return None if the version does not have at least 2 sections.
         """
         if self.strategy not in (
             AwesomeVersionStrategy.SEMVER,
+            AwesomeVersionStrategy.CALVER,
             AwesomeVersionStrategy.SIMPLEVER,
         ):
             return None
@@ -322,19 +324,30 @@ class AwesomeVersion(_AwesomeVersionBase):
         """
         Return a AwesomeVersion representation of the patch version.
 
-        Will return None if the versions is not semver/simplever
+        Will return None if the versions is not semver/simplever/calver
         Will return None if the version does not have at least 3 sections.
         """
         if (
             self.strategy
             not in (
                 AwesomeVersionStrategy.SEMVER,
+                AwesomeVersionStrategy.CALVER,
                 AwesomeVersionStrategy.SIMPLEVER,
             )
             or self.sections < 3
         ):
             return None
         return AwesomeVersion(self.section(2))
+
+    @property
+    def micro(self) -> AwesomeVersion | None:
+        """Alias to self.patch"""
+        return self.patch
+
+    @property
+    def year(self) -> AwesomeVersion | None:
+        """Alias to self.major, here to provide a better name for use in CalVer."""
+        return self.major
 
     @property
     def valid(self) -> bool:
