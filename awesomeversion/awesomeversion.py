@@ -1,7 +1,7 @@
 """AwesomeVersion."""
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, Dict
 from warnings import warn
 
 from .comparehandlers.container import compare_handler_container
@@ -24,12 +24,7 @@ from .utils.regex import (
 )
 
 if TYPE_CHECKING:
-    from .typing import (
-        AwesomeVersionDiffType,
-        EnsureStrategyIterableType,
-        EnsureStrategyType,
-        VersionType,
-    )
+    from .typing import EnsureStrategyIterableType, EnsureStrategyType, VersionType
 
 
 class _AwesomeVersionBase(str):
@@ -461,7 +456,7 @@ class AwesomeVersion(_AwesomeVersionBase):
 class AwesomeVersionDiff:
     """Structured output of AwesomeVersion.diff"""
 
-    def __init__(self, changes: AwesomeVersionDiffType) -> None:
+    def __init__(self, changes: Dict[str, bool]) -> None:
         """Initialize the AwesomeVersionDiff."""
         self._changes = changes
 
