@@ -222,3 +222,48 @@ def test_find_first_match_exception() -> None:
         assert "Can not use find_first_match without ensure_strategy" in str(
             warning_list[-1].message
         )
+
+
+def test_diff() -> None:
+    """Test .diff"""
+    version = AwesomeVersion("2020.12.1")
+
+    assert version.diff("2021.12.1") == {
+        "major": True,
+        "minor": False,
+        "modifier": False,
+        "patch": False,
+        "strategy": False,
+    }
+
+    assert version.diff("2020.11.1") == {
+        "major": False,
+        "minor": True,
+        "modifier": False,
+        "patch": False,
+        "strategy": False,
+    }
+
+    assert version.diff("2020.12.2") == {
+        "major": False,
+        "minor": False,
+        "modifier": False,
+        "patch": True,
+        "strategy": False,
+    }
+
+    assert version.diff("2020.12.1dev2") == {
+        "major": False,
+        "minor": False,
+        "modifier": True,
+        "patch": False,
+        "strategy": False,
+    }
+
+    assert version.diff("2.12.1") == {
+        "major": True,
+        "minor": False,
+        "modifier": False,
+        "patch": False,
+        "strategy": True,
+    }

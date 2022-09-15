@@ -1,7 +1,7 @@
 """AwesomeVersion."""
 from __future__ import annotations
 
-from typing import Any
+from typing import TYPE_CHECKING, Any
 from warnings import warn
 
 from .comparehandlers.container import compare_handler_container
@@ -15,7 +15,6 @@ from .strategy import (
     AwesomeVersionStrategy,
     AwesomeVersionStrategyDescription,
 )
-from .typing import EnsureStrategyIterableType, EnsureStrategyType, VersionType
 from .utils.regex import (
     RE_DIGIT,
     RE_MODIFIER,
@@ -23,6 +22,14 @@ from .utils.regex import (
     compile_regex,
     generate_full_string_regex,
 )
+
+if TYPE_CHECKING:
+    from .typing import (
+        AwesomeVersionDiff,
+        EnsureStrategyIterableType,
+        EnsureStrategyType,
+        VersionType,
+    )
 
 
 class _AwesomeVersionBase(str):
@@ -201,6 +208,20 @@ class AwesomeVersion(_AwesomeVersionBase):
 
     def __ge__(self, compareto: object) -> bool:
         return self.__eq__(compareto) or self.__gt__(compareto)
+
+    def diff(self, compareto: VersionType) -> AwesomeVersionDiff:
+        """Return a dictionary with differences between 2 AwesomeVersion objects."""
+        if isinstance(compareto, (str, float, int)):
+            compareto = AwesomeVersion(compareto)
+        if not isinstance(compareto, AwesomeVersion):
+            raise AwesomeVersionCompareException("Not a valid AwesomeVersion object")
+        return {
+            "major": self.major != compareto.major,
+            "minor": self.minor != compareto.minor,
+            "patch": self.patch != compareto.patch,
+            "modifier": self.modifier != compareto.modifier,
+            "strategy": self.strategy != compareto.strategy,
+        }
 
     def section(self, idx: int) -> int:
         """Return the value of the specified section of the version."""

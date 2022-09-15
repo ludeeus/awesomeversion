@@ -1,7 +1,7 @@
 """"Custom types for AwesomeVersion."""
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, List, Tuple, Union
+from typing import TYPE_CHECKING, List, Tuple, TypedDict, Union
 
 from .strategy import AwesomeVersionStrategy
 
@@ -15,3 +15,13 @@ EnsureStrategyIterableType = Union[
 
 
 EnsureStrategyType = Union[AwesomeVersionStrategy, EnsureStrategyIterableType, None]
+
+
+class AwesomeVersionDiff(TypedDict):
+    """Structured output of AwesomeVersion.diff"""
+
+    major: bool
+    minor: bool
+    patch: bool
+    modifier: bool
+    strategy: bool
