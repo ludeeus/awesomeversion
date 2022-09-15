@@ -1,6 +1,7 @@
 """Test awesomeversion."""
 import json
 import warnings
+from awesomeversion.exceptions import AwesomeVersionException
 
 import pytest
 
@@ -228,42 +229,17 @@ def test_diff() -> None:
     """Test .diff"""
     version = AwesomeVersion("2020.12.1")
 
-    assert version.diff("2021.12.1") == {
-        "major": True,
-        "minor": False,
-        "modifier": False,
-        "patch": False,
-        "strategy": False,
-    }
+    assert version.diff("2021.12.1").major
+    assert not version.diff("2021.12.1").minor
+    assert not version.diff("2021.12.1").patch
+    assert not version.diff("2021.12.1").modifier
+    assert not version.diff("2021.12.1").strategy
 
-    assert version.diff("2020.11.1") == {
-        "major": False,
-        "minor": True,
-        "modifier": False,
-        "patch": False,
-        "strategy": False,
-    }
+    assert version.diff("2021.11.1").minor
+    assert version.diff("2021.12.2").patch
+    assert version.diff("2021.12.1dev2").modifier
+    assert version.diff("2.11.1").strategy
 
-    assert version.diff("2020.12.2") == {
-        "major": False,
-        "minor": False,
-        "modifier": False,
-        "patch": True,
-        "strategy": False,
-    }
 
-    assert version.diff("2020.12.1dev2") == {
-        "major": False,
-        "minor": False,
-        "modifier": True,
-        "patch": False,
-        "strategy": False,
-    }
-
-    assert version.diff("2.12.1") == {
-        "major": True,
-        "minor": False,
-        "modifier": False,
-        "patch": False,
-        "strategy": True,
-    }
+    with pytest.raises(AwesomeVersionException):
+        version.diff(None)
