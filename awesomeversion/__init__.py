@@ -1,5 +1,5 @@
 """Initialize the AwesomeVersion package."""
-from .awesomeversion import AwesomeVersion
+from .awesomeversion import AwesomeVersion, AwesomeVersionDiff
 from .exceptions import (
     AwesomeVersionCompareException,
     AwesomeVersionException,
@@ -10,6 +10,7 @@ from .strategy import COMPARABLE_STRATEGIES, AwesomeVersionStrategy
 __all__ = [
     "AwesomeVersion",
     "AwesomeVersionCompareException",
+    "AwesomeVersionDiff",
     "AwesomeVersionException",
     "AwesomeVersionStrategy",
     "AwesomeVersionStrategyException",

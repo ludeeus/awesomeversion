@@ -1,6 +1,7 @@
 """AwesomeVersion."""
 from __future__ import annotations
 
+from dataclasses import dataclass
 from typing import Any
 from warnings import warn
 
@@ -15,12 +16,7 @@ from .strategy import (
     AwesomeVersionStrategy,
     AwesomeVersionStrategyDescription,
 )
-from .typing import (
-    AwesomeVersionDiff,
-    EnsureStrategyIterableType,
-    EnsureStrategyType,
-    VersionType,
-)
+from .typing import EnsureStrategyIterableType, EnsureStrategyType, VersionType
 from .utils.regex import (
     RE_DIGIT,
     RE_MODIFIER,
@@ -451,3 +447,14 @@ class AwesomeVersion(_AwesomeVersionBase):
                 generate_full_string_regex(RE_SIMPLE).match(self.string) is not None
             )
         return self._simple
+
+
+@dataclass
+class AwesomeVersionDiff:
+    """Structured output of AwesomeVersion.diff"""
+
+    major: bool
+    minor: bool
+    patch: bool
+    modifier: bool
+    strategy: bool

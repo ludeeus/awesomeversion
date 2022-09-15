@@ -1,7 +1,6 @@
 """Test awesomeversion."""
 import json
 import warnings
-from awesomeversion.exceptions import AwesomeVersionException
 
 import pytest
 
@@ -10,6 +9,7 @@ from awesomeversion import (
     AwesomeVersionStrategy,
     AwesomeVersionStrategyException,
 )
+from awesomeversion.exceptions import AwesomeVersionException
 from awesomeversion.strategy import COMPARABLE_STRATEGIES
 from awesomeversion.typing import VersionType
 
@@ -239,7 +239,6 @@ def test_diff() -> None:
     assert version.diff("2021.12.2").patch
     assert version.diff("2021.12.1dev2").modifier
     assert version.diff("2.11.1").strategy
-
 
     with pytest.raises(AwesomeVersionException):
         version.diff(None)
