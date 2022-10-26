@@ -29,7 +29,7 @@ isort = "^5.10.1"
 mypy = "^0.982"
 pylint = "^2.13.9"
 pytest = "^7.2.0"
-pytest-cov = "^3.0.0"
+pytest-cov = "^4.0.0"
 
 [tool.isort]
 combine_as_imports = true
