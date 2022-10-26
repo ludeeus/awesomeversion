@@ -1,6 +1,6 @@
 {
 	"name": "AwesomeVersion",
-	"image": "mcr.microsoft.com/vscode/devcontainers/python:0-3.10",
+	"image": "mcr.microsoft.com/vscode/devcontainers/python:0-3.11",
 	"postCreateCommand": "make requirements",
 	"customizations": {
 		"vscode": {
