@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+  <title>AwesomeVersion Demo</title>
+  <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
+  <script defer src="https://pyscript.net/latest/pyscript.js"></script>
+  <style>
+  footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    color: white;
+    text-align: center;
+  }
+  </style>
+</head>
+
+<body>
+  <py-config type="json">
+    {
+    "packages": ["awesomeversion"]
+    }
+  </py-config>
+<py-script>
+from awesomeversion import AwesomeVersion
+import json
+import inspect
+
+def extract_awesomeversion_properties(*args, **kwargs):  
+    inputversion = Element('version-input').element.value.strip()
+    version = AwesomeVersion(inputversion)
+    
+    content = json.dumps(
+    	{
+        	"string": version.string,
+            "strategy": version.strategy,
+            "beta": version.beta,
+            "prefix": version.prefix,
+            "alpha": version.alpha,
+            "dev": version.dev,
+            "release_candidate": version.release_candidate,
+            "sections": version.sections,
+            "major": version.major,
+            "minor": version.minor,
+            "patch": version.patch,
+            "micro": version.micro,
+            "year": version.year,
+            "valid": version.valid,
+            "modifier": version.modifier,
+            "modifier_type": version.modifier_type,
+            "simple": version.simple,
+        },
+        indent=2
+    )
+
+    Element('properties-output').element.innerText = content
+</py-script>
+
+  <div>Input a version string here to show it's properties</div>
+  <input type="text" id="version-input"/>
+  <button id="submit-button" type="submit" py-click="extract_awesomeversion_properties()">Submit</button>
+  <pre id="properties-output"></pre>
+  
+  <footer>
+  	<p><a href="https://github.com/ludeeus/awesomeversion" target="_blank">AwesomeVersion</a> demo powered by <a href="https://pyscript.net/" target="_blank">PyScript</a></p>
+  </footer>
+
+  </body>
+</html>
