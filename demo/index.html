@@ -7,14 +7,92 @@
   <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
   <script defer src="https://pyscript.net/latest/pyscript.js"></script>
   <style>
-  footer {
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    color: white;
-    text-align: center;
-  }
+    html {
+      --primary-text-color: #212121;
+      --secondary-text-color: #727272;
+      --primary-background-color: #fafafa;
+      --secondary-background-color: #ffffff;
+      --divider-color: rgba(0, 0, 0, 0.12);
+      --primary-color: #ffa500;
+    }
+
+    body {
+      font-family: "Segoe UI", Roboto, sans-serif;
+      font-size: 1em;
+      padding: 0;
+      margin: 0;
+      line-height: 1.4;
+      background-color: var(--primary-background-color);
+      color: var(--primary-text-color);
+    }
+
+    pre {
+      background-color: var(--secondary-background-color);
+      padding: 8px;
+      border-radius: 4px;
+      text-align: start;
+    }
+
+    a {
+      color: var(--primary-color);
+      text-decoration: none;
+    }
+
+    input, button {
+        background-color: var(--secondary-background-color);
+        color: var(--primary-text-color);
+    }
+
+    .content {
+      margin: 32px 0;
+      text-align: center;
+    }
+
+    .container {
+      margin: 0 auto;
+      padding: 16px 8px;
+      max-width: 350px;
+    }
+
+    .footer {
+      margin-top: 24px;
+      border-top: 1px solid var(--divider-color);
+      padding-top: 24px;
+      text-align: center;
+    }
+
+    .footer > * {
+      white-space: nowrap;
+    }
+
+    .footer .initiative {
+      font-style: italic;
+      margin-top: 16px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      html {
+        --primary-text-color: #e1e1e1;
+        --secondary-text-color: #9b9b9b;
+        --primary-background-color: #111111;
+        --secondary-background-color: #202020;
+        --divider-color: rgba(225, 225, 225, 0.12);
+      }
+    }
+
+    @media screen and (max-width: 500px) {
+      body {
+        font-size: 0.8em;
+      }
+
+      .container {
+        padding: 0 8px;
+      }
+
+      .serperator {
+        display: none;
+      }
+    }
   </style>
 </head>
 
@@ -32,41 +110,45 @@ import inspect
 def extract_awesomeversion_properties(*args, **kwargs):  
     inputversion = Element('version-input').element.value.strip()
     version = AwesomeVersion(inputversion)
-    
-    content = json.dumps(
+    Element('properties-output').element.innerText = json.dumps(
     	{
         	"string": version.string,
-            "strategy": version.strategy,
-            "beta": version.beta,
-            "prefix": version.prefix,
-            "alpha": version.alpha,
-            "dev": version.dev,
-            "release_candidate": version.release_candidate,
-            "sections": version.sections,
-            "major": version.major,
-            "minor": version.minor,
-            "patch": version.patch,
-            "micro": version.micro,
-            "year": version.year,
-            "valid": version.valid,
-            "modifier": version.modifier,
-            "modifier_type": version.modifier_type,
-            "simple": version.simple,
+          "alpha": version.alpha,
+          "beta": version.beta,
+          "dev": version.dev,
+          "major": version.major,
+          "micro": version.micro,
+          "minor": version.minor,
+          "modifier_type": version.modifier_type,
+          "modifier": version.modifier,
+          "patch": version.patch,
+          "prefix": version.prefix,
+          "release_candidate": version.release_candidate,
+          "sections": version.sections,
+          "simple": version.simple,
+          "strategy": version.strategy,
+          "valid": version.valid,
+          "year": version.year,
         },
         indent=2
     )
-
-    Element('properties-output').element.innerText = content
 </py-script>
 
-  <div>Input a version string here to show it's properties</div>
-  <input type="text" id="version-input"/>
-  <button id="submit-button" type="submit" py-click="extract_awesomeversion_properties()">Submit</button>
-  <pre id="properties-output"></pre>
+  <div class="container content">
+    <div>Input a version string here to show it's properties</div>
+    <input type="text" id="version-input"/>
+    <button id="submit-button" type="submit" py-click="extract_awesomeversion_properties()">Submit</button>
+  </div>
+  <div class="container content">
+    <pre id="properties-output"></pre>
+  </div>
+
   
-  <footer>
-  	<p><a href="https://github.com/ludeeus/awesomeversion" target="_blank">AwesomeVersion</a> demo powered by <a href="https://pyscript.net/" target="_blank">PyScript</a></p>
-  </footer>
+  <div class="container">
+    <div class="footer">
+      <p><a href="https://github.com/ludeeus/awesomeversion" target="_blank">AwesomeVersion</a> demo powered by <a href="https://pyscript.net/" target="_blank">PyScript</a></p>
+    </div>
+  </div>
 
   </body>
 </html>
