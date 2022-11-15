@@ -146,7 +146,7 @@ class AwesomeVersion(_AwesomeVersionBase):
     def __enter__(self) -> AwesomeVersion:
         return self
 
-    def __exit__(self, *_: Any, **__: Any) -> bool:
+    def __exit__(self, *_: Any, **__: Any) -> None:
         pass
 
     def __repr__(self) -> str:
