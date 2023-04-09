@@ -1,7 +1,5 @@
 <!DOCTYPE html>
-
 <html>
-
 <head>
   <title>AwesomeVersion Demo</title>
   <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
@@ -48,10 +46,16 @@
       text-align: center;
     }
 
+    .content div{
+      margin: 0 8px;
+    }
+
     .container {
       margin: 0 auto;
       padding: 16px 8px;
       max-width: 350px;
+      display: flex;
+      justify-content: space-between;
     }
 
     .footer {
@@ -106,11 +110,15 @@
 from awesomeversion import AwesomeVersion
 import json
 import inspect
-
-def extract_awesomeversion_properties(*args, **kwargs):  
-    inputversion = Element('version-input').element.value.strip()
-    version = AwesomeVersion(inputversion)
-    Element('properties-output').element.innerText = json.dumps(
+  
+def safe_compare(a, b):
+  try:
+    return a > b
+  except Exception:
+    return None
+  
+def version_json(version):
+  return json.dumps(
     	{
         	"string": version.string,
           "alpha": version.alpha,
@@ -132,15 +140,52 @@ def extract_awesomeversion_properties(*args, **kwargs):
         },
         indent=2
     )
+
+def extract_awesomeversion_properties(*args, **kwargs):
+    versions = {
+      "a": AwesomeVersion(Element("version-input-a").element.value.strip() or None),
+      "b": AwesomeVersion(Element("version-input-b").element.value.strip() or None)
+    }
+  
+    for key,version in versions.items():
+      if version.string == "None":
+        Element(f"properties-output-{key}").element.innerText = ""
+        Element("properties-output-diff").element.innerText = ""
+        continue
+      Element(f"properties-output-{key}").element.innerText = f"Version {key.upper()} properties:\n{version_json(version)}"
+  
+    if versions["a"].string != "None" and versions["b"].string != "None":
+      Element("properties-output-diff").element.innerText =f"""Compare:
+{json.dumps({
+  f"{versions['a'].string}>{versions['b'].string}": safe_compare(versions["a"],versions["b"]),
+  f"{versions['b'].string}>{versions['a'].string}": safe_compare(versions["b"],versions["a"]),
+  "diff": {
+    "major": versions["a"].major != versions["b"].major,
+    "minor": versions["a"].minor != versions["b"].minor,
+    "patch": versions["a"].patch != versions["b"].patch,
+    "modifier": versions["a"].modifier != versions["b"].modifier,
+    "strategy": versions["a"].strategy != versions["b"].strategy,
+  }
+  },indent=2)}"""
+  
+    
 </py-script>
 
   <div class="container content">
-    <div>Input a version string here to show it's properties</div>
-    <input type="text" id="version-input"/>
+    <div>
+      <div>Version A</div>
+      <input type="text" id="version-input-a"/>
+    </div>
+    <div>
+      <div>Version B</div>
+      <input type="text" id="version-input-b"/>
+    </div>
     <button id="submit-button" type="submit" py-click="extract_awesomeversion_properties()">Submit</button>
   </div>
   <div class="container content">
-    <pre id="properties-output"></pre>
+    <pre id="properties-output-a"></pre>
+    <pre id="properties-output-diff"></pre>
+    <pre id="properties-output-b"></pre>
   </div>
 
   
@@ -149,6 +194,14 @@ def extract_awesomeversion_properties(*args, **kwargs):
       <p><a href="https://github.com/ludeeus/awesomeversion" target="_blank">AwesomeVersion</a> demo powered by <a href="https://pyscript.net/" target="_blank">PyScript</a></p>
     </div>
   </div>
-
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get("a")) {
+      document.querySelector("#version-input-a").value = urlParams.get("a")
+    }
+    if (urlParams.get("b")) {
+      document.querySelector("#version-input-b").value = urlParams.get("b")
+    }
+  </script>
   </body>
 </html>
