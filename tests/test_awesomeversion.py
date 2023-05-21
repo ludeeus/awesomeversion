@@ -280,8 +280,8 @@ def test_in_range(
     ],
 )
 def test_in_range_exception(
-    lowest: VersionType,
-    version: VersionType | None,
+    lowest: VersionType | None,
+    version: VersionType,
     highest: VersionType | None,
     match: str,
 ) -> None:
