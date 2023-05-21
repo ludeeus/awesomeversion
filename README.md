@@ -272,4 +272,4 @@ print(AwesomeVersion("beta") > AwesomeVersion("dev"))
 8. Create a PR against the `main` branch
 
 
-[awesomeversion_demo]: https://github.com/ludeeus/awesomeversion#awesomeversion-methods
+[awesomeversion_demo]: https://ludeeus.github.io/awesomeversion/
