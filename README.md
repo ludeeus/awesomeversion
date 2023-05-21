@@ -34,8 +34,7 @@ Argument | Description
 This is a helper method to check if the version is in a range.
 This method takes two arguments, `lowest` and `highest`, both are required, and returns a boolean.
 
-> **note**
-> This method is the same as doing `lowest <= AwesomeVersion <= highest`
+> **Note** This method is the same as doing `lowest <= AwesomeVersion <= highest`
 
 Example:
 
