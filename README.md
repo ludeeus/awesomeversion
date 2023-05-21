@@ -26,6 +26,28 @@ Argument | Description
 `ensure_strategy` | Match the `AwesomeVersion` object against spesific strategies when creating if. If it does not match `AwesomeVersionStrategyException` will be raised
 `find_first_match` | If True, the version given will be scanned for the first match of the given `ensure_strategy`. Raises `AwesomeVersionStrategyException` If it is not found for any of the given strategies.
 
+## AwesomeVersion methods
+
+<details>
+<summary><code>AwesomeVersion.in_range</code></summary>
+
+This is a helper method to check if the version is in a range.
+This method takes two arguments, `lowest` and `highest`, both are required, and returns a boolean.
+
+> **note**
+> This method is the same as doing `lowest <= AwesomeVersion <= highest`
+
+Example:
+
+```python
+from awesomeversion import AwesomeVersion
+print(AwesomeVersion("1.2.2").in_range("1.2.1", "1.3"))
+> True
+print(AwesomeVersion("1.2.0").in_range("1.2.1", "1.3"))
+> False
+```
+
+</details>
 
 ## Example usage
 
