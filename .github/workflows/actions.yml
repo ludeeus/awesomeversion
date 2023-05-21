@@ -60,7 +60,7 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.entry.version }}
-          allow-prereleases: ${{ matrix.entry.prereleases }}
+          allow-prereleases: ${{ matrix.entry.prereleases || false }}
 
       - name: 📦 Install dependencies
         run: make requirements
