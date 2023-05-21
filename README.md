@@ -48,9 +48,71 @@ print(AwesomeVersion("1.2.0").in_range("1.2.1", "1.3"))
 
 </details>
 
+<details>
+<summary><code>AwesomeVersion.diff</code></summary>
+
+This is a helper method to get the difference between two versions.
+This method takes one argument which is the version to compare against, and returns a `AwesomeVersionDiff` object.
+
+> **Note** This method is the same as doing `AwesomeVersion - version`
+
+Example:
+
+```python
+from awesomeversion import AwesomeVersion
+> print(AwesomeVersion("1.0").diff("2.1"))
+AwesomeVersionDiff(major=True, minor=True, patch=False, modifier=False, strategy=False)
+```
+
+</details>
+
+
+<details>
+<summary><code>AwesomeVersion.section</code></summary>
+
+This is a helper method to get a section of the version.
+This method takes one argument which is the section to get, and returns an integer representing it (or 0 if it does not exist).
+
+Example:
+
+```python
+from awesomeversion import AwesomeVersion
+> print(AwesomeVersion("1.0").section(0))
+1
+```
+
+</details>
+
+
+## AwesomeVersion properties
+
+Argument | Description
+--- | ---
+`alpha` | This is a boolean representing if the version is an alpha version.
+`beta` | This is a boolean representing if the version is a beta version.
+`dev` | This is a boolean representing if the version is a dev version.
+`major` | This is an `AwesomeVersion` object representing the major version or `None` if not present.
+`micro` | This is an `AwesomeVersion` object representing the micro version or `None` if not present.
+`minor` | This is an `AwesomeVersion` object representing the minor version or `None` if not present.
+`modifier_type` | This is a string representing the modifier type of the version or `None` if not present.
+`modifier` | This is a string representing the modifier of the version or `None` if not present.
+`patch` | This is an `AwesomeVersion` object representing the patch version or `None` if not present.
+`prefix` | This is the prefix of the version or `None` if not present.
+`release_candidate` | This is a boolean representing if the version is a release candidate version.
+`simple` | This is a boolean representing if the version is a simple version.
+`strategy_description` | This is a `AwesomeVersionStrategyDescription` object representing the strategy description of the version.
+`strategy` | This is a `AwesomeVersionStrategy` object representing the strategy of the version.
+`string` | This is the string representation of the version (without the v prefix if present).
+`valid` | This is a boolean representing if the version is valid (not unknown strategy).
+`year` | This is alias to `major`, and is an `AwesomeVersion` object representing the year.
+
+
 ## Example usage
 
-These are some examples of what you can do, more examples can be found in the `tests` directory.
+Here are some examples of how you can use this package, more examples can be found in the `tests` directory.
+
+<details>
+<summary><code>Basic compare</code></summary>
 
 ```python
 from awesomeversion import AwesomeVersion
@@ -62,14 +124,10 @@ print(upstream > current)
 > True
 ```
 
-```python
-from awesomeversion import AwesomeVersion
+</details>
 
-version = AwesomeVersion("1.2.3b0")
-
-print(version.beta)
-> True
-```
+<details>
+<summary><code>Compare beta version</code></summary>
 
 ```python
 from awesomeversion import AwesomeVersion
@@ -77,29 +135,29 @@ from awesomeversion import AwesomeVersion
 current = AwesomeVersion("2021.1.0")
 upstream = AwesomeVersion("2021.1.0b2")
 
-print(upstream > current)
-> False
-```
-
-```python
-from awesomeversion import AwesomeVersion
-
-current = AwesomeVersion("latest")
-upstream = AwesomeVersion("2021.1.0")
-
-print(upstream > current)
-> False
-```
-
-```python
-from awesomeversion import AwesomeVersion
-
-current = AwesomeVersion("latest")
-upstream = AwesomeVersion("dev")
-
-print(upstream > current)
+print(current > upstream)
 > True
 ```
+
+</details>
+
+<details>
+<summary><code>Check if version is a beta version</code></summary>
+
+```python
+from awesomeversion import AwesomeVersion
+
+print(AwesomeVersion("1.2.3b0").beta)
+> True
+
+print(AwesomeVersion("1.2.3").beta)
+> False
+```
+
+</details>
+
+<details>
+<summary><code>Use <code>AwesomeVersion</code> with <code>with ...</code></summary>
 
 ```python
 from awesomeversion import AwesomeVersion
@@ -110,25 +168,95 @@ with AwesomeVersion("20.12.0") as current:
 > True
 ```
 
+</details>
+
+<details>
+<summary><code>Compare <code>AwesomeVersion</code> with other non-<code>AwesomeVersion</code> formats</summary>
+
 ```python
 from awesomeversion import AwesomeVersion
 
-with AwesomeVersion("20.12.0") as current:
-    print("2020.12.1" > current)
+base = AwesomeVersion("20.12.0")
+
+print(base > "20.12.1")
+> False
+
+print(base > "19")
+> True
+
+print(base > 5)
 > True
 ```
 
+</details>
+
+
+## General behavior
+
+You can test your versions on the [demo page][awesomeversion_demo].
+
+### Modifiers
+
+When comparing versions with modifiers, if the base version is the same the modifier will be used to determine the order.
+If one of the versions do not have a modifier, the one without will be considered newer.
+
+The order of the modifiers are:
+- No modifier
+- RC
+- Beta
+- Alpha
+- Dev
+
+<details>
+<summary>Examples</summary>
+
 ```python
 from awesomeversion import AwesomeVersion
 
-version = AwesomeVersion("2.12.0")
-print(version.major)
-> 2
-print(version.minor)
-> 12
-print(version.patch)
-> 0
+print(AwesomeVersion("1.0.0") > AwesomeVersion("1.0.0b6"))
+> True
+print(AwesomeVersion("1.0.0") > AwesomeVersion("1.0.0.dev6"))
+> True
+print(AwesomeVersion("1.0.0.dev19") > AwesomeVersion("1.0.0b4"))
+> False
 ```
+
+</details>
+
+
+### Special versions (container)
+
+There are some special versions for container that are handled differently than typical version formats.
+The special versions are in the following order:
+- `dev` (newest)
+- `latest`
+- `beta`
+- `stable` (oldest)
+
+If only the first version is this special version, it will be considered newer.
+If only the second version is this special version, it will be considered older.
+
+
+<details>
+<summary>Examples</summary>
+
+```python
+from awesomeversion import AwesomeVersion
+
+print(AwesomeVersion("latest") > AwesomeVersion("1.0.0b6"))
+> True
+print(AwesomeVersion("1.0.0") > AwesomeVersion("latest"))
+> False
+print(AwesomeVersion("stable") > AwesomeVersion("latest"))
+> False
+print(AwesomeVersion("beta") > AwesomeVersion("dev"))
+> False
+```
+
+</details>
+
+
+
 
 ## Contribute
 
@@ -142,3 +270,6 @@ print(version.patch)
 6. Ensure 100% coverage with `make coverage`
 7. Commit your work, and push it to GitHub
 8. Create a PR against the `main` branch
+
+
+[awesomeversion_demo]: https://github.com/ludeeus/awesomeversion#awesomeversion-methods
