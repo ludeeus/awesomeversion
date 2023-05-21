@@ -38,21 +38,29 @@ jobs:
         run: make isort-check
 
   test:
-    name: Test with Python ${{ matrix.python-version }}
+    name: Test with Python ${{ matrix.entry.version }}
     needs: lint
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
-        python-version: [3.7, 3.8, 3.9, "3.10", "3.11"]
+        entry: 
+          - version: "3.7"
+          - version: "3.8"
+          - version: "3.9"
+          - version: "3.10"
+          - version: "3.11"
+          - version: "3.12"
+            prereleases: true
     steps:
       - name: 📥 Checkout the repository
         uses: actions/checkout@v3
 
-      - name: 🛠️ Set up Python ${{ matrix.python-version }}
+      - name: 🛠️ Set up Python ${{ matrix.entry.version }}
         uses: actions/setup-python@v4
         with:
-          python-version: ${{ matrix.python-version }}
-
+          python-version: ${{ matrix.entry.version }}
+          allow-prereleases: ${{ matrix.entry.prereleases || false }}
 
       - name: 📦 Install dependencies
         run: make requirements
