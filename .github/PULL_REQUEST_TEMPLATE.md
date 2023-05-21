@@ -50,6 +50,6 @@
 - [ ] The code change is tested and works locally.
 - [ ] Local tests pass.
 - [ ] There is no commented out code in this PR.
-- [ ] The code has been formatted using Black (`make black`)
+- [ ] The code has been formatted using Black (`make lint`)
 - [ ] Tests have been added to verify that the new code works.
 
