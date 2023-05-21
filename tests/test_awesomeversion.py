@@ -1,4 +1,6 @@
 """Test awesomeversion."""
+from __future__ import annotations
+
 import json
 import warnings
 
@@ -9,7 +11,10 @@ from awesomeversion import (
     AwesomeVersionStrategy,
     AwesomeVersionStrategyException,
 )
-from awesomeversion.exceptions import AwesomeVersionException
+from awesomeversion.exceptions import (
+    AwesomeVersionCompareException,
+    AwesomeVersionException,
+)
 from awesomeversion.strategy import COMPARABLE_STRATEGIES
 from awesomeversion.typing import VersionType
 
@@ -246,3 +251,42 @@ def test_diff() -> None:
 
     with pytest.raises(AwesomeVersionException):
         version.diff(None)
+
+
+@pytest.mark.parametrize(
+    "lowest,version,highest,result",
+    [
+        ("14.0", "14.0", "14.0", True),
+        ("14.0", "12.0", "15.0", False),
+        ("14", "12.1", "15", False),
+        ("14", "14.3", "15", True),
+        ("1", 13, "15", True),
+        ("1", AwesomeVersion(2), "15", True),
+    ],
+)
+def test_in_range(
+    lowest: VersionType,
+    version: VersionType,
+    highest: VersionType,
+    result: bool,
+) -> None:
+    """Test AwesomeVersion.in_range"""
+    assert AwesomeVersion(version).in_range(lowest, highest) == result
+
+
+@pytest.mark.parametrize(
+    "lowest,version,highest,match",
+    [
+        (None, "14.0", "14.0", "Lowest version is not valid"),
+        ("14.0", "14.0", None, "Highest version is not valid"),
+    ],
+)
+def test_in_range_exception(
+    lowest: VersionType | None,
+    version: VersionType,
+    highest: VersionType | None,
+    match: str,
+) -> None:
+    """Test AwesomeVersion.in_range exceptions"""
+    with pytest.raises(AwesomeVersionCompareException, match=match):
+        AwesomeVersion(version).in_range(lowest, highest)

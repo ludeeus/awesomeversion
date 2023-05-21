@@ -223,6 +223,18 @@ class AwesomeVersion(_AwesomeVersionBase):
             }
         )
 
+    def in_range(self, lowest: VersionType, highest: VersionType) -> bool:
+        """Check if version is in range."""
+        if isinstance(lowest, (str, float, int)):
+            lowest = AwesomeVersion(lowest)
+        if isinstance(highest, (str, float, int)):
+            highest = AwesomeVersion(highest)
+        if not isinstance(lowest, AwesomeVersion):
+            raise AwesomeVersionCompareException("Lowest version is not valid")
+        if not isinstance(highest, AwesomeVersion):
+            raise AwesomeVersionCompareException("Highest version is not valid")
+        return lowest <= self <= highest
+
     def section(self, idx: int) -> int:
         """Return the value of the specified section of the version."""
         if self.sections >= (idx + 1):
