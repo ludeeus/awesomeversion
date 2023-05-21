@@ -157,7 +157,7 @@ print(AwesomeVersion("1.2.3").beta)
 </details>
 
 <details>
-<summary><code>Use <code>AwesomeVersion</code> with <code>with ...</code></summary>
+<summary>Use <code>AwesomeVersion</code> with <code>with ...</code></summary>
 
 ```python
 from awesomeversion import AwesomeVersion
@@ -171,7 +171,7 @@ with AwesomeVersion("20.12.0") as current:
 </details>
 
 <details>
-<summary><code>Compare <code>AwesomeVersion</code> with other non-<code>AwesomeVersion</code> formats</summary>
+<summary>Compare <code>AwesomeVersion</code> with other non-<code>AwesomeVersion</code> formats</summary>
 
 ```python
 from awesomeversion import AwesomeVersion
