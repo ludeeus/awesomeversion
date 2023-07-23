@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 import json
-from typing import Hashable
 import warnings
 
 import pytest
@@ -137,7 +136,8 @@ def test_nesting(version: VersionType) -> None:
     assert str(
         (
             AwesomeVersion(
-                AwesomeVersion(AwesomeVersion(AwesomeVersion(AwesomeVersion(obj))))
+                AwesomeVersion(AwesomeVersion(
+                    AwesomeVersion(AwesomeVersion(obj))))
             )
         )
         == version
