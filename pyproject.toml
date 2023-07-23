@@ -21,7 +21,7 @@ repository = "https://github.com/ludeeus/awesomeversion"
 version = "0"
 
 [tool.poetry.dependencies]
-python = "^3.7"
+python = "^3.8"
 
 [tool.poetry.dev-dependencies]
 black = "^23.3"
