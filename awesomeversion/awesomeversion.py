@@ -207,6 +207,9 @@ class AwesomeVersion(_AwesomeVersionBase):
     def __sub__(self, compareto: object) -> AwesomeVersionDiff:
         return self.diff(compareto)
 
+    def __hash__(self) -> int:
+        return str.__hash__(self.string)
+
     def diff(self, compareto: VersionType) -> AwesomeVersionDiff:
         """Return a dictionary with differences between 2 AwesomeVersion objects."""
         if isinstance(compareto, (str, float, int)):
