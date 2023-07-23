@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+from typing import Hashable
 import warnings
 
 import pytest
@@ -136,7 +137,8 @@ def test_nesting(version: VersionType) -> None:
     assert str(
         (
             AwesomeVersion(
-                AwesomeVersion(AwesomeVersion(AwesomeVersion(AwesomeVersion(obj))))
+                AwesomeVersion(AwesomeVersion(
+                    AwesomeVersion(AwesomeVersion(obj))))
             )
         )
         == version
@@ -290,3 +292,22 @@ def test_in_range_exception(
     """Test AwesomeVersion.in_range exceptions"""
     with pytest.raises(AwesomeVersionCompareException, match=match):
         AwesomeVersion(version).in_range(lowest, highest)
+
+
+def test_hash() -> None:
+    """Test hash."""
+    version = AwesomeVersion("2020.12.1")
+    assert hash(version) == hash("2020.12.1") == str.__hash__("2020.12.1")
+
+    version_set = set(
+        [
+            version,
+            AwesomeVersion("2020.12.1"),
+            AwesomeVersion("2020.12.2"),
+            version,
+        ]
+    )
+    assert len(version_set) == 2
+    assert version in version_set
+    assert "2020.12.1" in version_set
+    assert AwesomeVersion("2021.12.1") not in version_set
