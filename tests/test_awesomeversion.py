@@ -137,8 +137,7 @@ def test_nesting(version: VersionType) -> None:
     assert str(
         (
             AwesomeVersion(
-                AwesomeVersion(AwesomeVersion(
-                    AwesomeVersion(AwesomeVersion(obj))))
+                AwesomeVersion(AwesomeVersion(AwesomeVersion(AwesomeVersion(obj))))
             )
         )
         == version
