@@ -40,7 +40,7 @@ def test() -> None:
     with pytest.raises(
         AwesomeVersionStrategyException,
         match=re.escape(
-            "Strategy unknown does not match ['SemVer'" ", 'CalVer'] for whatever"
+            "Strategy unknown does not match ['SemVer', 'CalVer'] for whatever"
         ),
     ):
         AwesomeVersion(
@@ -53,6 +53,6 @@ def test() -> None:
 
     with pytest.raises(
         AwesomeVersionStrategyException,
-        match=re.escape("Strategy CalVer does not match ['SemVer']" " for 2021.12"),
+        match=re.escape("Strategy CalVer does not match ['SemVer'] for 2021.12"),
     ):
         AwesomeVersion("2021.12", ensure_strategy=AwesomeVersionStrategy.SEMVER)
