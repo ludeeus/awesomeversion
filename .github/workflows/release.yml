@@ -5,10 +5,18 @@ on:
     types:
       - published
 
+permissions: {}
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    name: Deploy to PyPi
+    name: Build package
+    environment:
+      name: release
+      url: https://pypi.org/project/awesomeversion
+    permissions:
+      # Used to authenticate to PyPI via OIDC.
+      id-token: write
     steps:
       - name: 📥 Checkout the repository
         uses: actions/checkout@v3
@@ -27,7 +35,8 @@ jobs:
           export version=${{ github.ref }}
           poetry version "${version##*/}"
 
+      - name: 🛠 Build
+        run: poetry build --no-interaction
+
       - name: 🚀 Publish to PyPi
-        env:
-          POETRY_PYPI_TOKEN_PYPI: ${{ secrets.PYPI_TOKEN }}
-        run: poetry publish --build --no-interaction
+        uses: pypa/gh-action-pypi-publish@v1.8.8
