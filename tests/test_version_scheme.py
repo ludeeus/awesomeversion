@@ -61,7 +61,9 @@ def test_named_sections() -> None:
 def test_named_sections_invalid() -> None:
     """Test invalid named sections."""
     version = AwesomeVersion("latest")
-    assert version.major == version.year is None
+    assert version.major is None
     assert version.minor is None
     assert version.patch is None
-    assert version.micro == version.patch is None
+
+    assert version.year == version.major
+    assert version.micro == version.patch
