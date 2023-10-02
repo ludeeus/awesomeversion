@@ -27,7 +27,7 @@ python = "^3.8"
 black = "^23.7"
 isort = "^5.12.0"
 mypy = "^1.4"
-pylint = "^2.17.6"
+pylint = "^2.17.7"
 pytest = "^7.4.0"
 pytest-cov = "^4.1.0"
 
