@@ -1,7 +1,7 @@
 # AwesomeVersion
 
 [![codecov](https://codecov.io/gh/ludeeus/awesomeversion/branch/main/graph/badge.svg)](https://codecov.io/gh/ludeeus/awesomeversion)
-![python version](https://img.shields.io/badge/Python-3.8=><=3.11-blue.svg)
+![python version](https://img.shields.io/badge/Python-3.8=><=3.12-blue.svg)
 ![dependencies](https://img.shields.io/badge/Dependencies-0-blue.svg)
 [![PyPI](https://img.shields.io/pypi/v/awesomeversion)](https://pypi.org/project/awesomeversion)
 ![Actions](https://github.com/ludeeus/awesomeversion/workflows/Actions/badge.svg?branch=main)
