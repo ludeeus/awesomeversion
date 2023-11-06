@@ -1,0 +1,1101 @@
+{
+    "0.1": {
+        "major": true,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "0.118.0": {
+        "major": true,
+        "minor": true,
+        "patch": false,
+        "modifier": true,
+        "strategy": false
+    },
+    "0": {
+        "major": true,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "1.0.0-alpha.1": {
+        "major": false,
+        "minor": false,
+        "patch": false,
+        "modifier": true,
+        "strategy": false
+    },
+    "1.0.0-alpha.2": {
+        "major": false,
+        "minor": false,
+        "patch": false,
+        "modifier": false,
+        "strategy": false
+    },
+    "1.0.0-alpha": {
+        "major": false,
+        "minor": false,
+        "patch": false,
+        "modifier": true,
+        "strategy": false
+    },
+    "1.0.0-alpha+1.2": {
+        "major": false,
+        "minor": false,
+        "patch": false,
+        "modifier": true,
+        "strategy": false
+    },
+    "1.0.0-alpha1": {
+        "major": false,
+        "minor": false,
+        "patch": false,
+        "modifier": true,
+        "strategy": false
+    },
+    "1.0.0-alpha10": {
+        "major": false,
+        "minor": false,
+        "patch": false,
+        "modifier": true,
+        "strategy": false
+    },
+    "1.0.0-alpha9": {
+        "major": false,
+        "minor": false,
+        "patch": false,
+        "modifier": true,
+        "strategy": false
+    },
+    "1.0.0-beta.1": {
+        "major": false,
+        "minor": false,
+        "patch": false,
+        "modifier": true,
+        "strategy": false
+    },
+    "1.0.0-beta.10": {
+        "major": false,
+        "minor": false,
+        "patch": false,
+        "modifier": true,
+        "strategy": false
+    },
+    "1.0.0-beta.2": {
+        "major": false,
+        "minor": false,
+        "patch": false,
+        "modifier": true,
+        "strategy": false
+    },
+    "1.0.0-beta.9": {
+        "major": false,
+        "minor": false,
+        "patch": false,
+        "modifier": true,
+        "strategy": false
+    },
+    "1.0.0-beta": {
+        "major": false,
+        "minor": false,
+        "patch": false,
+        "modifier": true,
+        "strategy": false
+    },
+    "1.0.0-beta0": {
+        "major": false,
+        "minor": false,
+        "patch": false,
+        "modifier": true,
+        "strategy": false
+    },
+    "1.0.0-beta1": {
+        "major": false,
+        "minor": false,
+        "patch": false,
+        "modifier": true,
+        "strategy": false
+    },
+    "1.0.0-rc.1": {
+        "major": false,
+        "minor": false,
+        "patch": false,
+        "modifier": true,
+        "strategy": false
+    },
+    "1.0.0-rc.2": {
+        "major": false,
+        "minor": false,
+        "patch": false,
+        "modifier": true,
+        "strategy": false
+    },
+    "1.0.0-rc0": {
+        "major": false,
+        "minor": false,
+        "patch": false,
+        "modifier": true,
+        "strategy": false
+    },
+    "1.0.0": {
+        "major": false,
+        "minor": false,
+        "patch": false,
+        "modifier": true,
+        "strategy": false
+    },
+    "1.0.0b0": {
+        "major": true,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "1.0.0b1": {
+        "major": true,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "1.0.0b10": {
+        "major": true,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "1.0.0b9": {
+        "major": true,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "1.0.0rc0": {
+        "major": true,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "1.0.1": {
+        "major": false,
+        "minor": false,
+        "patch": true,
+        "modifier": true,
+        "strategy": false
+    },
+    "1.0.dev0": {
+        "major": true,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "1.0.dev1": {
+        "major": true,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "1.0.dev456": {
+        "major": true,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "1.0.post456.dev34": {
+        "major": true,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "1.0.post456": {
+        "major": true,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "1.0.rc2": {
+        "major": true,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "1.0": {
+        "major": false,
+        "minor": false,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "1.0a1": {
+        "major": true,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "1.0a12.dev456": {
+        "major": true,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "1.0a12": {
+        "major": true,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "1.0a2.dev456": {
+        "major": true,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "1.0b0": {
+        "major": true,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "1.0b1.dev456": {
+        "major": true,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "1.0b1": {
+        "major": true,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "1.0b2.post345.dev456": {
+        "major": true,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "1.0b2.post345": {
+        "major": true,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "1.0b2": {
+        "major": true,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "1.0rc1.dev456": {
+        "major": true,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "1.0rc1": {
+        "major": true,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "1.1.dev1": {
+        "major": true,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "1.1": {
+        "major": false,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "1.2.3-1": {
+        "major": false,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": false
+    },
+    "1.2.3-2": {
+        "major": false,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": false
+    },
+    "1.2.3-alpha.1": {
+        "major": false,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": false
+    },
+    "1.2.3-dev.1": {
+        "major": false,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": false
+    },
+    "1.2.3.4.5.6.6.8": {
+        "major": false,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "1.2.3.4.5.6.7.8.9": {
+        "major": false,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "1.2.3.4.5.6.7.8": {
+        "major": false,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "1.2.3.4.5": {
+        "major": false,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "1.2.3.4.5b0": {
+        "major": true,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "1.2.3.4": {
+        "major": false,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "1.2.3": {
+        "major": false,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": false
+    },
+    "1.2b0": {
+        "major": true,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "1.8.2-beta.1.10": {
+        "major": false,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": false
+    },
+    "1.8.2-beta.1.10+somebuild": {
+        "major": false,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": false
+    },
+    "1.8.2-beta.1.13": {
+        "major": false,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": false
+    },
+    "1.dev0": {
+        "major": true,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "1.dev1": {
+        "major": true,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "1": {
+        "major": false,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "123": {
+        "major": true,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "2.0.0-alpha.1": {
+        "major": true,
+        "minor": false,
+        "patch": false,
+        "modifier": true,
+        "strategy": false
+    },
+    "2.0.0-alpha.2": {
+        "major": true,
+        "minor": false,
+        "patch": false,
+        "modifier": false,
+        "strategy": false
+    },
+    "2.0.0-beta.1": {
+        "major": true,
+        "minor": false,
+        "patch": false,
+        "modifier": true,
+        "strategy": false
+    },
+    "2.0.0-beta.2": {
+        "major": true,
+        "minor": false,
+        "patch": false,
+        "modifier": true,
+        "strategy": false
+    },
+    "2.0.0-rc.1": {
+        "major": true,
+        "minor": false,
+        "patch": false,
+        "modifier": true,
+        "strategy": false
+    },
+    "2.0.0-rc.2": {
+        "major": true,
+        "minor": false,
+        "patch": false,
+        "modifier": true,
+        "strategy": false
+    },
+    "2.0.0": {
+        "major": true,
+        "minor": false,
+        "patch": false,
+        "modifier": true,
+        "strategy": false
+    },
+    "2.1.0": {
+        "major": true,
+        "minor": true,
+        "patch": false,
+        "modifier": true,
+        "strategy": false
+    },
+    "2.1.1": {
+        "major": true,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": false
+    },
+    "2.1.3": {
+        "major": true,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": false
+    },
+    "2.4.6-8": {
+        "major": true,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": false
+    },
+    "2": {
+        "major": true,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "20.1.0": {
+        "major": true,
+        "minor": true,
+        "patch": false,
+        "modifier": true,
+        "strategy": true
+    },
+    "20.1": {
+        "major": true,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "2019": {
+        "major": true,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "2020.1.1.": {
+        "major": true,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "2020.1": {
+        "major": true,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "2020.12.0": {
+        "major": true,
+        "minor": true,
+        "patch": false,
+        "modifier": true,
+        "strategy": true
+    },
+    "2020.12.1": {
+        "major": true,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "2020.12.dev1602": {
+        "major": true,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "2020.12.dev1603": {
+        "major": true,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "2020.2.0": {
+        "major": true,
+        "minor": true,
+        "patch": false,
+        "modifier": true,
+        "strategy": true
+    },
+    "2020.21.1": {
+        "major": true,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "2020": {
+        "major": true,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "2021.1.0.0": {
+        "major": true,
+        "minor": true,
+        "patch": false,
+        "modifier": true,
+        "strategy": true
+    },
+    "2021.1.0.dev0": {
+        "major": true,
+        "minor": true,
+        "patch": false,
+        "modifier": true,
+        "strategy": true
+    },
+    "2021.1.0": {
+        "major": true,
+        "minor": true,
+        "patch": false,
+        "modifier": true,
+        "strategy": true
+    },
+    "2021.1.0a0": {
+        "major": true,
+        "minor": true,
+        "patch": false,
+        "modifier": true,
+        "strategy": true
+    },
+    "2021.1.0b0": {
+        "major": true,
+        "minor": true,
+        "patch": false,
+        "modifier": true,
+        "strategy": true
+    },
+    "2021.1.0b1": {
+        "major": true,
+        "minor": true,
+        "patch": false,
+        "modifier": true,
+        "strategy": true
+    },
+    "2021.1.0b2": {
+        "major": true,
+        "minor": true,
+        "patch": false,
+        "modifier": true,
+        "strategy": true
+    },
+    "2021.1.0dev0": {
+        "major": true,
+        "minor": true,
+        "patch": false,
+        "modifier": true,
+        "strategy": true
+    },
+    "2021.1.0dev20210101": {
+        "major": true,
+        "minor": true,
+        "patch": false,
+        "modifier": true,
+        "strategy": true
+    },
+    "2021.2.0.dev20210118": {
+        "major": true,
+        "minor": true,
+        "patch": false,
+        "modifier": true,
+        "strategy": true
+    },
+    "2021.2.0": {
+        "major": true,
+        "minor": true,
+        "patch": false,
+        "modifier": true,
+        "strategy": true
+    },
+    "2021.2.0b0": {
+        "major": true,
+        "minor": true,
+        "patch": false,
+        "modifier": true,
+        "strategy": true
+    },
+    "2021.2.0b10": {
+        "major": true,
+        "minor": true,
+        "patch": false,
+        "modifier": true,
+        "strategy": true
+    },
+    "2022.01.01": {
+        "major": true,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "2022.01.02": {
+        "major": true,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "2022.02.01": {
+        "major": true,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "2022.02.02": {
+        "major": true,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "2022.03.01": {
+        "major": true,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "2022.03.02": {
+        "major": true,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "2023.01.01": {
+        "major": true,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "2023.01.02": {
+        "major": true,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "2023.02.01": {
+        "major": true,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "2023.02.02": {
+        "major": true,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "2023.03.01": {
+        "major": true,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "2023.03.02": {
+        "major": true,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "3.0.0-alpha.1": {
+        "major": true,
+        "minor": false,
+        "patch": false,
+        "modifier": true,
+        "strategy": false
+    },
+    "3.0.0-alpha.2": {
+        "major": true,
+        "minor": false,
+        "patch": false,
+        "modifier": false,
+        "strategy": false
+    },
+    "3.0.0-beta.1": {
+        "major": true,
+        "minor": false,
+        "patch": false,
+        "modifier": true,
+        "strategy": false
+    },
+    "3.0.0-beta.2": {
+        "major": true,
+        "minor": false,
+        "patch": false,
+        "modifier": true,
+        "strategy": false
+    },
+    "3.0.0-rc.1": {
+        "major": true,
+        "minor": false,
+        "patch": false,
+        "modifier": true,
+        "strategy": false
+    },
+    "3.0.0-rc.2": {
+        "major": true,
+        "minor": false,
+        "patch": false,
+        "modifier": true,
+        "strategy": false
+    },
+    "3.0.0": {
+        "major": true,
+        "minor": false,
+        "patch": false,
+        "modifier": true,
+        "strategy": false
+    },
+    "3.0.1": {
+        "major": true,
+        "minor": false,
+        "patch": true,
+        "modifier": true,
+        "strategy": false
+    },
+    "4.0.0": {
+        "major": true,
+        "minor": false,
+        "patch": false,
+        "modifier": true,
+        "strategy": false
+    },
+    "4.1.0": {
+        "major": true,
+        "minor": true,
+        "patch": false,
+        "modifier": true,
+        "strategy": false
+    },
+    "4.2.0": {
+        "major": true,
+        "minor": true,
+        "patch": false,
+        "modifier": true,
+        "strategy": false
+    },
+    "5.0.0": {
+        "major": true,
+        "minor": false,
+        "patch": false,
+        "modifier": true,
+        "strategy": false
+    },
+    "5.1.0": {
+        "major": true,
+        "minor": true,
+        "patch": false,
+        "modifier": true,
+        "strategy": false
+    },
+    "5.1.1": {
+        "major": true,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": false
+    },
+    "5.10": {
+        "major": true,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "5.11": {
+        "major": true,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "6.0.0": {
+        "major": true,
+        "minor": false,
+        "patch": false,
+        "modifier": true,
+        "strategy": false
+    },
+    "6.0.dev20210429": {
+        "major": true,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "6.0.rc1": {
+        "major": true,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "6.0": {
+        "major": true,
+        "minor": false,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "6.1.0": {
+        "major": true,
+        "minor": true,
+        "patch": false,
+        "modifier": true,
+        "strategy": false
+    },
+    "6.2.0": {
+        "major": true,
+        "minor": true,
+        "patch": false,
+        "modifier": true,
+        "strategy": false
+    },
+    "7.0.0": {
+        "major": true,
+        "minor": false,
+        "patch": false,
+        "modifier": true,
+        "strategy": false
+    },
+    "7.1.0": {
+        "major": true,
+        "minor": true,
+        "patch": false,
+        "modifier": true,
+        "strategy": false
+    },
+    "7.1.1": {
+        "major": true,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": false
+    },
+    "beta": {
+        "major": true,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "dev": {
+        "major": true,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "latest": {
+        "major": true,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "stable": {
+        "major": true,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "v1.0.1": {
+        "major": false,
+        "minor": false,
+        "patch": true,
+        "modifier": true,
+        "strategy": false
+    },
+    "v1.0": {
+        "major": false,
+        "minor": false,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "v1.1.1": {
+        "major": false,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": false
+    },
+    "v1.1": {
+        "major": false,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "v1.2.1": {
+        "major": false,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": false
+    },
+    "v1.2": {
+        "major": false,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "v2.0.1": {
+        "major": true,
+        "minor": false,
+        "patch": true,
+        "modifier": true,
+        "strategy": false
+    },
+    "v2.0": {
+        "major": true,
+        "minor": false,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "v2.1.1": {
+        "major": true,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": false
+    },
+    "v2.1": {
+        "major": true,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    },
+    "v2.2.1": {
+        "major": true,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": false
+    },
+    "v2.2": {
+        "major": true,
+        "minor": true,
+        "patch": true,
+        "modifier": true,
+        "strategy": true
+    }
+}
