@@ -218,9 +218,9 @@ class AwesomeVersion(_AwesomeVersionBase):
             raise AwesomeVersionCompareException("Not a valid AwesomeVersion object")
         return AwesomeVersionDiff(
             {
-                "major": self.major != compareto.major,
-                "minor": self.minor != compareto.minor,
-                "patch": self.patch != compareto.patch,
+                "major": str(self.major) != str(compareto.major),
+                "minor": str(self.minor) != str(compareto.minor),
+                "patch": str(self.patch) != str(compareto.patch),
                 "modifier": self.modifier != compareto.modifier,
                 "strategy": self.strategy != compareto.strategy,
             }
