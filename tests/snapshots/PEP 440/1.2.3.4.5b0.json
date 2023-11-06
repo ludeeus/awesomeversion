@@ -2,12 +2,12 @@
     "alpha": false,
     "beta": true,
     "dev": false,
-    "major": null,
-    "micro": null,
-    "minor": null,
+    "major": "1",
+    "micro": "3",
+    "minor": "2",
     "modifier_type": "b",
     "modifier": "b0",
-    "patch": null,
+    "patch": "3",
     "prefix": null,
     "release_candidate": false,
     "sections": 5,
@@ -15,5 +15,5 @@
     "strategy": "PEP 440",
     "string": "1.2.3.4.5b0",
     "valid": true,
-    "year": null
+    "year": "1"
 }

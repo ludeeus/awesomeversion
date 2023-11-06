@@ -323,7 +323,7 @@
     },
     "1.1.dev1": {
         "major": true,
-        "minor": true,
+        "minor": false,
         "patch": true,
         "modifier": true,
         "strategy": true

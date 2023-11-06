@@ -393,7 +393,7 @@
     },
     "1.2.3.4.5b0": {
         "major": true,
-        "minor": true,
+        "minor": false,
         "patch": true,
         "modifier": true,
         "strategy": true
@@ -414,7 +414,7 @@
     },
     "1.2b0": {
         "major": true,
-        "minor": true,
+        "minor": false,
         "patch": true,
         "modifier": true,
         "strategy": true
