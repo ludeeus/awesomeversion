@@ -1,0 +1,19 @@
+{
+    "alpha": true,
+    "beta": false,
+    "dev": true,
+    "major": null,
+    "micro": null,
+    "minor": null,
+    "modifier_type": "invalid",
+    "modifier": "invalid4",
+    "patch": null,
+    "prefix": null,
+    "release_candidate": false,
+    "sections": 2,
+    "simple": false,
+    "strategy": "unknown",
+    "string": "1.0.invalid4",
+    "valid": false,
+    "year": null
+}

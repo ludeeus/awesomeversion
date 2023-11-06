@@ -1,0 +1,19 @@
+{
+    "alpha": false,
+    "beta": false,
+    "dev": false,
+    "major": null,
+    "micro": null,
+    "minor": null,
+    "modifier_type": "c",
+    "modifier": "c",
+    "patch": null,
+    "prefix": null,
+    "release_candidate": false,
+    "sections": 2,
+    "simple": false,
+    "strategy": "unknown",
+    "string": "a.b.c",
+    "valid": false,
+    "year": null
+}

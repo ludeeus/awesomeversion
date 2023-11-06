@@ -1,0 +1,19 @@
+{
+    "alpha": false,
+    "beta": false,
+    "dev": true,
+    "major": "2020",
+    "micro": null,
+    "minor": "12",
+    "modifier_type": "dev",
+    "modifier": "dev1602",
+    "patch": null,
+    "prefix": null,
+    "release_candidate": false,
+    "sections": 2,
+    "simple": false,
+    "strategy": "CalVer",
+    "string": "2020.12.dev1602",
+    "valid": true,
+    "year": "2020"
+}

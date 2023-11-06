@@ -23,6 +23,8 @@ build: ## Build the package
 
 lint: isort black mypy pylint ## Lint all files
 
+snapshot-update: ## Update test snapshot files
+	@poetry run pytest tests --snapshot-update
 
 coverage: ## Check the coverage of the package
 	@poetry run pytest tests -rxf -x -v -l --cov=./ --cov-report=xml > /dev/null
