@@ -18,6 +18,9 @@ install-poetry:
 test: ## Run all tests
 	@poetry run pytest tests -rxf -x -vv -l -s --cov=./ --cov-report=xml
 
+update-snapshots: ## Run all tests
+	@poetry run pytest tests --snapshot-update > /dev/null
+
 build: ## Build the package
 	@poetry build
 

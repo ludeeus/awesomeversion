@@ -1,0 +1,19 @@
+{
+    "alpha": false,
+    "beta": false,
+    "dev": false,
+    "major": "2023",
+    "micro": "2",
+    "minor": "2",
+    "modifier_type": null,
+    "modifier": null,
+    "patch": "2",
+    "prefix": null,
+    "release_candidate": false,
+    "sections": 3,
+    "simple": true,
+    "strategy": "CalVer",
+    "string": "2023.02.02",
+    "valid": true,
+    "year": "2023"
+}

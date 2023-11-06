@@ -1,0 +1,19 @@
+{
+    "alpha": false,
+    "beta": false,
+    "dev": false,
+    "major": "1",
+    "micro": "3",
+    "minor": "2",
+    "modifier_type": null,
+    "modifier": null,
+    "patch": "3",
+    "prefix": null,
+    "release_candidate": false,
+    "sections": 4,
+    "simple": true,
+    "strategy": "SimpleVer",
+    "string": "1.2.3.4",
+    "valid": true,
+    "year": "1"
+}

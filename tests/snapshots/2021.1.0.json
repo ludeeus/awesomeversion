@@ -1,0 +1,19 @@
+{
+    "alpha": false,
+    "beta": false,
+    "dev": false,
+    "major": "2021",
+    "micro": "0",
+    "minor": "1",
+    "modifier_type": null,
+    "modifier": null,
+    "patch": "0",
+    "prefix": null,
+    "release_candidate": false,
+    "sections": 3,
+    "simple": true,
+    "strategy": "CalVer",
+    "string": "2021.1.0",
+    "valid": true,
+    "year": "2021"
+}

@@ -1,0 +1,19 @@
+{
+    "alpha": false,
+    "beta": false,
+    "dev": false,
+    "major": "2019",
+    "micro": null,
+    "minor": null,
+    "modifier_type": null,
+    "modifier": null,
+    "patch": null,
+    "prefix": null,
+    "release_candidate": false,
+    "sections": 1,
+    "simple": false,
+    "strategy": "BuildVer",
+    "string": "2019",
+    "valid": true,
+    "year": "2019"
+}

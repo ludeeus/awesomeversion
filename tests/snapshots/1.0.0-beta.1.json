@@ -1,0 +1,19 @@
+{
+    "alpha": true,
+    "beta": true,
+    "dev": false,
+    "major": "1",
+    "micro": "0",
+    "minor": "0",
+    "modifier_type": "beta",
+    "modifier": "beta.1",
+    "patch": "0",
+    "prefix": null,
+    "release_candidate": false,
+    "sections": 3,
+    "simple": false,
+    "strategy": "SemVer",
+    "string": "1.0.0-beta.1",
+    "valid": true,
+    "year": "1"
+}

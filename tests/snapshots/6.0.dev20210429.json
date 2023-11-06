@@ -1,0 +1,19 @@
+{
+    "alpha": false,
+    "beta": false,
+    "dev": true,
+    "major": null,
+    "micro": null,
+    "minor": null,
+    "modifier_type": "dev",
+    "modifier": "dev20210429",
+    "patch": null,
+    "prefix": null,
+    "release_candidate": false,
+    "sections": 2,
+    "simple": false,
+    "strategy": "PEP 440",
+    "string": "6.0.dev20210429",
+    "valid": true,
+    "year": null
+}
