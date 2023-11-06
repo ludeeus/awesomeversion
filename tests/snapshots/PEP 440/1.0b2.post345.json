@@ -2,9 +2,9 @@
     "alpha": false,
     "beta": false,
     "dev": false,
-    "major": null,
+    "major": "1",
     "micro": null,
-    "minor": null,
+    "minor": "0",
     "modifier_type": "post",
     "modifier": "post345",
     "patch": null,
@@ -15,5 +15,5 @@
     "strategy": "PEP 440",
     "string": "1.0b2.post345",
     "valid": true,
-    "year": null
+    "year": "1"
 }

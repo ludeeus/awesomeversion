@@ -2,7 +2,7 @@
     "alpha": false,
     "beta": false,
     "dev": true,
-    "major": null,
+    "major": "1",
     "micro": null,
     "minor": null,
     "modifier_type": "dev",
@@ -15,5 +15,5 @@
     "strategy": "PEP 440",
     "string": "1.dev1",
     "valid": true,
-    "year": null
+    "year": "1"
 }
