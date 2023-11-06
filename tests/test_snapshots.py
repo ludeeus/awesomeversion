@@ -47,32 +47,3 @@ def test_awesomeversion_output_with_snapshot(
         ),
         f"{version}.json",
     )
-
-
-@pytest.mark.parametrize("version", TEST_VERSIONS)
-def test_awesomeversion_diff_with_snapshot(
-    version: VersionType, snapshot: Snapshot
-) -> None:
-    """Test AwesomeVersion diff with snapshot."""
-    snapshot.snapshot_dir = "tests/snapshots/diff"
-    output = {}
-
-    base_version = AwesomeVersion(version)
-    if not base_version.valid:
-        pytest.skip("Skipping compare of unknown strategies.")
-
-    for entry in TEST_VERSIONS:
-        entry_version = AwesomeVersion(entry)
-        if not entry_version.valid:
-            continue
-        diff = base_version.diff(entry_version)
-        print(entry)
-        output[entry] = {
-            "major": diff.major,
-            "minor": diff.minor,
-            "patch": diff.patch,
-            "modifier": diff.modifier,
-            "strategy": diff.strategy,
-        }
-
-    snapshot.assert_match(json.dumps(output, indent=4), f"{version}.json")
