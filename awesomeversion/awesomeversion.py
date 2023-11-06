@@ -347,12 +347,16 @@ class AwesomeVersion(_AwesomeVersionBase):
         Will return None if the versions is not semver/simplever/calver/pep440
         Will return None if the version does not have at least 2 sections.
         """
-        if self.strategy not in (
-            AwesomeVersionStrategy.SEMVER,
-            AwesomeVersionStrategy.CALVER,
-            AwesomeVersionStrategy.SIMPLEVER,
-            AwesomeVersionStrategy.PEP440,
-        ) or self.sections < 2:
+        if (
+            self.strategy
+            not in (
+                AwesomeVersionStrategy.SEMVER,
+                AwesomeVersionStrategy.CALVER,
+                AwesomeVersionStrategy.SIMPLEVER,
+                AwesomeVersionStrategy.PEP440,
+            )
+            or self.sections < 2
+        ):
             return None
 
         return AwesomeVersion(self.section(1))
