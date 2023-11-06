@@ -66,7 +66,6 @@ def test_awesomeversion_diff_with_snapshot(
         if not entry_version.valid:
             continue
         diff = base_version.diff(entry_version)
-        print(entry)
         output[entry] = {
             "major": diff.major,
             "minor": diff.minor,

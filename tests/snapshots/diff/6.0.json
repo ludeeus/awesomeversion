@@ -148,36 +148,36 @@
     },
     "1.0.0b0": {
         "major": true,
-        "minor": true,
-        "patch": false,
+        "minor": false,
+        "patch": true,
         "modifier": true,
         "strategy": true
     },
     "1.0.0b1": {
         "major": true,
-        "minor": true,
-        "patch": false,
+        "minor": false,
+        "patch": true,
         "modifier": true,
         "strategy": true
     },
     "1.0.0b10": {
         "major": true,
-        "minor": true,
-        "patch": false,
+        "minor": false,
+        "patch": true,
         "modifier": true,
         "strategy": true
     },
     "1.0.0b9": {
         "major": true,
-        "minor": true,
-        "patch": false,
+        "minor": false,
+        "patch": true,
         "modifier": true,
         "strategy": true
     },
     "1.0.0rc0": {
         "major": true,
-        "minor": true,
-        "patch": false,
+        "minor": false,
+        "patch": true,
         "modifier": true,
         "strategy": true
     },
@@ -190,42 +190,42 @@
     },
     "1.0.dev0": {
         "major": true,
-        "minor": true,
+        "minor": false,
         "patch": false,
         "modifier": true,
         "strategy": true
     },
     "1.0.dev1": {
         "major": true,
-        "minor": true,
+        "minor": false,
         "patch": false,
         "modifier": true,
         "strategy": true
     },
     "1.0.dev456": {
         "major": true,
-        "minor": true,
+        "minor": false,
         "patch": false,
         "modifier": true,
         "strategy": true
     },
     "1.0.post456.dev34": {
         "major": true,
-        "minor": true,
-        "patch": false,
+        "minor": false,
+        "patch": true,
         "modifier": true,
         "strategy": true
     },
     "1.0.post456": {
         "major": true,
-        "minor": true,
+        "minor": false,
         "patch": false,
         "modifier": true,
         "strategy": true
     },
     "1.0.rc2": {
         "major": true,
-        "minor": true,
+        "minor": false,
         "patch": false,
         "modifier": true,
         "strategy": true
@@ -239,84 +239,84 @@
     },
     "1.0a1": {
         "major": true,
-        "minor": true,
+        "minor": false,
         "patch": false,
         "modifier": true,
         "strategy": true
     },
     "1.0a12.dev456": {
         "major": true,
-        "minor": true,
+        "minor": false,
         "patch": false,
         "modifier": true,
         "strategy": true
     },
     "1.0a12": {
         "major": true,
-        "minor": true,
+        "minor": false,
         "patch": false,
         "modifier": true,
         "strategy": true
     },
     "1.0a2.dev456": {
         "major": true,
-        "minor": true,
+        "minor": false,
         "patch": false,
         "modifier": true,
         "strategy": true
     },
     "1.0b0": {
         "major": true,
-        "minor": true,
+        "minor": false,
         "patch": false,
         "modifier": true,
         "strategy": true
     },
     "1.0b1.dev456": {
         "major": true,
-        "minor": true,
+        "minor": false,
         "patch": false,
         "modifier": true,
         "strategy": true
     },
     "1.0b1": {
         "major": true,
-        "minor": true,
+        "minor": false,
         "patch": false,
         "modifier": true,
         "strategy": true
     },
     "1.0b2.post345.dev456": {
         "major": true,
-        "minor": true,
-        "patch": false,
+        "minor": false,
+        "patch": true,
         "modifier": true,
         "strategy": true
     },
     "1.0b2.post345": {
         "major": true,
-        "minor": true,
+        "minor": false,
         "patch": false,
         "modifier": true,
         "strategy": true
     },
     "1.0b2": {
         "major": true,
-        "minor": true,
+        "minor": false,
         "patch": false,
         "modifier": true,
         "strategy": true
     },
     "1.0rc1.dev456": {
         "major": true,
-        "minor": true,
+        "minor": false,
         "patch": false,
         "modifier": true,
         "strategy": true
     },
     "1.0rc1": {
         "major": true,
-        "minor": true,
+        "minor": false,
         "patch": false,
         "modifier": true,
         "strategy": true
@@ -394,7 +394,7 @@
     "1.2.3.4.5b0": {
         "major": true,
         "minor": true,
-        "patch": false,
+        "patch": true,
         "modifier": true,
         "strategy": true
     },
@@ -931,15 +931,15 @@
         "strategy": true
     },
     "6.0.dev20210429": {
-        "major": true,
-        "minor": true,
+        "major": false,
+        "minor": false,
         "patch": false,
         "modifier": true,
         "strategy": true
     },
     "6.0.rc1": {
-        "major": true,
-        "minor": true,
+        "major": false,
+        "minor": false,
         "patch": false,
         "modifier": true,
         "strategy": true
