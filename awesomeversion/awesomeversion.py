@@ -1,7 +1,7 @@
 """AwesomeVersion."""
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, Dict, Self
+from typing import TYPE_CHECKING, Any, Dict
 from warnings import warn
 
 from .comparehandlers.container import compare_handler_container
@@ -133,12 +133,12 @@ class AwesomeVersion(str):
         version: str,
         *_: Any,
         **__: Any,
-    ) -> Self:
+    ) -> AwesomeVersion:
         """Create a new AwesomeVersion object."""
 
         return super().__new__(cls, version)
 
-    def __enter__(self) -> Self:
+    def __enter__(self) -> AwesomeVersion:
         return self
 
     def __exit__(self, *_: Any, **__: Any) -> None:
