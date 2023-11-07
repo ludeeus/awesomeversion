@@ -1,7 +1,7 @@
 """AwesomeVersion."""
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, Dict
+from typing import TYPE_CHECKING, Any, Dict, Self
 from warnings import warn
 
 from .comparehandlers.container import compare_handler_container
@@ -27,44 +27,9 @@ if TYPE_CHECKING:
     from .typing import EnsureStrategyIterableType, EnsureStrategyType, VersionType
 
 
-class _AwesomeVersionBase(str):
-    """Base class for AwesomeVersion to allow the usage of the default JSON encoder."""
-
-    def __init__(self, string: str):
-        str.__init__(string)
-
-    def __new__(
-        cls,
-        version: str,
-        *_: Any,
-        **__: Any,
-    ) -> "_AwesomeVersionBase":
-        """Create a new AwesomeVersion object."""
-
-        return super().__new__(cls, version)
-
-
-class AwesomeVersion(_AwesomeVersionBase):
+class AwesomeVersion(str):
     """
     AwesomeVersion class.
-
-    **args**:
-
-    version:
-        The version to create a AwesomeVersion object from
-
-    **kwargs**:
-
-    ensure_strategy:
-        Match the AwesomeVersion object against spesific
-        strategies when creating if. If it does not match
-        AwesomeVersionStrategyException will be raised
-
-    find_first_match:
-        If True, the version given will be scanned for the first
-        match of the given ensure_strategy. Raises
-        AwesomeVersionStrategyException If it is not found
-        for any of the given strategies.
     """
 
     _version: str = ""
@@ -82,7 +47,27 @@ class AwesomeVersion(_AwesomeVersionBase):
         find_first_match: bool = False,
         **kwargs: Any,
     ) -> None:
-        """Initialize AwesomeVersion."""
+        """
+        Initialize AwesomeVersion.
+        
+        **args**:
+
+        version:
+            The version to create a AwesomeVersion object from
+
+        **kwargs**:
+
+        ensure_strategy:
+            Match the AwesomeVersion object against spesific
+            strategies when creating if. If it does not match
+            AwesomeVersionStrategyException will be raised
+
+        find_first_match:
+            If True, the version given will be scanned for the first
+            match of the given ensure_strategy. Raises
+            AwesomeVersionStrategyException If it is not found
+            for any of the given strategies.
+        """
         if args:
             warn(
                 "Positional argument for ensure_strategy is deprecated. "
@@ -141,9 +126,19 @@ class AwesomeVersion(_AwesomeVersionBase):
         if self._version and self._version[-1] == ".":
             self._version = self._version[:-1]
 
-        super().__init__(self._version)
+        str.__init__(self._version)
 
-    def __enter__(self) -> AwesomeVersion:
+    def __new__(
+        cls,
+        version: str,
+        *_: Any,
+        **__: Any,
+    ) -> Self:
+        """Create a new AwesomeVersion object."""
+
+        return super().__new__(cls, version)
+
+    def __enter__(self) -> Self:
         return self
 
     def __exit__(self, *_: Any, **__: Any) -> None:

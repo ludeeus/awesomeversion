@@ -62,7 +62,9 @@ def test_awesomeversion() -> None:
     assert AwesomeVersion("2020.2.0b1").modifier_type == "b"
 
     with AwesomeVersion("20.12.0") as current:
-        with AwesomeVersion("20.12.1") as upstream:
+        with AwesomeVersion(
+            "20.12.1", ensure_strategy=AwesomeVersionStrategy.SEMVER
+        ) as upstream:
             assert upstream > current
 
 
