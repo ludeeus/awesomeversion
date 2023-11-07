@@ -49,7 +49,7 @@ class AwesomeVersion(str):
     ) -> None:
         """
         Initialize AwesomeVersion.
-        
+
         **args**:
 
         version:
