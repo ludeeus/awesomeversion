@@ -3,6 +3,7 @@
 from awesomeversion.strategy import AwesomeVersionStrategy
 
 TEST_VERSIONS = [
+    "",
     "0.1",
     "0.118.0",
     "0",

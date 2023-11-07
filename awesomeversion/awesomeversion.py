@@ -312,7 +312,7 @@ class AwesomeVersion(str):
                 [
                     section.split(self.modifier_type)[-1]
                     for section in self.string.split(".")
-                    if modifier is None or section != modifier
+                    if section and (modifier is None or section != modifier)
                 ]
             )
         return self._sections
