@@ -1,4 +1,5 @@
 """"Custom types for AwesomeVersion."""
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING, List, Tuple, Union

@@ -1,4 +1,5 @@
 """Test equals."""
+
 import pytest
 
 from awesomeversion import AwesomeVersion

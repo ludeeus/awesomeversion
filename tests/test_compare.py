@@ -1,4 +1,5 @@
 """Test compare."""
+
 import pytest
 
 from awesomeversion import AwesomeVersion

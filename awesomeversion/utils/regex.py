@@ -1,4 +1,5 @@
 """Regex utils for AwesomeVersion."""
+
 import re
 from typing import Pattern
 
