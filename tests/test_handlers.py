@@ -30,6 +30,9 @@ from awesomeversion.typing import VersionType
         ("latest", "1", True),
         ("1.2.3.4.5.6.7.8.9", "1.2.3.4.5.6.7.8.9", False),
         ("1.0.0", "stable", False),
+        ("0x01002604", "0x01002604", False),
+        ("0x01002604", "0x01002100", True),
+        ("0x01002100", "0x01002604", False),
     ),
 )
 def test_compare_handlers(

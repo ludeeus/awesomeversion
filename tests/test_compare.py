@@ -60,6 +60,9 @@ from awesomeversion.typing import VersionType
         ("1.0.0b10", "1.0.0b9"),
         ("1.0.0", "1.0.0b0"),
         (1.0, "1.0.0rc0"),
+        ("0x2df35", "1"),
+        ("0x01002604", "0x01002100"),
+        ("9", "0x0"),
     ],
 )
 def test_compare(version_a: VersionType, version_b: VersionType) -> None:
