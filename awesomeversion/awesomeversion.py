@@ -235,6 +235,8 @@ class AwesomeVersion(str):
 
     def section(self, idx: int) -> int:
         """Return the value of the specified section of the version."""
+        if self.strategy == AwesomeVersionStrategy.HEXVER:
+            return int(self.string, 16) if idx == 0 else 0
         if self.sections >= (idx + 1):
             match = RE_DIGIT.match(self.string.split(".")[idx] or "")
             if match and match.groups():
@@ -398,7 +400,10 @@ class AwesomeVersion(str):
         if self._modifier is not None:
             return self._modifier
 
-        if self.strategy == AwesomeVersionStrategy.SPECIALCONTAINER:
+        if self.strategy in (
+            AwesomeVersionStrategy.SPECIALCONTAINER,
+            AwesomeVersionStrategy.HEXVER,
+        ):
             return None
 
         modifier_string = None
@@ -427,6 +432,8 @@ class AwesomeVersion(str):
         """Return the modifier type of the version if any."""
         if self._modifier_type is not None:
             return self._modifier_type
+        if self.strategy == AwesomeVersionStrategy.HEXVER:
+            return None
         match = RE_MODIFIER.match(self.modifier or "")
         if match and len(match.groups()) >= 3:
             self._modifier_type = match.group(3)
@@ -455,9 +462,10 @@ class AwesomeVersion(str):
                 version_strategies[description.strategy] = description
 
         for description in version_strategies.values():
-            if description.pattern.match(self.string) is not None:
+            if description.pattern.match(self.string) is not None and (
+                description.validate is None or description.validate(self.string)
+            ):
                 return description.strategy
-
         return AwesomeVersionStrategy.UNKNOWN
 
     @property

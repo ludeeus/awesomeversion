@@ -1,6 +1,7 @@
 """Strategies for AwesomeVersion."""
 from __future__ import annotations
 
+from collections.abc import Callable
 from dataclasses import dataclass
 from enum import Enum
 from typing import Pattern, Tuple
@@ -8,12 +9,14 @@ from typing import Pattern, Tuple
 from .utils.regex import (
     RE_BUILDVER,
     RE_CALVER,
+    RE_HEXVER,
     RE_PEP440,
     RE_SEMVER,
     RE_SIMPLE,
     RE_SPECIAL_CONTAINER,
     generate_full_string_regex,
 )
+from .utils.validate import value_is_base16
 
 
 class AwesomeVersionStrategy(str, Enum):
@@ -21,6 +24,7 @@ class AwesomeVersionStrategy(str, Enum):
 
     BUILDVER = "BuildVer"
     CALVER = "CalVer"
+    HEXVER = "HexVer"
     SEMVER = "SemVer"
     SIMPLEVER = "SimpleVer"
     PEP440 = "PEP 440"
@@ -37,6 +41,7 @@ class AwesomeVersionStrategyDescription:
     strategy: AwesomeVersionStrategy
     regex_string: str
     pattern: Pattern[str]
+    validate: Callable[[str], bool] | None = None
 
 
 COMPARABLE_STRATEGIES = [
@@ -56,6 +61,12 @@ VERSION_STRATEGIES: Tuple[AwesomeVersionStrategyDescription, ...] = (
         strategy=AwesomeVersionStrategy.CALVER,
         regex_string=RE_CALVER,
         pattern=generate_full_string_regex(RE_CALVER),
+    ),
+    AwesomeVersionStrategyDescription(
+        strategy=AwesomeVersionStrategy.HEXVER,
+        regex_string=RE_HEXVER,
+        pattern=generate_full_string_regex(RE_HEXVER),
+        validate=value_is_base16,
     ),
     AwesomeVersionStrategyDescription(
         strategy=AwesomeVersionStrategy.SEMVER,

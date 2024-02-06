@@ -20,6 +20,8 @@ RE_PEP440 = (
 )
 RE_BUILDVER = r"\d+"
 
+RE_HEXVER = r"0x[A-Fa-f0-9]+"
+
 RE_SPECIAL_CONTAINER = r"(latest|dev|stable|beta)"
 RE_SIMPLE = r"[v|V]?((\d+)(\.\d+)+)"
 
