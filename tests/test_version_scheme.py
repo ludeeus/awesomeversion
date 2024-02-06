@@ -1,4 +1,5 @@
 """Test test_version_scheme."""
+
 from __future__ import annotations
 
 import pytest

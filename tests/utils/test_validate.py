@@ -1,4 +1,5 @@
 """Tests for the validate util."""
+
 import pytest
 
 from awesomeversion.utils.validate import value_is_base16

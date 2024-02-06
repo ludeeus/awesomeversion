@@ -1,4 +1,5 @@
 """Test for issue #153."""
+
 # https://github.com/ludeeus/awesomeversion/issues/153
 from awesomeversion import AwesomeVersion
 

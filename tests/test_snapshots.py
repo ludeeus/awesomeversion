@@ -1,4 +1,5 @@
 """Testing with snapshots."""
+
 import json
 
 import pytest

@@ -1,4 +1,5 @@
 """Test for issue #96."""
+
 # https://github.com/ludeeus/awesomeversion/issues/96
 import re
 

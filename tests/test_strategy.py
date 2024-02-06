@@ -1,4 +1,5 @@
 """Test match."""
+
 import pytest
 
 from awesomeversion import AwesomeVersion
