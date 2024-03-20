@@ -8,35 +8,51 @@ on:
 permissions: {}
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
     name: Build package
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v4.1.2
+
+      - name: Set up Python 3.x
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.x
+
+      - name: Install poetry
+        run:  make install-poetry
+
+      - name: Set version number
+        run: |
+          poetry version "${{ github.event.release.tag_name }}"
+
+      - name: Build
+        run: poetry build --no-interaction
+
+      - name: Upload dists
+        uses: actions/upload-artifact@v4.3.1
+        with:
+          name: "dist"
+          path: "dist/"
+          if-no-files-found: error
+          retention-days: 5
+
+  publish:
+    name: Publish release to PyPI
+    runs-on: ubuntu-latest
+    needs: "build"
     environment:
       name: release
       url: https://pypi.org/project/awesomeversion
     permissions:
-      # Used to authenticate to PyPI via OIDC.
       id-token: write
     steps:
-      - name: 📥 Checkout the repository
-        uses: actions/checkout@v4.1.2
+    - name: Download dists
+      uses: actions/download-artifact@v4.1.4
+      with:
+        name: "dist"
+        path: "dist/"
 
-      - name: 🛠 Set up Python
-        uses: actions/setup-python@v5
-        id: python
-        with:
-          python-version: 3.x
-
-      - name: 📦 Install poetry
-        run:  make install-poetry
-
-      - name: 🔢 Set version number
-        run: |
-          export version=${{ github.ref }}
-          poetry version "${version##*/}"
-
-      - name: 🛠 Build
-        run: poetry build --no-interaction
-
-      - name: 🚀 Publish to PyPi
-        uses: pypa/gh-action-pypi-publish@81e9d935c883d0b210363ab89cf05f3894778450 # v1.8.14
+    - name: Publish dists to PyPI
+      uses: pypa/gh-action-pypi-publish@81e9d935c883d0b210363ab89cf05f3894778450 # v1.8.14
