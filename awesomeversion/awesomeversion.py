@@ -78,7 +78,8 @@ class AwesomeVersion(str):
 
         if find_first_match and not ensure_strategy:
             warn(
-                "Can not use find_first_match without ensure_strategy",
+                "Can not use find_first_match without ensure_strategy, "
+                "this is ignored and will start raising an exception in 2025.",
                 stacklevel=2,
             )
 
