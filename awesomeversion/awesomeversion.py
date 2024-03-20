@@ -43,7 +43,7 @@ class AwesomeVersion(str):
     def __init__(
         self,  # pylint: disable=unused-argument
         version: VersionType,
-        *args: Any,
+        *,
         ensure_strategy: EnsureStrategyType = None,
         find_first_match: bool = False,
         **kwargs: Any,
@@ -69,23 +69,6 @@ class AwesomeVersion(str):
             AwesomeVersionStrategyException If it is not found
             for any of the given strategies.
         """
-        if args:
-            warn(
-                "Positional argument for ensure_strategy is deprecated. "
-                "This will be removed in 2023, use keyword argument instead",
-                category=DeprecationWarning,
-                stacklevel=2,
-            )
-            ensure_strategy = args[0]
-            if len(args) == 2:
-                warn(
-                    "Positional argument for find_first_match is deprecated. "
-                    "This will be removed in 2023, use keyword argument instead",
-                    category=DeprecationWarning,
-                    stacklevel=2,
-                )
-                find_first_match = args[1]
-
         self._version = (
             version._version if isinstance(version, AwesomeVersion) else str(version)
         )
