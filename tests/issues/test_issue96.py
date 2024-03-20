@@ -14,12 +14,12 @@ from awesomeversion import (
 
 def test() -> None:
     """Test for issue #96."""
-    version = AwesomeVersion("10.3.0", AwesomeVersionStrategy.SEMVER)
+    version = AwesomeVersion("10.3.0", ensure_strategy=AwesomeVersionStrategy.SEMVER)
     assert version.strategy == AwesomeVersionStrategy.SEMVER
 
     version = AwesomeVersion(
         "10.3.0",
-        [
+        ensure_strategy=[
             AwesomeVersionStrategy.CALVER,
             AwesomeVersionStrategy.SEMVER,
             AwesomeVersionStrategy.SIMPLEVER,
@@ -31,7 +31,7 @@ def test() -> None:
 
     version = AwesomeVersion(
         "10.3.0",
-        [
+        ensure_strategy=[
             AwesomeVersionStrategy.SEMVER,
             AwesomeVersionStrategy.CALVER,
         ],
@@ -46,7 +46,7 @@ def test() -> None:
     ):
         AwesomeVersion(
             "whatever",
-            [
+            ensure_strategy=[
                 AwesomeVersionStrategy.SEMVER,
                 AwesomeVersionStrategy.CALVER,
             ],
