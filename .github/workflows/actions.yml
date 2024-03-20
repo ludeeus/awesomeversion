@@ -78,7 +78,7 @@ jobs:
       - name: 📥 Checkout the repository
         uses: actions/checkout@v4.1.2
         with:
-          depth: 0
+          fetch-depth: 0
 
       - name: 🛠️ Set up Python
         uses: actions/setup-python@v5
