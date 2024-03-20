@@ -153,7 +153,10 @@ def test_ensure_strategy() -> None:
 
     obj = AwesomeVersion(
         "1.0.0",
-        [AwesomeVersionStrategy.SEMVER, AwesomeVersionStrategy.SPECIALCONTAINER],
+        ensure_strategy=[
+            AwesomeVersionStrategy.SEMVER,
+            AwesomeVersionStrategy.SPECIALCONTAINER,
+        ],
     )
     assert obj.strategy in [
         AwesomeVersionStrategy.SEMVER,
@@ -161,15 +164,18 @@ def test_ensure_strategy() -> None:
     ]
 
     with pytest.raises(AwesomeVersionStrategyException):
-        AwesomeVersion("1", AwesomeVersionStrategy.SEMVER)
+        AwesomeVersion("1", ensure_strategy=AwesomeVersionStrategy.SEMVER)
 
     with pytest.raises(AwesomeVersionStrategyException):
-        AwesomeVersion("1", AwesomeVersionStrategy.UNKNOWN)
+        AwesomeVersion("1", ensure_strategy=AwesomeVersionStrategy.UNKNOWN)
 
     with pytest.raises(AwesomeVersionStrategyException):
         AwesomeVersion(
             "1",
-            [AwesomeVersionStrategy.SEMVER, AwesomeVersionStrategy.SPECIALCONTAINER],
+            ensure_strategy=[
+                AwesomeVersionStrategy.SEMVER,
+                AwesomeVersionStrategy.SPECIALCONTAINER,
+            ],
         )
 
 
@@ -221,15 +227,20 @@ def test_find_first_match(
         find_first_match=True,
     )
     assert obj.string == result
-    assert AwesomeVersion(version, strategy, True).string == obj.string
+    assert (
+        AwesomeVersion(version, ensure_strategy=strategy, find_first_match=True).string
+        == obj.string
+    )
 
 
 def test_find_first_match_exception() -> None:
     """Test"""
     with warnings.catch_warnings(record=True) as warning_list:
         assert AwesomeVersion("1", find_first_match=True)
-        assert "Can not use find_first_match without ensure_strategy" in str(
-            warning_list[-1].message
+        assert (
+            "Can not use find_first_match without ensure_strategy, "
+            "this is ignored and will start raising an exception in 2025."
+            in str(warning_list[-1].message)
         )
 
 
