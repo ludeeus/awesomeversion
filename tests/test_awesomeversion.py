@@ -238,7 +238,8 @@ def test_find_first_match_exception() -> None:
     with warnings.catch_warnings(record=True) as warning_list:
         assert AwesomeVersion("1", find_first_match=True)
         assert (
-            "Can not use find_first_match without ensure_strategy, this is ignored and will start raising an exception in 2025."
+            "Can not use find_first_match without ensure_strategy, "
+            "this is ignored and will start raising an exception in 2025."
             in str(warning_list[-1].message)
         )
 
