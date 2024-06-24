@@ -40,6 +40,7 @@ from awesomeversion.typing import VersionType
                 "1.0a12",
                 "1.0b1.dev456",
                 "1.0b2",
+                "1.0+local.1.2.3",
                 "1.0b2.post345.dev456",
                 "1.0b2.post345",
                 "1.0rc1.dev456",

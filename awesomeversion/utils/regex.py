@@ -20,6 +20,7 @@ RE_PEP440 = (
     r"([-_\.]?(alpha|beta|c|pre|preview|a|b|rc)(0|[1-9][0-9]*))?"  # Pre-release segment
     r"([-_\.]?(post|r|rev)(0|[1-9][0-9]*))?"  # Post-release segment
     r"([-_\.]?(d|dev)(0|[1-9][0-9]*))?"  # Development release segment
+    r"(?:\+([a-z0-9]+(?:[-_\.][a-z0-9]+)*))?"  # Local version segment
 )
 RE_BUILDVER = r"\d+"
 
