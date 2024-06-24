@@ -47,6 +47,9 @@ from awesomeversion.typing import VersionType
                 "1.0.post456.dev34",
                 "1.0.post456",
                 "1.1.dev1",
+                "1.1-dev1",
+                "1.1dev1",
+                "1.1_dev1",
             )
         ],
         *[
