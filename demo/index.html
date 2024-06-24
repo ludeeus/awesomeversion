@@ -104,84 +104,105 @@
 <body>
   <py-config type="json">
     {
-    "packages": ["awesomeversion"]
+      "packages": ["awesomeversion"]
     }
   </py-config>
-<py-script>
-from awesomeversion import AwesomeVersion
-import json
-import inspect
-  
-def safe_compare(a, b):
-  try:
-    return a > b
-  except Exception:
-    return None
-  
-def version_json(version):
-  return json.dumps(
-    	{
-        	"string": version.string,
-          "alpha": version.alpha,
-          "beta": version.beta,
-          "dev": version.dev,
-          "major": version.major,
-          "micro": version.micro,
-          "minor": version.minor,
-          "modifier_type": version.modifier_type,
-          "modifier": version.modifier,
-          "patch": version.patch,
-          "prefix": version.prefix,
-          "release_candidate": version.release_candidate,
-          "sections": version.sections,
-          "simple": version.simple,
-          "strategy": version.strategy,
-          "valid": version.valid,
-          "year": version.year,
-        },
-        indent=2
-    )
-
-def extract_awesomeversion_properties(*args, **kwargs):
-    versions = {
-      "a": AwesomeVersion(Element("version-input-a").element.value.strip() or None),
-      "b": AwesomeVersion(Element("version-input-b").element.value.strip() or None)
-    }
-  
-    for key,version in versions.items():
-      if version.string == "None":
-        Element(f"properties-output-{key}").element.innerText = ""
-        Element("properties-output-diff").element.innerText = ""
-        continue
-      Element(f"properties-output-{key}").element.innerText = f"Version {key.upper()} properties:\n{version_json(version)}"
-  
-    if versions["a"].string != "None" and versions["b"].string != "None":
-      Element("properties-output-diff").element.innerText =f"""Compare:
-{json.dumps({
-  f"{versions['a'].string}>{versions['b'].string}": safe_compare(versions["a"],versions["b"]),
-  f"{versions['b'].string}>{versions['a'].string}": safe_compare(versions["b"],versions["a"]),
-  "diff": {
-    "major": versions["a"].major != versions["b"].major,
-    "minor": versions["a"].minor != versions["b"].minor,
-    "patch": versions["a"].patch != versions["b"].patch,
-    "modifier": versions["a"].modifier != versions["b"].modifier,
-    "strategy": versions["a"].strategy != versions["b"].strategy,
-  }
-  },indent=2)}"""
-  
+  <py-script>
+    from awesomeversion import AwesomeVersion
+    import json
     
-</py-script>
+    
+    def _diff(versions: dict[str, AwesomeVersion]):
+        return json.dumps(
+            {
+                f"{versions['a'].string}>{versions['b'].string}": safe_compare(
+                    versions["a"], versions["b"]
+                ),
+                f"{versions['b'].string}>{versions['a'].string}": safe_compare(
+                    versions["b"], versions["a"]
+                ),
+                "diff": {
+                    "major": versions["a"].major != versions["b"].major,
+                    "minor": versions["a"].minor != versions["b"].minor,
+                    "patch": versions["a"].patch != versions["b"].patch,
+                    "modifier": versions["a"].modifier != versions["b"].modifier,
+                    "strategy": versions["a"].strategy != versions["b"].strategy,
+                },
+            },
+            indent=2,
+        )
+    
+    
+    def safe_compare(a, b):
+        try:
+            return a > b
+        except Exception:
+            return None
+    
+    
+    def version_json(version):
+        return json.dumps(
+            {
+                "string": version.string,
+                "alpha": version.alpha,
+                "beta": version.beta,
+                "dev": version.dev,
+                "major": version.major,
+                "micro": version.micro,
+                "minor": version.minor,
+                "modifier_type": version.modifier_type,
+                "modifier": version.modifier,
+                "patch": version.patch,
+                "prefix": version.prefix,
+                "release_candidate": version.release_candidate,
+                "sections": version.sections,
+                "simple": version.simple,
+                "strategy": version.strategy,
+                "valid": version.valid,
+                "year": version.year,
+            },
+            indent=2,
+        )
+    
+    
+    def extract_awesomeversion_properties(*args, **kwargs):
+        versions = {
+            "a": AwesomeVersion(Element("version-input-a").element.value.strip() or None),
+            "b": AwesomeVersion(Element("version-input-b").element.value.strip() or None),
+        }
+    
+        for key, version in versions.items():
+            if version.string == "None":
+                Element(f"properties-output-{key}").element.innerText = ""
+                Element("properties-output-diff").element.innerText = ""
+                continue
+            Element(
+                f"properties-output-{key}"
+            ).element.innerText = (
+                f"Version {key.upper()} properties:\n{version_json(version)}"
+            )
+    
+        if versions["a"].string == "None" or versions["b"].string == "None":
+            Element("properties-output-diff").element.innerText = ""
+            return
+    
+        if "unknown" not in (versions["a"].strategy, versions["b"].strategy):
+            Element("properties-output-diff").element.innerText = f"Compare:\n{_diff(versions)}"
+        else:
+            Element("properties-output-diff").element.innerText = "Not valid for compare"
+    
+    
+  </py-script>
 
   <div class="container content">
     <div>
       <div>Version A</div>
-      <input type="text" id="version-input-a"/>
+      <input type="text" id="version-input-a" py-input="extract_awesomeversion_properties()"/>
     </div>
     <div>
       <div>Version B</div>
-      <input type="text" id="version-input-b"/>
+      <input type="text" id="version-input-b" py-input="extract_awesomeversion_properties()"/>
     </div>
-    <button id="submit-button" type="submit" py-click="extract_awesomeversion_properties()">Submit</button>
   </div>
   <div class="container content">
     <pre id="properties-output-a"></pre>
