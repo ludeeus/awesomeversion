@@ -1,0 +1,19 @@
+{
+    "alpha": false,
+    "beta": false,
+    "dev": true,
+    "major": "1",
+    "micro": null,
+    "minor": null,
+    "modifier_type": "dev",
+    "modifier": "dev1",
+    "patch": null,
+    "prefix": null,
+    "release_candidate": false,
+    "sections": 1,
+    "simple": false,
+    "strategy": "PEP 440",
+    "string": "1-dev1",
+    "valid": true,
+    "year": "1"
+}
