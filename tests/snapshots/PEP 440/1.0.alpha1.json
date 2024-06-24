@@ -2,9 +2,9 @@
     "alpha": true,
     "beta": false,
     "dev": false,
-    "major": null,
+    "major": "1",
     "micro": null,
-    "minor": null,
+    "minor": "0",
     "modifier_type": "alpha",
     "modifier": "alpha1",
     "patch": null,
@@ -12,8 +12,8 @@
     "release_candidate": false,
     "sections": 2,
     "simple": false,
-    "strategy": "unknown",
+    "strategy": "PEP 440",
     "string": "1.0.alpha1",
-    "valid": false,
-    "year": null
+    "valid": true,
+    "year": "1"
 }
