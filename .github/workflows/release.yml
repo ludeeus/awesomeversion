@@ -31,7 +31,7 @@ jobs:
         run: poetry build --no-interaction
 
       - name: Upload dists
-        uses: actions/upload-artifact@v4.3.4
+        uses: actions/upload-artifact@v4.3.5
         with:
           name: "dist"
           path: "dist/"
