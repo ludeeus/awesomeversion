@@ -6,6 +6,7 @@ import json
 import warnings
 
 import pytest
+import re
 
 from awesomeversion import (
     AwesomeVersion,
@@ -163,10 +164,16 @@ def test_ensure_strategy() -> None:
         AwesomeVersionStrategy.SPECIALCONTAINER,
     ]
 
-    with pytest.raises(AwesomeVersionStrategyException):
+    with pytest.raises(AwesomeVersionStrategyException, match=re.escape("Strategy BuildVer does not match ['SemVer'] for 1")):
         AwesomeVersion("1", ensure_strategy=AwesomeVersionStrategy.SEMVER)
+        
+    with pytest.raises(AwesomeVersionStrategyException, match=re.escape("Strategy BuildVer does not match ['HexVer'] for 1")):
+        AwesomeVersion("1", ensure_strategy="HexVer")
+        
+    with pytest.raises(AwesomeVersionStrategyException, match=re.escape("Strategy BuildVer does not match ['HexVer'] for 1")):
+        AwesomeVersion("1", ensure_strategy=["HexVer"])
 
-    with pytest.raises(AwesomeVersionStrategyException):
+    with pytest.raises(AwesomeVersionStrategyException, match=re.escape("Can't use unknown as ensure_strategy")):
         AwesomeVersion("1", ensure_strategy=AwesomeVersionStrategy.UNKNOWN)
 
     with pytest.raises(AwesomeVersionStrategyException):

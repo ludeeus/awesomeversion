@@ -85,9 +85,9 @@ class AwesomeVersion(str):
 
         if ensure_strategy is not None:
             self._ensure_strategy = ensure_strategy = (
-                ensure_strategy
+                [AwesomeVersionStrategy(s) for s in ensure_strategy]
                 if isinstance(ensure_strategy, (list, tuple))
-                else [ensure_strategy]
+                else [AwesomeVersionStrategy(ensure_strategy)]
             )
             if AwesomeVersionStrategy.UNKNOWN in ensure_strategy:
                 raise AwesomeVersionStrategyException(
