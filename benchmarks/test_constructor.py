@@ -23,8 +23,12 @@ from awesomeversion import AwesomeVersion, AwesomeVersionStrategy
             },
         ],
         ["dev", {}],
+        [1, {}],
+        [3.14, {}],
     ],
 )
-def test_constructor(version: str, constructor_kv: dict[str, Any]) -> None:
+def test_constructor(
+    version: str | int | float, constructor_kv: dict[str, Any]
+) -> None:
     """Benchmark for AwesomeVersion constructor."""
     assert AwesomeVersion(version, **constructor_kv)

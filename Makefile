@@ -27,7 +27,7 @@ snapshot-update: ## Update test snapshot files
 	@poetry run pytest tests --snapshot-update  --timeout=10
 
 benchmark:
-	@poetry run pytest -x --no-cov -vvvvv --codspeed benchmarks
+	@poetry run pytest -x --no-cov -vvvvv benchmarks
 
 coverage: ## Check the coverage of the package
 	@poetry run pytest tests --timeout=10 -rxf -x -v -l --cov=./ --cov-report=xml > /dev/null

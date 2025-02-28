@@ -27,20 +27,11 @@ def test_older(a: str, b: str) -> None:
 
 @pytest.mark.benchmark
 @pytest.mark.parametrize(
-    "version",
+    "a,b",
     [
-        "1.2.3",
-        "v1.2.3'",
-        "v1.2.3",
-        "1.2.3.dev4",
-        "1.2.3b6",
-        "1.2.3.post4",
-        "1.2.3.post4.dev6",
-        "1.2.3.post4.dev6+githash",
-        1,
-        3.14,
+        ["1.2.3", "1.2.3"],
     ],
 )
-def test_equal(version: str) -> None:
+def test_equal(a: str, b: str) -> None:
     """Benchmark for AwesomeVersion comparison."""
-    assert AwesomeVersion(version) == version
+    assert AwesomeVersion(a) == b
