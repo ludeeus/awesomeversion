@@ -29,8 +29,10 @@ isort = "^6.0.1"
 mypy = "^1.15"
 pylint = "^3.3.4"
 pytest = "^8.3.4"
+pytest-codspeed = "^3.2.0"
 pytest-cov = "^6.0.0"
 pytest-snapshot = "^0.9.0"
+pytest-timeout = "^2.3.1"
 
 [tool.isort]
 combine_as_imports = true

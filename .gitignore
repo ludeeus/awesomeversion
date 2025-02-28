@@ -1,5 +1,6 @@
 __pycache__
 __target__
+.codspeed
 .mypy_cache
 .pytest_cache
 .coverage
