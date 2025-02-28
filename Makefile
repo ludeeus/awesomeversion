@@ -16,7 +16,7 @@ install-poetry:
 	@curl -sSL https://install.python-poetry.org | python3 -
 
 test: ## Run all tests
-	@poetry run pytest tests -rxf -x -vv -l -s --cov=./ --cov-report=xml
+	@poetry run pytest --timeout=10 tests -rxf -x -vv -l -s --cov=./ --cov-report=xml
 
 build: ## Build the package
 	@poetry build
@@ -24,26 +24,29 @@ build: ## Build the package
 lint: isort black mypy pylint ## Lint all files
 
 snapshot-update: ## Update test snapshot files
-	@poetry run pytest tests --snapshot-update
+	@poetry run pytest tests --snapshot-update  --timeout=10
+
+benchmark:
+	@poetry run pytest -x --no-cov -vvvvv benchmarks
 
 coverage: ## Check the coverage of the package
-	@poetry run pytest tests -rxf -x -v -l --cov=./ --cov-report=xml > /dev/null
+	@poetry run pytest tests --timeout=10 -rxf -x -v -l --cov=./ --cov-report=xml > /dev/null
 	@poetry run coverage report
 
 isort:
-	@poetry run isort awesomeversion tests
+	@poetry run isort awesomeversion tests benchmarks
 
 isort-check:
-	@poetry run isort awesomeversion tests --check-only
+	@poetry run isort awesomeversion tests benchmarks --check-only
 
 black:
-	@poetry run black --fast awesomeversion tests
+	@poetry run black --fast awesomeversion tests benchmarks
 
 black-check:
-	@poetry run black --check --fast awesomeversion tests
+	@poetry run black --check --fast awesomeversion tests benchmarks
 
 mypy:
-	@poetry run mypy --strict awesomeversion tests
+	@poetry run mypy --strict awesomeversion tests benchmarks
 
 pylint:
-	@poetry run pylint awesomeversion tests
+	@poetry run pylint awesomeversion tests benchmarks
