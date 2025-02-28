@@ -31,4 +31,5 @@ def test_constructor(
     version: str | int | float, constructor_kv: dict[str, Any]
 ) -> None:
     """Benchmark for AwesomeVersion constructor."""
-    assert AwesomeVersion(version, **constructor_kv)
+    for _ in range(100):
+        assert AwesomeVersion(version, **constructor_kv)

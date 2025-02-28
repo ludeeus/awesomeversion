@@ -15,14 +15,18 @@ newer_older_cases = [
 @pytest.mark.parametrize("a,b", newer_older_cases)
 def test_newer(a: str, b: str) -> None:
     """Benchmark for AwesomeVersion comparison."""
-    assert AwesomeVersion(a) > b
+    obj =  AwesomeVersion(a)
+    for _ in range(100):
+        assert obj > b
 
 
 @pytest.mark.benchmark
 @pytest.mark.parametrize("a,b", ([x[1], x[0]] for x in newer_older_cases))
 def test_older(a: str, b: str) -> None:
     """Benchmark for AwesomeVersion comparison."""
-    assert AwesomeVersion(a) < b
+    obj =  AwesomeVersion(a)
+    for _ in range(100):
+        assert obj < b
 
 
 @pytest.mark.benchmark
@@ -34,4 +38,6 @@ def test_older(a: str, b: str) -> None:
 )
 def test_equal(a: str, b: str) -> None:
     """Benchmark for AwesomeVersion comparison."""
-    assert AwesomeVersion(a) == b
+    obj =  AwesomeVersion(a)
+    for _ in range(100):
+        assert obj == b
