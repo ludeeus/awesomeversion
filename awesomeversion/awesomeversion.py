@@ -440,7 +440,7 @@ class AwesomeVersion(str):
         self._strategy_description = description = VERSION_STRATEGIES_DICT[self.strategy]
         return description
 
-    @property
+    @cached_property
     def strategy(self) -> AwesomeVersionStrategy:
         """Return the version strategy."""
         version_strategies: dict[
