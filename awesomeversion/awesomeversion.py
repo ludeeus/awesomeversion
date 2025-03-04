@@ -35,6 +35,7 @@ class AwesomeVersion(str):
     """
 
     _version: str = ""
+    _strategy_description: AwesomeVersionStrategyDescription | None = None
     _modifier: str | None = None
     _modifier_type: str | None = None
     _sections: int | None = None
@@ -102,6 +103,7 @@ class AwesomeVersion(str):
                     )
                     if match is not None:
                         self._version = match.group(0)
+                        self._strategy_description = description
 
             if self.strategy not in ensure_strategy:
                 raise AwesomeVersionStrategyException(
@@ -431,9 +433,12 @@ class AwesomeVersion(str):
     @cached_property
     def strategy_description(self) -> AwesomeVersionStrategyDescription | None:
         """Return a string representation of the strategy."""
+        if _strategy_description := self._strategy_description:
+            return _strategy_description
         if self.strategy == AwesomeVersionStrategy.UNKNOWN:
             return None
-        return VERSION_STRATEGIES_DICT[self.strategy]
+        self._strategy_description = description = VERSION_STRATEGIES_DICT[self.strategy]
+        return description
 
     @property
     def strategy(self) -> AwesomeVersionStrategy:
