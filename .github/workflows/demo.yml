@@ -5,10 +5,8 @@ on:
     branches: 
       - "main"
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
+
+premissions: {}
 
 concurrency:
   group: "pages"
@@ -19,6 +17,10 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
