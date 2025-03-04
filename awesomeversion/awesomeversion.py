@@ -367,17 +367,17 @@ class AwesomeVersion(str):
             return None
         return AwesomeVersion(self.section(2))
 
-    @cached_property
+    @property
     def micro(self) -> AwesomeVersion | None:
         """Alias to self.patch"""
         return self.patch
 
-    @cached_property
+    @property
     def year(self) -> AwesomeVersion | None:
         """Alias to self.major, here to provide a better name for use in CalVer."""
         return self.major
 
-    @cached_property
+    @property
     def valid(self) -> bool:
         """Return True if the version is not UNKNOWN."""
         return self.strategy != AwesomeVersionStrategy.UNKNOWN
@@ -435,7 +435,7 @@ class AwesomeVersion(str):
             return None
         return VERSION_STRATEGIES_DICT[self.strategy]
 
-    @cached_property
+    @property
     def strategy(self) -> AwesomeVersionStrategy:
         """Return the version strategy."""
         version_strategies: dict[
@@ -456,7 +456,7 @@ class AwesomeVersion(str):
                 return description.strategy
         return AwesomeVersionStrategy.UNKNOWN
 
-    @cached_property
+    @property
     def simple(self) -> bool:
         """Return True if the version string is simple."""
         if self._simple is None:
