@@ -1,43 +1,51 @@
 """Compare benchmarks for AwesomeVersion."""
 
 import pytest
+from pytest_codspeed import BenchmarkFixture
 
 from awesomeversion import AwesomeVersion
-
-newer_older_cases = [
-    ["9999", "1"],
-    ["9999", "2020.1.1"],
-    ["1.2.3b6", "1.2.3.dev4"],
-]
-
-
-@pytest.mark.benchmark
-@pytest.mark.parametrize("a,b", newer_older_cases)
-def test_newer(a: str, b: str) -> None:
-    """Benchmark for AwesomeVersion comparison."""
-    obj = AwesomeVersion(a)
-    for _ in range(100):
-        assert obj > b
-
-
-@pytest.mark.benchmark
-@pytest.mark.parametrize("a,b", ([x[1], x[0]] for x in newer_older_cases))
-def test_older(a: str, b: str) -> None:
-    """Benchmark for AwesomeVersion comparison."""
-    obj = AwesomeVersion(a)
-    for _ in range(100):
-        assert obj < b
 
 
 @pytest.mark.benchmark
 @pytest.mark.parametrize(
-    "a,b",
-    [
-        ["1.2.3", "1.2.3"],
-    ],
+    "input_a,operator, input_b",
+    (
+        pytest.param("9999", ">", "1", id="9999>1"),
+        pytest.param("9999", ">", "2020.1.1", id="9999>2020.1.1"),
+        pytest.param("1.2.3b6", ">", "1.2.3.dev4", id="1.2.3b6>1.2.3.dev4"),
+        pytest.param("1.2.3", "==", "1.2.3", id="1.2.3==1.2.3"),
+        pytest.param("1.2.3", "!=", "3.2.1", id="1.2.3==3.2.1"),
+    ),
 )
-def test_equal(a: str, b: str) -> None:
+def test_compare(
+    benchmark: BenchmarkFixture, input_a: str, operator: str, input_b: str
+) -> None:
     """Benchmark for AwesomeVersion comparison."""
-    obj = AwesomeVersion(a)
-    for _ in range(100):
-        assert obj == b
+    obj = AwesomeVersion(input_a)
+    if operator == ">":
+
+        @benchmark
+        def _run_banchmark() -> None:
+            for _ in range(100):
+                assert obj > input_b
+
+    elif operator == "<":
+
+        @benchmark
+        def _run_banchmark() -> None:
+            for _ in range(100):
+                assert obj < input_b
+
+    elif operator == "==":
+
+        @benchmark
+        def _run_banchmark() -> None:
+            for _ in range(100):
+                assert obj == input_b
+
+    elif operator == "!=":
+
+        @benchmark
+        def _run_banchmark() -> None:
+            for _ in range(100):
+                assert obj != input_b
