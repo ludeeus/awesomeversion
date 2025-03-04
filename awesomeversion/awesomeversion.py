@@ -123,7 +123,6 @@ class AwesomeVersion(str):
         **__: Any,
     ) -> AwesomeVersion:
         """Create a new AwesomeVersion object."""
-
         return super().__new__(cls, version)
 
     def __enter__(self) -> AwesomeVersion:
@@ -247,6 +246,16 @@ class AwesomeVersion(str):
                 return result
         return False
 
+    
+    @staticmethod
+    @lru_cache
+    def _get_version_prefix(version: str) -> str | None:
+        """Get the version prefix."""
+        for prefix in {"v", "V", "v.", "V."}:
+            if version.startswith(prefix):
+                return prefix
+        return None
+
     @cached_property
     def string(self) -> str:
         """Return a string representation of the version."""
@@ -259,16 +268,10 @@ class AwesomeVersion(str):
             return self._version
         return self._version[len(prefix) :]
 
-    @cached_property
+    @property
     def prefix(self) -> str | None:
         """Return the version prefix if any"""
-        version = self._version
-
-        for prefix in ("v", "V", "v.", "V."):
-            if version.startswith(prefix):
-                return prefix
-
-        return None
+        return self._get_version_prefix(self._version)
 
     @cached_property
     def alpha(self) -> bool:
