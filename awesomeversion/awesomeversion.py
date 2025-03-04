@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from functools import cached_property, lru_cache
 from typing import TYPE_CHECKING, Any, Dict
 from warnings import warn
 
@@ -206,6 +207,7 @@ class AwesomeVersion(str):
             }
         )
 
+    @lru_cache
     def in_range(self, lowest: VersionType, highest: VersionType) -> bool:
         """Check if version is in range."""
         if isinstance(lowest, (str, float, int)):
@@ -218,6 +220,7 @@ class AwesomeVersion(str):
             raise AwesomeVersionCompareException("Highest version is not valid")
         return lowest <= self <= highest
 
+    @lru_cache
     def section(self, idx: int) -> int:
         """Return the value of the specified section of the version."""
         if self.strategy == AwesomeVersionStrategy.HEXVER:
@@ -242,7 +245,7 @@ class AwesomeVersion(str):
                 return result
         return False
 
-    @property
+    @cached_property
     def string(self) -> str:
         """Return a string representation of the version."""
         if not self._version:
@@ -254,7 +257,7 @@ class AwesomeVersion(str):
             return self._version
         return self._version[len(prefix) :]
 
-    @property
+    @cached_property
     def prefix(self) -> str | None:
         """Return the version prefix if any"""
         version = self._version
@@ -265,27 +268,27 @@ class AwesomeVersion(str):
 
         return None
 
-    @property
+    @cached_property
     def alpha(self) -> bool:
         """Return a bool to indicate alpha version."""
         return "a" in self.modifier if self.modifier else False
 
-    @property
+    @cached_property
     def beta(self) -> bool:
         """Return a bool to indicate beta version."""
         return "b" in self.modifier if self.modifier else "beta" in self.string
 
-    @property
+    @cached_property
     def dev(self) -> bool:
         """Return a bool to indicate dev version."""
         return "d" in self.modifier if self.modifier else "dev" in self.string
 
-    @property
+    @cached_property
     def release_candidate(self) -> bool:
         """Return a bool to indicate release candidate version."""
         return "rc" in self.modifier if self.modifier else "rc" in self.string
 
-    @property
+    @cached_property
     def sections(self) -> int:
         """Return a int representation of the number of sections in the version."""
         if self._sections is not None:
@@ -304,7 +307,7 @@ class AwesomeVersion(str):
             )
         return self._sections
 
-    @property
+    @cached_property
     def major(self) -> AwesomeVersion | None:
         """
         Return a AwesomeVersion representation of the major version.
@@ -321,7 +324,7 @@ class AwesomeVersion(str):
             return None
         return AwesomeVersion(self.section(0))
 
-    @property
+    @cached_property
     def minor(self) -> AwesomeVersion | None:
         """
         Return a AwesomeVersion representation of the minor version.
@@ -343,7 +346,7 @@ class AwesomeVersion(str):
 
         return AwesomeVersion(self.section(1))
 
-    @property
+    @cached_property
     def patch(self) -> AwesomeVersion | None:
         """
         Return a AwesomeVersion representation of the patch version.
@@ -364,22 +367,22 @@ class AwesomeVersion(str):
             return None
         return AwesomeVersion(self.section(2))
 
-    @property
+    @cached_property
     def micro(self) -> AwesomeVersion | None:
         """Alias to self.patch"""
         return self.patch
 
-    @property
+    @cached_property
     def year(self) -> AwesomeVersion | None:
         """Alias to self.major, here to provide a better name for use in CalVer."""
         return self.major
 
-    @property
+    @cached_property
     def valid(self) -> bool:
         """Return True if the version is not UNKNOWN."""
         return self.strategy != AwesomeVersionStrategy.UNKNOWN
 
-    @property
+    @cached_property
     def modifier(self) -> str | None:
         """Return the modifier of the version if any."""
         if self._modifier is not None:
@@ -412,7 +415,7 @@ class AwesomeVersion(str):
 
         return self._modifier
 
-    @property
+    @cached_property
     def modifier_type(self) -> str | None:
         """Return the modifier type of the version if any."""
         if self._modifier_type is not None:
@@ -425,14 +428,14 @@ class AwesomeVersion(str):
 
         return self._modifier_type
 
-    @property
+    @cached_property
     def strategy_description(self) -> AwesomeVersionStrategyDescription | None:
         """Return a string representation of the strategy."""
         if self.strategy == AwesomeVersionStrategy.UNKNOWN:
             return None
         return VERSION_STRATEGIES_DICT[self.strategy]
 
-    @property
+    @cached_property
     def strategy(self) -> AwesomeVersionStrategy:
         """Return the version strategy."""
         version_strategies: dict[
@@ -453,7 +456,7 @@ class AwesomeVersion(str):
                 return description.strategy
         return AwesomeVersionStrategy.UNKNOWN
 
-    @property
+    @cached_property
     def simple(self) -> bool:
         """Return True if the version string is simple."""
         if self._simple is None:
