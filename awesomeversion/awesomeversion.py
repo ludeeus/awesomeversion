@@ -36,11 +36,8 @@ class AwesomeVersion(str):
 
     _version: str = ""
     _strategy_description: AwesomeVersionStrategyDescription | None = None
-    _modifier: str | None = None
-    _modifier_type: str | None = None
-    _sections: int | None = None
-    _simple: bool | None = None
-    _ensure_strategy: EnsureStrategyIterableType = []
+
+    _ensure_strategy: EnsureStrategyIterableType
 
     def __init__(
         self,  # pylint: disable=unused-argument
@@ -96,7 +93,7 @@ class AwesomeVersion(str):
                     f"Can't use {AwesomeVersionStrategy.UNKNOWN.value} as ensure_strategy"
                 )
             if find_first_match:
-                for strategy in self._ensure_strategy or []:
+                for strategy in self._ensure_strategy:
                     description = VERSION_STRATEGIES_DICT[strategy]
                     match = compile_regex(description.regex_string).search(
                         self._version
@@ -111,6 +108,8 @@ class AwesomeVersion(str):
                     f"Strategy {self.strategy.value} does not match "
                     f"{[strategy.value for strategy in ensure_strategy]} for {version}"
                 )
+        else:
+            self._ensure_strategy = []
 
         if self._version and self._version[-1] == ".":
             self._version = self._version[:-1]
@@ -294,21 +293,16 @@ class AwesomeVersion(str):
     @cached_property
     def sections(self) -> int:
         """Return a int representation of the number of sections in the version."""
-        if self._sections is not None:
-            return self._sections
-
         if self.strategy == AwesomeVersionStrategy.SEMVER:
-            self._sections = 3
-        else:
-            modifier = self.modifier
-            self._sections = len(
-                [
-                    section.split(self.modifier_type)[-1]
-                    for section in self.string.split(".")
-                    if section and (modifier is None or section != modifier)
-                ]
-            )
-        return self._sections
+            return 3
+        modifier = self.modifier
+        return len(
+            [
+                section.split(self.modifier_type)[-1]
+                for section in self.string.split(".")
+                if section and (modifier is None or section != modifier)
+            ]
+        )
 
     @cached_property
     def major(self) -> AwesomeVersion | None:
@@ -388,9 +382,6 @@ class AwesomeVersion(str):
     @cached_property
     def modifier(self) -> str | None:
         """Return the modifier of the version if any."""
-        if self._modifier is not None:
-            return self._modifier
-
         if self.strategy in (
             AwesomeVersionStrategy.SPECIALCONTAINER,
             AwesomeVersionStrategy.HEXVER,
@@ -405,7 +396,7 @@ class AwesomeVersion(str):
         ):
             match = self.strategy_description.pattern.match(self.string)
             if match and len(match.groups()) >= 4:
-                self._modifier = modifier_string = match.group(4)
+                return match.group(4)
         else:
             modifier_string = self.string.split(".")[-1]
 
@@ -414,22 +405,19 @@ class AwesomeVersion(str):
 
         match = RE_MODIFIER.match(modifier_string)
         if match and len(match.groups()) >= 2:
-            self._modifier = match.group(2)
+            return match.group(2)
 
-        return self._modifier
+        return None
 
     @cached_property
     def modifier_type(self) -> str | None:
         """Return the modifier type of the version if any."""
-        if self._modifier_type is not None:
-            return self._modifier_type
         if self.strategy == AwesomeVersionStrategy.HEXVER:
             return None
         match = RE_MODIFIER.match(self.modifier or "")
         if match and len(match.groups()) >= 3:
-            self._modifier_type = match.group(3)
-
-        return self._modifier_type
+            return match.group(3)
+        return None
 
     @cached_property
     def strategy_description(self) -> AwesomeVersionStrategyDescription | None:
@@ -438,7 +426,9 @@ class AwesomeVersion(str):
             return _strategy_description
         if self.strategy == AwesomeVersionStrategy.UNKNOWN:
             return None
-        self._strategy_description = description = VERSION_STRATEGIES_DICT[self.strategy]
+        self._strategy_description = description = VERSION_STRATEGIES_DICT[
+            self.strategy
+        ]
         return description
 
     @cached_property
@@ -448,7 +438,7 @@ class AwesomeVersion(str):
             AwesomeVersionStrategy, AwesomeVersionStrategyDescription
         ] = {}
 
-        for strategy in self._ensure_strategy or []:
+        for strategy in self._ensure_strategy:
             version_strategies[strategy] = VERSION_STRATEGIES_DICT[strategy]
 
         for description in VERSION_STRATEGIES:
@@ -462,14 +452,10 @@ class AwesomeVersion(str):
                 return description.strategy
         return AwesomeVersionStrategy.UNKNOWN
 
-    @property
+    @cached_property
     def simple(self) -> bool:
         """Return True if the version string is simple."""
-        if self._simple is None:
-            self._simple = (
-                generate_full_string_regex(RE_SIMPLE).match(self.string) is not None
-            )
-        return self._simple
+        return generate_full_string_regex(RE_SIMPLE).match(self.string) is not None
 
 
 class AwesomeVersionDiff:
