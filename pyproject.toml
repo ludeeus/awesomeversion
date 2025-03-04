@@ -45,7 +45,7 @@ disable = "unsubscriptable-object,duplicate-code,too-many-public-methods"
 
 [tool.coverage.run]
 source = ["awesomeversion"]
-omit = ["setup.py", "tests/*"]
+omit = ["setup.py", "tests/*", "benchmarks/*"]
 
 [tool.coverage.report]
 exclude_lines = ["if TYPE_CHECKING:"]
