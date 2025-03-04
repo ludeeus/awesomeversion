@@ -8,7 +8,6 @@ from awesomeversion import AwesomeVersion
 from .const import DEFAULT_RUNS
 
 
-@pytest.mark.benchmark
 @pytest.mark.parametrize(
     "input_a,operator, input_b",
     (
@@ -20,34 +19,37 @@ from .const import DEFAULT_RUNS
     ),
 )
 def test_compare(
-    benchmark: BenchmarkFixture, input_a: str, operator: str, input_b: str
+    benchmark: BenchmarkFixture,
+    input_a: str,
+    operator: str,
+    input_b: str,
 ) -> None:
     """Benchmark for AwesomeVersion comparison."""
     obj = AwesomeVersion(input_a)
     if operator == ">":
 
         @benchmark
-        def _run_banchmark() -> None:
+        def _run_benchmark() -> None:
             for _ in range(DEFAULT_RUNS):
                 assert obj > input_b
 
     elif operator == "<":
 
         @benchmark
-        def _run_banchmark() -> None:
+        def _run_benchmark() -> None:
             for _ in range(DEFAULT_RUNS):
                 assert obj < input_b
 
     elif operator == "==":
 
         @benchmark
-        def _run_banchmark() -> None:
+        def _run_benchmark() -> None:
             for _ in range(DEFAULT_RUNS):
                 assert obj == input_b
 
     elif operator == "!=":
 
         @benchmark
-        def _run_banchmark() -> None:
+        def _run_benchmark() -> None:
             for _ in range(DEFAULT_RUNS):
                 assert obj != input_b
