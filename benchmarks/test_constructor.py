@@ -8,6 +8,8 @@ import pytest
 
 from awesomeversion import AwesomeVersion, AwesomeVersionStrategy
 
+from .const import DEFAULT_RUNS
+
 semver_first = {
     "ensure_strategy": AwesomeVersionStrategy.SEMVER,
     "find_first_match": True,
@@ -40,5 +42,5 @@ def test_constructor(
     version: str | int | float, constructor_kv: dict[str, Any]
 ) -> None:
     """Benchmark for AwesomeVersion constructor."""
-    for _ in range(100):
+    for _ in range(DEFAULT_RUNS):
         assert AwesomeVersion(version, **constructor_kv)

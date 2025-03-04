@@ -5,6 +5,8 @@ from pytest_codspeed import BenchmarkFixture
 
 from awesomeversion import AwesomeVersion
 
+from .const import DEFAULT_RUNS
+
 
 @pytest.mark.benchmark
 @pytest.mark.parametrize(
@@ -26,26 +28,26 @@ def test_compare(
 
         @benchmark
         def _run_banchmark() -> None:
-            for _ in range(100):
+            for _ in range(DEFAULT_RUNS):
                 assert obj > input_b
 
     elif operator == "<":
 
         @benchmark
         def _run_banchmark() -> None:
-            for _ in range(100):
+            for _ in range(DEFAULT_RUNS):
                 assert obj < input_b
 
     elif operator == "==":
 
         @benchmark
         def _run_banchmark() -> None:
-            for _ in range(100):
+            for _ in range(DEFAULT_RUNS):
                 assert obj == input_b
 
     elif operator == "!=":
 
         @benchmark
         def _run_banchmark() -> None:
-            for _ in range(100):
+            for _ in range(DEFAULT_RUNS):
                 assert obj != input_b
