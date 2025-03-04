@@ -2,3 +2,5 @@ changelog:
   exclude:
     labels:
       - dependencies
+      - repository
+      - test
