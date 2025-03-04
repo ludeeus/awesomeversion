@@ -29,27 +29,27 @@ def test_compare(
     if operator == ">":
 
         @benchmark
-        def _run_banchmark() -> None:
+        def _run_benchmark() -> None:
             for _ in range(DEFAULT_RUNS):
                 assert obj > input_b
 
     elif operator == "<":
 
         @benchmark
-        def _run_banchmark() -> None:
+        def _run_benchmark() -> None:
             for _ in range(DEFAULT_RUNS):
                 assert obj < input_b
 
     elif operator == "==":
 
         @benchmark
-        def _run_banchmark() -> None:
+        def _run_benchmark() -> None:
             for _ in range(DEFAULT_RUNS):
                 assert obj == input_b
 
     elif operator == "!=":
 
         @benchmark
-        def _run_banchmark() -> None:
+        def _run_benchmark() -> None:
             for _ in range(DEFAULT_RUNS):
                 assert obj != input_b
