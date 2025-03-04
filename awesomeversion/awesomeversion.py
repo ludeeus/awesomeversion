@@ -101,6 +101,7 @@ class AwesomeVersion(str):
                     )
                     if match is not None:
                         self._version = match.group(0)
+                        break
 
             if self.strategy not in ensure_strategy:
                 raise AwesomeVersionStrategyException(
