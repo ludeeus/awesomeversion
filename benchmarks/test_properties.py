@@ -9,6 +9,8 @@ from awesomeversion import AwesomeVersion, AwesomeVersionStrategy
 
 from .const import DEFAULT_RUNS
 
+_DEFAULT_RUNS = DEFAULT_RUNS * 100
+
 semver_first = {
     "ensure_strategy": AwesomeVersionStrategy.SEMVER,
     "find_first_match": True,
@@ -43,5 +45,5 @@ def test_property(
 
     @benchmark
     def _run_benchmark() -> None:
-        for _ in range(DEFAULT_RUNS):
+        for _ in range(_DEFAULT_RUNS):
             getattr(obj, class_property)
