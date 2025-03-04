@@ -254,6 +254,34 @@ class AwesomeVersion(str):
                 return prefix
         return None
 
+    @staticmethod
+    @lru_cache
+    def _get_version_strategy(
+        version: str, prefered_strategies: str
+    ) -> AwesomeVersionStrategy:
+        """Get the version strategy."""
+        version_strategies: dict[
+            AwesomeVersionStrategy, AwesomeVersionStrategyDescription
+        ] = {}
+
+        for strategy in (
+            AwesomeVersionStrategy(prefered)
+            for prefered in prefered_strategies.split(",")
+            if prefered
+        ):
+            version_strategies[strategy] = VERSION_STRATEGIES_DICT[strategy]
+
+        for description in VERSION_STRATEGIES:
+            if description.strategy not in version_strategies:
+                version_strategies[description.strategy] = description
+
+        for description in version_strategies.values():
+            if description.pattern.match(version) is not None and (
+                description.validate is None or description.validate(version)
+            ):
+                return description.strategy
+        return AwesomeVersionStrategy.UNKNOWN
+
     @cached_property
     def string(self) -> str:
         """Return a string representation of the version."""
@@ -432,26 +460,10 @@ class AwesomeVersion(str):
         ]
         return description
 
-    @cached_property
+    @property
     def strategy(self) -> AwesomeVersionStrategy:
         """Return the version strategy."""
-        version_strategies: dict[
-            AwesomeVersionStrategy, AwesomeVersionStrategyDescription
-        ] = {}
-
-        for strategy in self._ensure_strategy:
-            version_strategies[strategy] = VERSION_STRATEGIES_DICT[strategy]
-
-        for description in VERSION_STRATEGIES:
-            if description.strategy not in version_strategies:
-                version_strategies[description.strategy] = description
-
-        for description in version_strategies.values():
-            if description.pattern.match(self.string) is not None and (
-                description.validate is None or description.validate(self.string)
-            ):
-                return description.strategy
-        return AwesomeVersionStrategy.UNKNOWN
+        return self._get_version_strategy(self.string, ",".join(self._ensure_strategy))
 
     @cached_property
     def simple(self) -> bool:
