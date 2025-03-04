@@ -14,7 +14,7 @@ from awesomeversion import AwesomeVersion
         pytest.param("9999", ">", "2020.1.1", id="9999>2020.1.1"),
         pytest.param("1.2.3b6", ">", "1.2.3.dev4", id="1.2.3b6>1.2.3.dev4"),
         pytest.param("1.2.3", "==", "1.2.3", id="1.2.3==1.2.3"),
-        pytest.param("1.2.3", "!=", "3.2.1", id="1.2.3==3.2.1"),
+        pytest.param("1.2.3", "!=", "3.2.1", id="1.2.3!=3.2.1"),
     ),
 )
 def test_compare(
