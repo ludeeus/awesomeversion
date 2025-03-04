@@ -241,17 +241,15 @@ class AwesomeVersion(str):
             compare_handler_sections,
             compare_handler_semver_modifier,
         ):
-            result = handler(version_a, version_b)
-            if result is not None:
+            if (result := handler(version_a, version_b)) is not None:
                 return result
         return False
 
-    
     @staticmethod
     @lru_cache
     def _get_version_prefix(version: str) -> str | None:
         """Get the version prefix."""
-        for prefix in {"v", "V", "v.", "V."}:
+        for prefix in ("v", "V", "v.", "V."):
             if version.startswith(prefix):
                 return prefix
         return None
