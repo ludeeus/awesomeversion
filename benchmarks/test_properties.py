@@ -42,6 +42,6 @@ def test_property(
     obj = AwesomeVersion(version)
 
     @benchmark
-    def _run_banchmark() -> None:
+    def _run_benchmark() -> None:
         for _ in range(DEFAULT_RUNS):
             getattr(obj, class_property)
