@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, List, Tuple, Union
+from typing import TYPE_CHECKING, List, Tuple, TypedDict, Union
 
 from .strategy import AwesomeVersionStrategy
 
@@ -16,3 +16,12 @@ EnsureStrategyIterableType = Union[
 
 
 EnsureStrategyType = Union[AwesomeVersionStrategy, EnsureStrategyIterableType, None]
+
+
+class AwesomeVersionValueCache(TypedDict):
+    """TypedDict for AwesomeVersion value cache."""
+
+    major: AwesomeVersion | None | object
+    minor: AwesomeVersion | None | object
+    patch: AwesomeVersion | None | object
+    prefix: str | None | object
