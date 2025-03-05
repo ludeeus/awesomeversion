@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from functools import cached_property
 from typing import TYPE_CHECKING, Any, Dict
 from warnings import warn
 
@@ -16,7 +17,6 @@ from .strategy import (
     AwesomeVersionStrategy,
     AwesomeVersionStrategyDescription,
 )
-from .utils.cache import ValueCache
 from .utils.regex import (
     RE_DIGIT,
     RE_MODIFIER,
@@ -24,7 +24,6 @@ from .utils.regex import (
     compile_regex,
     generate_full_string_regex,
 )
-from .utils.unset import UNSET_VALUE
 
 if TYPE_CHECKING:
     from .typing import EnsureStrategyIterableType, EnsureStrategyType, VersionType
@@ -34,8 +33,6 @@ class AwesomeVersion(str):
     """
     AwesomeVersion class.
     """
-
-    __valuecache: ValueCache
 
     _version: str = ""
     _modifier: str | None = None
@@ -73,7 +70,6 @@ class AwesomeVersion(str):
             AwesomeVersionStrategyException If it is not found
             for any of the given strategies.
         """
-        self.__valuecache = ValueCache()
         self._version = (
             version._version if isinstance(version, AwesomeVersion) else str(version)
         )
@@ -260,29 +256,15 @@ class AwesomeVersion(str):
             return self._version
         return self._version[len(prefix) :]
 
-    @property
+    @cached_property
     def prefix(self) -> str | None:
         """Return the version prefix if any"""
-        if (prefix := self.__valuecache.prefix) is not UNSET_VALUE:
-            if TYPE_CHECKING:
-                assert isinstance(prefix, str) or prefix is None
-            return prefix
-
         version = self._version
 
-        checked_version_segment = version[:1]
-        for prefix in ("v", "V"):
-            if checked_version_segment == prefix:
-                self.__valuecache.prefix = prefix
+        for prefix in ("v", "V", "v.", "V."):
+            if version.startswith(prefix):
                 return prefix
 
-        checked_version_segment = version[:2]
-        for prefix in ("v.", "V."):
-            if checked_version_segment == prefix:
-                self.__valuecache.prefix = prefix
-                return prefix
-
-        self.__valuecache.prefix = None
         return None
 
     @property
@@ -324,18 +306,13 @@ class AwesomeVersion(str):
             )
         return self._sections
 
-    @property
+    @cached_property
     def major(self) -> AwesomeVersion | None:
         """
         Return a AwesomeVersion representation of the major version.
 
         Will return None if the versions is not semver/buildver/calver/simplever/pep440.
         """
-        if (major := self.__valuecache.major) is not UNSET_VALUE:
-            if TYPE_CHECKING:
-                assert isinstance(major, AwesomeVersion) or major is None
-            return major
-
         if self.strategy not in (
             AwesomeVersionStrategy.SEMVER,
             AwesomeVersionStrategy.BUILDVER,
@@ -343,12 +320,10 @@ class AwesomeVersion(str):
             AwesomeVersionStrategy.SIMPLEVER,
             AwesomeVersionStrategy.PEP440,
         ):
-            self.__valuecache.major = None
             return None
-        self.__valuecache.major = major = AwesomeVersion(self.section(0))
-        return major
+        return AwesomeVersion(self.section(0))
 
-    @property
+    @cached_property
     def minor(self) -> AwesomeVersion | None:
         """
         Return a AwesomeVersion representation of the minor version.
@@ -356,11 +331,6 @@ class AwesomeVersion(str):
         Will return None if the versions is not semver/simplever/calver/pep440
         Will return None if the version does not have at least 2 sections.
         """
-        if (minor := self.__valuecache.minor) is not UNSET_VALUE:
-            if TYPE_CHECKING:
-                assert isinstance(minor, AwesomeVersion) or minor is None
-            return minor
-
         if (
             self.strategy
             not in (
@@ -371,13 +341,11 @@ class AwesomeVersion(str):
             )
             or self.sections < 2
         ):
-            self.__valuecache.minor = None
             return None
 
-        self.__valuecache.minor = minor = AwesomeVersion(self.section(1))
-        return minor
+        return AwesomeVersion(self.section(1))
 
-    @property
+    @cached_property
     def patch(self) -> AwesomeVersion | None:
         """
         Return a AwesomeVersion representation of the patch version.
@@ -385,10 +353,6 @@ class AwesomeVersion(str):
         Will return None if the versions is not semver/simplever/calver/pep440
         Will return None if the version does not have at least 3 sections.
         """
-        if (patch := self.__valuecache.patch) is not UNSET_VALUE:
-            if TYPE_CHECKING:
-                assert isinstance(patch, AwesomeVersion) or patch is None
-            return patch
         if (
             self.strategy
             not in (
@@ -399,10 +363,8 @@ class AwesomeVersion(str):
             )
             or self.sections < 3
         ):
-            self.__valuecache.patch = None
             return None
-        self.__valuecache.patch = patch = AwesomeVersion(self.section(2))
-        return patch
+        return AwesomeVersion(self.section(2))
 
     @property
     def micro(self) -> AwesomeVersion | None:
