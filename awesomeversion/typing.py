@@ -16,12 +16,3 @@ EnsureStrategyIterableType = Union[
 
 
 EnsureStrategyType = Union[AwesomeVersionStrategy, EnsureStrategyIterableType, None]
-
-
-class AwesomeVersionValueCache(TypedDict):
-    """TypedDict for AwesomeVersion value cache."""
-
-    major: AwesomeVersion | None | object
-    minor: AwesomeVersion | None | object
-    patch: AwesomeVersion | None | object
-    prefix: str | None | object
