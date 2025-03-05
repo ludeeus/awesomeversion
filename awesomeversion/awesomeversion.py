@@ -286,7 +286,7 @@ class AwesomeVersion(str):
         """Return a bool to indicate release candidate version."""
         return "rc" in self.modifier if self.modifier else "rc" in self.string
 
-    @property
+    @cached_property
     def sections(self) -> int:
         """Return a int representation of the number of sections in the version."""
         if self._sections is not None:
