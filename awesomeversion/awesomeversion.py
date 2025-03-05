@@ -323,7 +323,7 @@ class AwesomeVersion(str):
             return None
         return AwesomeVersion(self.section(0))
 
-    @property
+    @cached_property
     def minor(self) -> AwesomeVersion | None:
         """
         Return a AwesomeVersion representation of the minor version.
