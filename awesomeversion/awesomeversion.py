@@ -345,7 +345,7 @@ class AwesomeVersion(str):
 
         return AwesomeVersion(self.section(1))
 
-    @property
+    @cached_property
     def patch(self) -> AwesomeVersion | None:
         """
         Return a AwesomeVersion representation of the patch version.
