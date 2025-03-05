@@ -38,7 +38,6 @@ class AwesomeVersion(str):
     _modifier: str | None = None
     _modifier_type: str | None = None
     _sections: int | None = None
-    _simple: bool | None = None
     _ensure_strategy: EnsureStrategyIterableType = []
 
     def __init__(
@@ -455,14 +454,10 @@ class AwesomeVersion(str):
                 return description.strategy
         return AwesomeVersionStrategy.UNKNOWN
 
-    @property
+    @cached_property
     def simple(self) -> bool:
         """Return True if the version string is simple."""
-        if self._simple is None:
-            self._simple = (
-                generate_full_string_regex(RE_SIMPLE).match(self.string) is not None
-            )
-        return self._simple
+        return generate_full_string_regex(RE_SIMPLE).match(self.string) is not None
 
 
 class AwesomeVersionDiff:
