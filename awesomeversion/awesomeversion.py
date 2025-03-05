@@ -306,7 +306,7 @@ class AwesomeVersion(str):
             )
         return self._sections
 
-    @property
+    @cached_property
     def major(self) -> AwesomeVersion | None:
         """
         Return a AwesomeVersion representation of the major version.
