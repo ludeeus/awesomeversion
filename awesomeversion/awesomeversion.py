@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from functools import cached_property
 from typing import TYPE_CHECKING, Any, Dict
 from warnings import warn
 
@@ -255,7 +256,7 @@ class AwesomeVersion(str):
             return self._version
         return self._version[len(prefix) :]
 
-    @property
+    @cached_property
     def prefix(self) -> str | None:
         """Return the version prefix if any"""
         version = self._version
