@@ -306,7 +306,7 @@ class AwesomeVersion(str):
             )
         return self._sections
 
-    @cached_property
+    @property
     def major(self) -> AwesomeVersion | None:
         """
         Return a AwesomeVersion representation of the major version.
@@ -323,7 +323,7 @@ class AwesomeVersion(str):
             return None
         return AwesomeVersion(self.section(0))
 
-    @cached_property
+    @property
     def minor(self) -> AwesomeVersion | None:
         """
         Return a AwesomeVersion representation of the minor version.
@@ -345,7 +345,7 @@ class AwesomeVersion(str):
 
         return AwesomeVersion(self.section(1))
 
-    @cached_property
+    @property
     def patch(self) -> AwesomeVersion | None:
         """
         Return a AwesomeVersion representation of the patch version.
