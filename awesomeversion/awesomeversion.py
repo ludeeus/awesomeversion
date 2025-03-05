@@ -27,6 +27,8 @@ from .utils.regex import (
 if TYPE_CHECKING:
     from .typing import EnsureStrategyIterableType, EnsureStrategyType, VersionType
 
+_UNSET_VALUE = object()
+
 
 class AwesomeVersion(str):
     """
@@ -39,6 +41,8 @@ class AwesomeVersion(str):
     _sections: int | None = None
     _simple: bool | None = None
     _ensure_strategy: EnsureStrategyIterableType = []
+
+    _prefix: str | None | object = _UNSET_VALUE
 
     def __init__(
         self,  # pylint: disable=unused-argument
@@ -258,12 +262,26 @@ class AwesomeVersion(str):
     @property
     def prefix(self) -> str | None:
         """Return the version prefix if any"""
+        if (prefix := self._prefix) is not _UNSET_VALUE:
+            if TYPE_CHECKING:
+                assert isinstance(prefix, str) or prefix is None
+            return prefix
+
         version = self._version
 
-        for prefix in ("v", "V", "v.", "V."):
-            if version.startswith(prefix):
+        checked_version_segment = version[:1]
+        for prefix in ("v", "V"):
+            if checked_version_segment == prefix:
+                self._prefix = prefix
                 return prefix
 
+        checked_version_segment = version[:2]
+        for prefix in ("v.", "V."):
+            if checked_version_segment == prefix:
+                self._prefix = prefix
+                return prefix
+
+        self._prefix = None
         return None
 
     @property
