@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from functools import cached_property
+from functools import cached_property, lru_cache
 from typing import TYPE_CHECKING, Any, Dict
 from warnings import warn
 
@@ -219,6 +219,7 @@ class AwesomeVersion(str):
             raise AwesomeVersionCompareException("Highest version is not valid")
         return lowest <= self <= highest
 
+    @lru_cache
     def section(self, idx: int) -> int:
         """Return the value of the specified section of the version."""
         if self.strategy == AwesomeVersionStrategy.HEXVER:
