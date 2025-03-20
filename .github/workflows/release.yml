@@ -31,7 +31,7 @@ jobs:
         run: poetry build --no-interaction
 
       - name: Upload dists
-        uses: actions/upload-artifact@v4.6.1
+        uses: actions/upload-artifact@v4.6.2
         with:
           name: "dist"
           path: "dist/"
@@ -49,7 +49,7 @@ jobs:
       id-token: write
     steps:
     - name: Download dists
-      uses: actions/download-artifact@v4.1.9
+      uses: actions/download-artifact@v4.2.1
       with:
         name: "dist"
         path: "dist/"
