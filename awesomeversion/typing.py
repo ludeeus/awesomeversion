@@ -1,4 +1,4 @@
-""""Custom types for AwesomeVersion."""
+"""Custom types for AwesomeVersion."""
 
 from __future__ import annotations
 
