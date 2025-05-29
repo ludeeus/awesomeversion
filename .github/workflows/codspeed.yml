@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v4.2.2
 
       - name: 🛠 Set up Python 3
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v5.6.0
         id: python
         with:
           python-version: 3.x
@@ -28,7 +28,7 @@ jobs:
         run:  make requirements
 
       - name: Run benchmarks
-        uses: CodSpeedHQ/action@v3
+        uses: CodSpeedHQ/action@0010eb0ca6e89b80c88e8edaaa07cfe5f3e6664d  # v3.5.0
         with:
           token: ${{ secrets.CODSPEED_TOKEN }}
           run: poetry run pytest -x --no-cov -vvvvv --codspeed benchmarks
