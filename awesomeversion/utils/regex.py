@@ -1,5 +1,7 @@
 """Regex utils for AwesomeVersion."""
 
+from __future__ import annotations
+
 from functools import lru_cache
 import re
 from typing import Pattern
