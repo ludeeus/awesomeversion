@@ -39,7 +39,7 @@ RE_HEXVER = r"0x[A-Fa-f0-9]+"
 RE_SPECIAL_CONTAINER = r"(?:latest|dev|stable|beta)"
 
 # Simple version pattern
-RE_SIMPLE = r"[v|V]?((\d+)(\.\d+)+)"
+RE_SIMPLE = r"[vV]?((\d+)(\.\d+)+)"
 
 
 @lru_cache(maxsize=128)  # Increased cache size for regex compilation
