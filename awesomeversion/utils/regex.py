@@ -1,7 +1,7 @@
 """Regex utils for AwesomeVersion."""
 
-import re
 from functools import lru_cache
+import re
 from typing import Pattern
 
 # General purpose patterns - optimized
@@ -23,7 +23,7 @@ RE_SEMVER = (
 # PEP440: Slightly optimized with non-capturing groups where possible
 RE_PEP440 = (
     r"([1-9][0-9]*!)?(0|[1-9][0-9]*)(\.(0|[1-9][0-9]*))*"  # Main segment
-    r"([-_\.]?(?:alpha|beta|c|pre|preview|a|b|rc)(0|[1-9][0-9]*))?"  # Pre-release segment  
+    r"([-_\.]?(?:alpha|beta|c|pre|preview|a|b|rc)(0|[1-9][0-9]*))?"  # Pre-release segment
     r"([-_\.]?(?:post|r|rev)(0|[1-9][0-9]*))?"  # Post-release segment
     r"([-_\.]?(?:d|dev)(0|[1-9][0-9]*))?"  # Development release segment
     r"(?:\+([a-z0-9]+(?:[-_\.][a-z0-9]+)*))?"  # Local version segment
@@ -54,12 +54,12 @@ def generate_full_string_regex(string: str) -> Pattern[str]:
 
 # Pre-compile frequently used patterns for maximum performance
 _COMPILED_PATTERNS = {
-    'BUILDVER_FULL': re.compile(r"^\d+$"),
-    'HEXVER_FULL': re.compile(r"^0x[A-Fa-f0-9]+$"),
-    'SPECIAL_CONTAINER_FULL': re.compile(r"^(?:latest|dev|stable|beta)$"),
-    'IS_SINGLE_DIGIT': RE_IS_SINGLE_DIGIT,
-    'DIGIT': RE_DIGIT,
-    'MODIFIER': RE_MODIFIER,
+    "BUILDVER_FULL": re.compile(r"^\d+$"),
+    "HEXVER_FULL": re.compile(r"^0x[A-Fa-f0-9]+$"),
+    "SPECIAL_CONTAINER_FULL": re.compile(r"^(?:latest|dev|stable|beta)$"),
+    "IS_SINGLE_DIGIT": RE_IS_SINGLE_DIGIT,
+    "DIGIT": RE_DIGIT,
+    "MODIFIER": RE_MODIFIER,
 }
 
 

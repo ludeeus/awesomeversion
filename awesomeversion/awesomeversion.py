@@ -141,7 +141,9 @@ class AwesomeVersion(str):
             if isinstance(compareto, (str, float, int)):
                 compareto = AwesomeVersion(compareto)
             else:
-                raise AwesomeVersionCompareException("Not a valid AwesomeVersion object")
+                raise AwesomeVersionCompareException(
+                    "Not a valid AwesomeVersion object"
+                )
         return self.string == compareto.string
 
     def __lt__(self, compareto: VersionType) -> bool:
@@ -150,8 +152,10 @@ class AwesomeVersion(str):
             if isinstance(compareto, (str, float, int)):
                 compareto = AwesomeVersion(compareto)
             else:
-                raise AwesomeVersionCompareException("Not a valid AwesomeVersion object")
-        
+                raise AwesomeVersionCompareException(
+                    "Not a valid AwesomeVersion object"
+                )
+
         if self.string == compareto.string:
             return False
 
@@ -168,8 +172,10 @@ class AwesomeVersion(str):
             if isinstance(compareto, (str, float, int)):
                 compareto = AwesomeVersion(compareto)
             else:
-                raise AwesomeVersionCompareException("Not a valid AwesomeVersion object")
-        
+                raise AwesomeVersionCompareException(
+                    "Not a valid AwesomeVersion object"
+                )
+
         if self.string == compareto.string:
             return False
 
@@ -230,7 +236,7 @@ class AwesomeVersion(str):
         strategy = self.strategy
         if strategy == AwesomeVersionStrategy.HEXVER:
             return int(self.string, 16) if idx == 0 else 0
-        
+
         if strategy == AwesomeVersionStrategy.BUILDVER:
             if idx == 0:
                 try:
@@ -238,7 +244,7 @@ class AwesomeVersion(str):
                 except ValueError:
                     return 0
             return 0
-        
+
         if self.sections >= (idx + 1):
             version_parts = self.string.split(".")
             if idx < len(version_parts):
@@ -314,18 +320,24 @@ class AwesomeVersion(str):
         strategy = self.strategy
         if strategy == AwesomeVersionStrategy.SEMVER:
             self._sections = 3
-        elif strategy in {AwesomeVersionStrategy.HEXVER, AwesomeVersionStrategy.SPECIALCONTAINER, AwesomeVersionStrategy.BUILDVER}:
+        elif strategy in {
+            AwesomeVersionStrategy.HEXVER,
+            AwesomeVersionStrategy.SPECIALCONTAINER,
+            AwesomeVersionStrategy.BUILDVER,
+        }:
             self._sections = 1
         else:
             version_parts = self.string.split(".")
             modifier = self.modifier
             modifier_type = self.modifier_type
-            
-            self._sections = len([
-                section.split(modifier_type)[-1] if modifier_type else section
-                for section in version_parts
-                if section and (modifier is None or section != modifier)
-            ])
+
+            self._sections = len(
+                [
+                    section.split(modifier_type)[-1] if modifier_type else section
+                    for section in version_parts
+                    if section and (modifier is None or section != modifier)
+                ]
+            )
         return self._sections
 
     @cached_property
@@ -463,27 +475,30 @@ class AwesomeVersion(str):
         if version_str:
             # Fast-path optimization, but only if ensure_strategy allows it
             fast_path_strategy = None
-            
+
             # Special containers - exact match
             if version_str in ("latest", "dev", "stable", "beta"):
                 fast_path_strategy = AwesomeVersionStrategy.SPECIALCONTAINER
-            
+
             # HexVer - check prefix and basic format
             elif version_str.startswith("0x") and len(version_str) > 2:
                 # Quick validation - all chars after 0x should be hex
                 hex_part = version_str[2:]
                 if all(c in "0123456789ABCDEFabcdef" for c in hex_part):
                     fast_path_strategy = AwesomeVersionStrategy.HEXVER
-            
+
             # BuildVer - check if it's just digits
             elif version_str.isdigit():
                 fast_path_strategy = AwesomeVersionStrategy.BUILDVER
-            
+
             # If we found a fast-path strategy, check if it's allowed by ensure_strategy
             if fast_path_strategy is not None:
-                if not self._ensure_strategy or fast_path_strategy in self._ensure_strategy:
+                if (
+                    not self._ensure_strategy
+                    or fast_path_strategy in self._ensure_strategy
+                ):
                     return fast_path_strategy
-                  
+
         # Build strategy lookup dictionary
         version_strategies: dict[
             AwesomeVersionStrategy, AwesomeVersionStrategyDescription
