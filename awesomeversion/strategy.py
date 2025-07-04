@@ -95,3 +95,22 @@ VERSION_STRATEGIES: Tuple[AwesomeVersionStrategyDescription, ...] = (
 VERSION_STRATEGIES_DICT: dict[
     AwesomeVersionStrategy, AwesomeVersionStrategyDescription
 ] = {description.strategy: description for description in VERSION_STRATEGIES}
+
+
+# Strategies that support version section extraction (e.g., major, minor, patch).
+VERSIONED_STRATEGIES = frozenset(
+    {
+        AwesomeVersionStrategy.SEMVER,
+        AwesomeVersionStrategy.CALVER,
+        AwesomeVersionStrategy.SIMPLEVER,
+        AwesomeVersionStrategy.PEP440,
+    }
+)
+
+# Strategies that support extracting the major version section.
+MAJOR_STRATEGIES = frozenset(
+    {
+        *VERSIONED_STRATEGIES,
+        AwesomeVersionStrategy.BUILDVER,
+    }
+)
