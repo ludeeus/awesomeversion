@@ -110,10 +110,7 @@ VERSIONED_STRATEGIES = frozenset(
 # Strategies that support extracting the major version section.
 MAJOR_STRATEGIES = frozenset(
     {
-        AwesomeVersionStrategy.SEMVER,
+        *VERSIONED_STRATEGIES,
         AwesomeVersionStrategy.BUILDVER,
-        AwesomeVersionStrategy.CALVER,
-        AwesomeVersionStrategy.SIMPLEVER,
-        AwesomeVersionStrategy.PEP440,
     }
 )
