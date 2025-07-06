@@ -183,7 +183,7 @@ if strategy_mismatch:
 - Use the existing script system rather than running commands directly
 - Pay attention to type safety and maintain the zero-dependency principle
 - When in doubt, follow the patterns established in existing code rather than introducing new patterns
-- **Do not add inline comments to code unless specifically requested by the user. Remove any inline comments that were added by Copilot or in PRs unless explicitly asked for.**
+- **Do not add inline comments to code unless specifically requested by the user.**
 
 ## Updating these instructions
 
