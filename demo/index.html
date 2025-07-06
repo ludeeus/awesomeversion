@@ -551,6 +551,11 @@
     from awesomeversion import AwesomeVersion
     import json
     from pyscript import document
+    import html
+    
+    def escape_html(text):
+        """Escape HTML special characters to prevent XSS attacks."""
+        return html.escape(str(text), quote=True)
     
     def safe_compare(a, b, operation):
         try:
@@ -675,13 +680,13 @@
                     comparison_html = '<div class="comparison-result '
                     if version_a > version_b:
                         comparison_html += 'greater"><i class="fas fa-chevron-up"></i>'
-                        comparison_html += f'{version_a_str} > {version_b_str}'
+                        comparison_html += f'{escape_html(version_a_str)} > {escape_html(version_b_str)}'
                     elif version_a < version_b:
                         comparison_html += 'lesser"><i class="fas fa-chevron-down"></i>'
-                        comparison_html += f'{version_a_str} < {version_b_str}'
+                        comparison_html += f'{escape_html(version_a_str)} < {escape_html(version_b_str)}'
                     else:
                         comparison_html += 'equal"><i class="fas fa-equals"></i>'
-                        comparison_html += f'{version_a_str} = {version_b_str}'
+                        comparison_html += f'{escape_html(version_a_str)} = {escape_html(version_b_str)}'
                     comparison_html += '</div>'
                     
                     document.querySelector("#comparison-result").innerHTML = comparison_html
@@ -703,13 +708,13 @@
                     document.querySelector("#comparison-details").innerText = details
                     
                 except Exception as e:
-                    document.querySelector("#comparison-result").innerHTML = f'<div class="comparison-result error">❌ Comparison Error: {str(e)}</div>'
+                    document.querySelector("#comparison-result").innerHTML = f'<div class="comparison-result error">❌ Comparison Error: {escape_html(str(e))}</div>'
                     document.querySelector("#comparison-details").innerText = ""
             else:
                 document.querySelector("#comparison-result").innerHTML = '<div class="comparison-result error">❌ Cannot compare invalid versions</div>'
                 document.querySelector("#comparison-details").innerText = ""
         except Exception as e:
-            document.querySelector("#comparison-result").innerHTML = f'<div class="comparison-result error">❌ Script Error: {str(e)}</div>'
+            document.querySelector("#comparison-result").innerHTML = f'<div class="comparison-result error">❌ Script Error: {escape_html(str(e))}</div>'
             document.querySelector("#comparison-details").innerText = ""
     
     def load_example(version_a, version_b):
