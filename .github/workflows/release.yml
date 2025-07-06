@@ -21,11 +21,12 @@ jobs:
           python-version: 3.x
 
       - name: Install uv
-        run: make install-uv
+        uses: astral-sh/setup-uv@bd01e18f51369d5a26f1651c3cb451d3417e3bba  # v6.3.1
+        with:
+          version: "0.7.19"
 
       - name: Set version number
-        run: |
-          sed -i 's/version = "0"/version = "${{ github.event.release.tag_name }}"/g' pyproject.toml
+        run: script/set-version ${{ github.event.release.tag_name }}
 
       - name: Build
         run: uv build

@@ -1,0 +1,12 @@
+#!/bin/sh
+
+# script/build: Build the package.
+
+set -e
+
+cd "$(dirname "$0")/.."
+
+echo "==> Building package..."
+uv build
+
+echo "==> Build completed!"

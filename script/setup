@@ -1,0 +1,11 @@
+#!/bin/sh
+
+# script/setup: Set up project for first-time use after cloning
+
+set -e
+
+cd "$(dirname "$0")/.."
+
+script/bootstrap
+
+echo "==> App is now ready to go!"
