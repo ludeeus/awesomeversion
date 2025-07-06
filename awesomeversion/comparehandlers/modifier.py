@@ -40,10 +40,9 @@ def compare_handler_semver_modifier(
         if modifier_match and len(modifier_match.groups()) >= 4:
             ver_a_modifier = modifier_match.group(4)
         else:
-            # Try compound modifier pattern for cases like "beta1-dev127513"
             compound_match = match_compound_modifier(semver_match.group(4))
             if compound_match:
-                ver_a_modifier = compound_match.group(2)  # Extract the number part
+                ver_a_modifier = compound_match.group(2)
 
     semver_match = semver_pattern.match(version_b.string)
     if semver_match and len(semver_match.groups()) >= 4:
@@ -51,10 +50,9 @@ def compare_handler_semver_modifier(
         if modifier_match and len(modifier_match.groups()) >= 4:
             ver_b_modifier = modifier_match.group(4)
         else:
-            # Try compound modifier pattern for cases like "beta1-dev127513"
             compound_match = match_compound_modifier(semver_match.group(4))
             if compound_match:
-                ver_b_modifier = compound_match.group(2)  # Extract the number part
+                ver_b_modifier = compound_match.group(2)
 
     if not ver_a_modifier or not ver_b_modifier:
         return True
