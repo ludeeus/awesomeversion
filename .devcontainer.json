@@ -1,6 +1,6 @@
 {
 	"name": "AwesomeVersion",
-	"image": "mcr.microsoft.com/vscode/devcontainers/python:1-3.11",
+	"image": "mcr.microsoft.com/vscode/devcontainers/python:1-3.9",
 	"postCreateCommand": "script/setup",
 	"postStartCommand": "script/motd",
 	"features": {
