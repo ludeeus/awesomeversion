@@ -12,33 +12,30 @@ echo "Available scripts:"
 echo ""
 
 # Find all executable scripts in the script directory and sort them
+
 for script in $(find script -type f -executable | sort); do
-  # Extract the script name
   script_name=$(basename "$script")
-  
-  # Extract the description from the script's comment - just the main line
-  description=$(grep "^# script/$script_name:" "$script" 2>/dev/null | sed "s/^# script\/$script_name:[[:space:]]*//" | head -1)
-  
-  # If description is too short or empty, try to get continuation
-  if [ ${#description} -lt 20 ] || [ -z "$description" ]; then
-    # Get the full description including continuation lines
-    full_desc=$(sed -n "/^# script\/$script_name:/,/^[^#]/p" "$script" | grep "^#" | sed 's/^# *//' | sed "s/^script\/$script_name:[[:space:]]*//" | tr '\n' ' ' | sed 's/[[:space:]]*$//')
-    if [ -n "$full_desc" ]; then
-      description="$full_desc"
-    fi
-  fi
-  
-  # If still no description found, provide a default
+  # Collect all consecutive comment lines starting with the script name prefix
+  description=$(awk -v prefix="# script/$script_name:" '
+    BEGIN {desc=""}
+    $0 ~ prefix {
+      line = $0
+      sub(prefix, "", line)
+      sub(/^# */, "", line)
+      desc = desc (desc ? " " : "") line
+      next
+    }
+    desc != "" {exit}
+    END {print desc}
+  ' "$script")
+  # Provide a default if no description found
   if [ -z "$description" ]; then
     description="No description available"
   fi
-  
   # Truncate description if too long
   if [ ${#description} -gt 60 ]; then
     description=$(echo "$description" | cut -c1-57)...
   fi
-  
-  # Print the script and description
   printf " \033[36m %-25s\033[0m %s\n" "script/$script_name" "$description"
 done
 

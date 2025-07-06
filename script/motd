@@ -10,6 +10,7 @@ echo ""
 echo "🎉 Welcome to the AwesomeVersion development environment!"
 echo ""
 echo "📂 Project: $(pwd)"
+echo "🌿 Git branch: $(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo 'Not a git repo')"
 echo "🐍 Python: $(python3 --version 2>/dev/null || echo 'Not available')"
 if command -v uv >/dev/null 2>&1; then
     echo "📦 UV: $(uv --version)"
