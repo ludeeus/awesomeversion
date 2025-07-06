@@ -6,5 +6,5 @@ __target__
 .coverage
 coverage.xml
 dist
-build
+build/
 *.egg-info

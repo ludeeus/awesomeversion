@@ -1,0 +1,18 @@
+#!/bin/sh
+
+# script/bootstrap: Install/update all dependencies required to run the project
+
+set -e
+
+cd "$(dirname "$0")/.."
+
+echo "==> Installing uv if not present..."
+if ! command -v uv >/dev/null 2>&1; then
+  echo "UV not found, re-build the devcontainer..."
+  exit 1
+fi
+
+echo "==> Installing dependencies..."
+uv sync --dev --all-extras
+
+echo "==> Bootstrap completed!"

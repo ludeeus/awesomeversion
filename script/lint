@@ -1,0 +1,23 @@
+#!/bin/sh
+
+# script/lint: Run linting tools and apply formatting
+
+set -e
+
+cd "$(dirname "$0")/.."
+
+echo "==> Running linting tools..."
+
+echo "==> Running isort..."
+uv run --dev isort awesomeversion tests benchmarks
+
+echo "==> Running black..."
+uv run --dev black --fast awesomeversion tests benchmarks
+
+echo "==> Running mypy..."
+uv run --dev mypy --strict awesomeversion tests benchmarks
+
+echo "==> Running pylint..."
+uv run --dev pylint awesomeversion tests benchmarks
+
+echo "==> Linting completed!"

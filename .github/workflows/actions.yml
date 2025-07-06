@@ -24,20 +24,25 @@ jobs:
         with:
           python-version: 3.x
 
+      - name: Install uv
+        uses: astral-sh/setup-uv@bd01e18f51369d5a26f1651c3cb451d3417e3bba  # v6.3.1
+        with:
+          version: "0.7.19"
+
       - name: 📦 Install dependencies
-        run:  make requirements
+        run: script/bootstrap
 
       - name: 🖤 Lint with Black
-        run:  make black-check
+        run: uv run --dev black --check --fast awesomeversion tests benchmarks
 
       - name: 🐍 Lint with mypy
-        run: make mypy
+        run: uv run --dev mypy --strict awesomeversion tests benchmarks
 
       - name: ✨ Lint with pylint
-        run: make pylint
+        run: uv run --dev pylint awesomeversion tests benchmarks
 
       - name: 🔤 Lint with isort
-        run: make isort-check
+        run: uv run --dev isort awesomeversion tests benchmarks --check-only
 
   test:
     name: Test with Python ${{ matrix.entry.version }}
@@ -62,14 +67,19 @@ jobs:
           python-version: ${{ matrix.entry.version }}
           allow-prereleases: ${{ matrix.entry.prereleases || false }}
 
+      - name: Install uv
+        uses: astral-sh/setup-uv@bd01e18f51369d5a26f1651c3cb451d3417e3bba  # v6.3.1
+        with:
+          version: "0.7.19"
+
       - name: 📦 Install dependencies
-        run: make requirements
+        run: script/bootstrap
 
       - name: 🏃 Run tests
-        run: make test
+        run: script/test
 
       - name: 🛠 Build
-        run: make build
+        run: script/build
 
   coverage:
     name: Upload coverage to Codecov
@@ -86,10 +96,15 @@ jobs:
         with:
           python-version: 3.x
 
+      - name: Install uv
+        uses: astral-sh/setup-uv@bd01e18f51369d5a26f1651c3cb451d3417e3bba  # v6.3.1
+        with:
+          version: "0.7.19"
+
       - name: 📦 Install dependencies
-        run:  make requirements
+        run: script/bootstrap
 
       - name: 📤 Upload coverage to Codecov
         run: |
-          make coverage
+          script/coverage
           curl -sfSL https://codecov.io/bash | bash -
