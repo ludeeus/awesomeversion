@@ -116,7 +116,7 @@ def compare_handler_semver_modifier(
     mod_num_b, full_mod_b = _extract_modifier_info(version_b.string)
 
     if not mod_num_a or not mod_num_b:
-        return True
+        return None
 
     primary_diff = int(mod_num_a) - int(mod_num_b)
     if primary_diff != 0:
