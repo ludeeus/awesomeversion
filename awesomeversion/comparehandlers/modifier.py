@@ -9,7 +9,7 @@ from ..utils.regex import (
     RE_MODIFIER,
     extract_digits,
     match_compound_modifier,
-    match_modifier_part,
+    match_modifier_compound_part,
 )
 
 SEMVER_MODIFIER_MAP = {"dev": 0, "alpha": 1, "beta": 2, "rc": 3}
@@ -51,8 +51,8 @@ def _compare_modifier_types(type_a: str, type_b: str) -> bool:
 
 def _compare_compound_parts(part_a: str, part_b: str) -> bool | None:
     """Compare two compound modifier parts. Returns None if equal."""
-    mod_match_a = match_modifier_part(part_a)
-    mod_match_b = match_modifier_part(part_b)
+    mod_match_a = match_modifier_compound_part(part_a)
+    mod_match_b = match_modifier_compound_part(part_b)
 
     if mod_match_a and mod_match_b:
         type_a, num_a = mod_match_a.groups()
@@ -106,25 +106,32 @@ def compare_handler_semver_modifier(
     ):
         return None
 
+    # Compare different modifier types
     if version_a.modifier_type != version_b.modifier_type:
         mod_a = SEMVER_MODIFIER_MAP.get(version_a.modifier_type)
         mod_b = SEMVER_MODIFIER_MAP.get(version_b.modifier_type)
         if mod_a is not None and mod_b is not None:
             return mod_a > mod_b
 
+    # Extract modifier information for same types
     mod_num_a, full_mod_a = _extract_modifier_info(version_a.string)
     mod_num_b, full_mod_b = _extract_modifier_info(version_b.string)
 
-    if not mod_num_a or not mod_num_b:
-        return None
+    # Compare primary numbers or handle absence of numbers
+    result = None
+    if mod_num_a and mod_num_b:
+        primary_diff = int(mod_num_a) - int(mod_num_b)
+        if primary_diff != 0:
+            result = primary_diff > 0
+    elif mod_num_a and not mod_num_b:
+        result = False  # version without number wins
+    elif not mod_num_a and mod_num_b:
+        result = True  # version without number wins
 
-    primary_diff = int(mod_num_a) - int(mod_num_b)
-    if primary_diff != 0:
-        return primary_diff > 0
-
-    if full_mod_a and full_mod_b:
+    # If primary comparison is inconclusive, compare compound parts
+    if result is None and full_mod_a and full_mod_b:
         compound_result = _compare_compound_modifiers(full_mod_a, full_mod_b)
         if compound_result is not None:
-            return compound_result
+            result = compound_result
 
-    return False
+    return result if result is not None else False

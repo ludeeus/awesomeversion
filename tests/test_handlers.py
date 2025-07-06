@@ -128,6 +128,66 @@ def test_compare_modifier_section(
             "1.0.0-beta3-dev123",
             True,
         ),
+        (
+            "1.0.0-alpha-build",
+            "1.0.0-beta-build",
+            False,
+        ),
+        (
+            "1.0.0-beta-snapshot",
+            "1.0.0-alpha-release",
+            True,
+        ),
+        (
+            "1.0.0-dev-patch",
+            "1.0.0-alpha-patch",
+            False,
+        ),
+        (
+            "1.0.0-rc-final",
+            "1.0.0-beta-final",
+            True,
+        ),
+        (
+            "1.0.0-alpha-build100",
+            "1.0.0-alpha-build200",
+            False,
+        ),
+        (
+            "1.0.0-beta-dev123",
+            "1.0.0-beta-alpha456",
+            False,
+        ),
+        (
+            "1.0.0-alpha-build",
+            "1.0.0-alpha-build",
+            False,
+        ),
+        (
+            "1.0.0-beta-snapshot",
+            "1.0.0-beta-final",
+            True,
+        ),
+        (
+            "1.0.0-alpha-dev",
+            "1.0.0-alpha-alpha",
+            False,
+        ),
+        (
+            "1.0.0-rc-build-final",
+            "1.0.0-rc-build-test",
+            False,
+        ),
+        (
+            "1.0.0-dev-release",
+            "1.0.0-dev-release100",
+            False,
+        ),
+        (
+            "1.0.0-alpha-test-build",
+            "1.0.0-alpha-test-dev",
+            False,
+        ),
     ),
 )
 def test_compare_handler_semver_modifier_extended(
