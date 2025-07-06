@@ -84,3 +84,59 @@ def test_compare_modifier_section(
     assert (
         compare_modifier_section(AwesomeVersion(ver_a), AwesomeVersion(ver_b)) == result
     )
+
+
+@pytest.mark.parametrize(
+    "ver_a,ver_b,result",
+    (
+        ("1.0.0-alpha.1", "1.0.0-beta.1", False),
+        ("1.0.0-beta.2", "1.0.0-alpha.3", True),
+        ("1.0.0-rc.1", "1.0.0-beta.5", True),
+        ("1.0.0-dev.1", "1.0.0-alpha.1", False),
+        ("1.0.0-alpha.5", "1.0.0-alpha.2", True),
+        ("1.0.0-beta.10", "1.0.0-beta.15", False),
+        (
+            "1.0.0-alpha1-build123",
+            "1.0.0-beta2-build456",
+            False,
+        ),
+        ("1.0.0-beta3-dev789", "1.0.0-alpha5-release", True),
+        ("1.0.0-rc1-snapshot", "1.0.0-beta2-final", True),
+        (
+            "1.0.0-alpha5-build100",
+            "1.0.0-alpha3-build200",
+            True,
+        ),
+        ("1.0.0-dev2-test", "1.0.0-dev7-patch", False),
+        (
+            "1.0.0-alpha5-build100",
+            "1.0.0-alpha5-build200",
+            False,
+        ),
+        (
+            "1.0.0-alpha5-beta100",
+            "1.0.0-alpha5-dev100",
+            True,
+        ),
+        (
+            "1.0.0-beta3-dev123",
+            "1.0.0-beta3-dev124",
+            False,
+        ),
+        (
+            "1.0.0-beta3-dev124",
+            "1.0.0-beta3-dev123",
+            True,
+        ),
+    ),
+)
+def test_compare_handler_semver_modifier_extended(
+    ver_a: VersionType,
+    ver_b: VersionType,
+    result: bool | None,
+) -> None:
+    """Test compare_handler_semver_modifier with extended examples."""
+    assert (
+        compare_handler_semver_modifier(AwesomeVersion(ver_a), AwesomeVersion(ver_b))
+        == result
+    )

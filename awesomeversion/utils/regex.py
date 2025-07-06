@@ -11,6 +11,7 @@ RE_IS_SINGLE_DIGIT = re.compile(r"^\d$")  # Simplified from ^\d{1}$
 RE_DIGIT = re.compile(r"[a-z]*(\d+)[a-z]*")
 RE_MODIFIER = re.compile(r"^((?:\d+\-|\d|))(([a-z]+)\.?(\d*))$")
 RE_COMPOUND_MODIFIER = re.compile(r"^([a-z]+)(\d*)-.*$")
+RE_MODIFIER_PART = re.compile(r"^([a-z]+)(\d*)$")  # For parsing compound modifier parts
 
 
 # Version patterns - optimized for performance while maintaining compatibility
@@ -59,6 +60,18 @@ def generate_full_string_regex(string: str) -> Pattern[str]:
 def match_compound_modifier(modifier: str) -> re.Match[str] | None:
     """Match compound modifiers with caching for performance."""
     return RE_COMPOUND_MODIFIER.match(modifier)
+
+
+@lru_cache(maxsize=128)  # Cache for modifier part matching
+def match_modifier_part(part: str) -> re.Match[str] | None:
+    """Match modifier parts with caching for performance."""
+    return RE_MODIFIER_PART.match(part)
+
+
+@lru_cache(maxsize=256)  # Cache for digit extraction
+def extract_digits(text: str) -> list[str]:
+    """Extract all digits from text with caching for performance."""
+    return re.findall(r"(\d+)", text)
 
 
 # Pre-compile frequently used patterns for maximum performance
