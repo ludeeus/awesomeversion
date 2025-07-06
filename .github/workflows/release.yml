@@ -20,15 +20,15 @@ jobs:
         with:
           python-version: 3.x
 
-      - name: Install poetry
-        run:  make install-poetry
+      - name: Install uv
+        run: make install-uv
 
       - name: Set version number
         run: |
-          poetry version "${{ github.event.release.tag_name }}"
+          sed -i 's/version = "0"/version = "${{ github.event.release.tag_name }}"/g' pyproject.toml
 
       - name: Build
-        run: poetry build --no-interaction
+        run: uv build
 
       - name: Upload dists
         uses: actions/upload-artifact@v4.6.2
