@@ -5,7 +5,12 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from ..strategy import VERSION_STRATEGIES_DICT, AwesomeVersionStrategy
-from ..utils.regex import RE_MODIFIER, match_compound_modifier, match_modifier_part, extract_digits
+from ..utils.regex import (
+    RE_MODIFIER,
+    extract_digits,
+    match_compound_modifier,
+    match_modifier_part,
+)
 
 SEMVER_MODIFIER_MAP = {"dev": 0, "alpha": 1, "beta": 2, "rc": 3}
 
