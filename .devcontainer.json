@@ -3,6 +3,12 @@
 	"image": "mcr.microsoft.com/vscode/devcontainers/python:0-3.11",
 	"postCreateCommand": "script/setup",
 	"postStartCommand": "script/motd",
+	"features": {
+		"ghcr.io/va-h/devcontainers-features/uv:1": {
+			"version": "0.7.19",
+			"shellautocompletion": true,
+		}
+	},
 	"customizations": {
 		"vscode": {
 			"settings": { 

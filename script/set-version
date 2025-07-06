@@ -6,7 +6,6 @@ set -e
 
 cd "$(dirname "$0")/.."
 
-# Check if version argument is provided
 if [ -z "$1" ]; then
     echo "Error: Version argument is required"
     echo "Usage: script/set-version <version>"
@@ -16,17 +15,9 @@ fi
 
 VERSION="$1"
 
-# Validate version format (basic check)
-if ! echo "$VERSION" | grep -E '^[0-9]+\.[0-9]+\.[0-9]+' > /dev/null; then
-    echo "Warning: Version '$VERSION' does not follow semantic versioning format (x.y.z)"
-    echo "Continuing anyway..."
-fi
-
 echo "==> Updating version to $VERSION..."
 
-# Update version in pyproject.toml
 if [ -f "pyproject.toml" ]; then
-    # Use sed to replace the version line
     sed -i "s/^version = .*/version = \"$VERSION\"/" pyproject.toml
     echo "==> Updated pyproject.toml"
 else
@@ -34,7 +25,6 @@ else
     exit 1
 fi
 
-# Verify the change
 if grep -q "version = \"$VERSION\"" pyproject.toml; then
     echo "==> Version successfully updated to $VERSION"
 else

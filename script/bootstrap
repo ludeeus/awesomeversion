@@ -8,7 +8,8 @@ cd "$(dirname "$0")/.."
 
 echo "==> Installing uv if not present..."
 if ! command -v uv >/dev/null 2>&1; then
-  curl -LsSf https://astral.sh/uv/install.sh | sh
+  echo "UV not found, re-build the devcontainer..."
+  exit 1
 fi
 
 echo "==> Installing dependencies..."

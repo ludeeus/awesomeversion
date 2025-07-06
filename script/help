@@ -11,11 +11,8 @@ printf "\033[1m%s\033[36m %s\033[32m %s\033[0m \n\n" "Development environment fo
 echo "Available scripts:"
 echo ""
 
-# Find all executable scripts in the script directory and sort them
-
 for script in $(find script -type f -executable | sort); do
   script_name=$(basename "$script")
-  # Collect all consecutive comment lines starting with the script name prefix
   description=$(awk -v prefix="# script/$script_name:" '
     BEGIN {desc=""}
     $0 ~ prefix {
@@ -28,11 +25,9 @@ for script in $(find script -type f -executable | sort); do
     desc != "" {exit}
     END {print desc}
   ' "$script")
-  # Provide a default if no description found
   if [ -z "$description" ]; then
     description="No description available"
   fi
-  # Truncate description if too long
   if [ ${#description} -gt 60 ]; then
     description=$(echo "$description" | cut -c1-57)...
   fi

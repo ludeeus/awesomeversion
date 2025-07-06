@@ -21,7 +21,9 @@ jobs:
           python-version: 3.x
 
       - name: Install uv
-        run: curl -LsSf https://astral.sh/uv/install.sh | sh
+        uses: astral-sh/setup-uv@v6.3.1
+        with:
+          version: "0.7.19"
 
       - name: Set version number
         run: script/set-version ${{ github.event.release.tag_name }}

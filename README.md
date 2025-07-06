@@ -16,7 +16,12 @@ Make anything a version object, and compare against a vast section of other vers
 python3 -m pip install awesomeversion
 ```
 
+
 ## Development
+
+> **Note**
+> 
+> Development is only supported inside the provided devcontainer (such as GitHub Codespaces or VS Code Remote - Containers). Other local or system Python environments are not supported for development or contribution. All scripts and workflows assume the devcontainer environment.
 
 This project uses the ["Scripts to Rule Them All"](https://github.blog/engineering/scripts-to-rule-them-all/) pattern for development tasks:
 
