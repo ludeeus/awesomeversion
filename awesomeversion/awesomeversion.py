@@ -22,10 +22,10 @@ from .strategy import (
 from .utils.regex import (
     RE_DIGIT,
     RE_MODIFIER,
-    RE_COMPOUND_MODIFIER,
     RE_SIMPLE,
     compile_regex,
     generate_full_string_regex,
+    match_compound_modifier,
 )
 
 if TYPE_CHECKING:
@@ -398,7 +398,7 @@ class AwesomeVersion(str):
             self._modifier_type = match.group(3)
         else:
             # Try to match compound modifiers like "beta1-dev127513"
-            compound_match = RE_COMPOUND_MODIFIER.match(modifier)
+            compound_match = match_compound_modifier(modifier)
             if compound_match:
                 self._modifier_type = compound_match.group(1)
 

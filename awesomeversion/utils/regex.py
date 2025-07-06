@@ -55,6 +55,12 @@ def generate_full_string_regex(string: str) -> Pattern[str]:
     return compile_regex(r"^" + string + r"$")
 
 
+@lru_cache(maxsize=64)  # Cache for compound modifier matching
+def match_compound_modifier(modifier: str) -> re.Match[str] | None:
+    """Match compound modifiers with caching for performance."""
+    return RE_COMPOUND_MODIFIER.match(modifier)
+
+
 # Pre-compile frequently used patterns for maximum performance
 _COMPILED_PATTERNS = {
     "BUILDVER_FULL": re.compile(r"^\d+$"),
