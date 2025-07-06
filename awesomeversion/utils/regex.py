@@ -9,6 +9,8 @@ from typing import Pattern
 RE_IS_SINGLE_DIGIT = re.compile(r"^\d$")
 RE_DIGIT = re.compile(r"[a-z]*(\d+)[a-z]*")
 RE_MODIFIER = re.compile(r"^((?:\d+\-|\d|))(([a-z]+)\.?(\d*))$")
+RE_COMPOUND_MODIFIER = re.compile(r"^([a-z]+)(\d*)-.*$")
+RE_MODIFIER_COMPOUND_PART = re.compile(r"^([a-z]+)(\d*)$")
 
 
 RE_CALVER = r"(\d{2}|\d{4})\.\d{1,2}?(\.?\d{1,2}?\.?)?(\.\d)?(\d*(\w+\d+)?)"
@@ -45,6 +47,24 @@ def compile_regex(pattern: str) -> Pattern[str]:
 def generate_full_string_regex(string: str) -> Pattern[str]:
     """Generate a regex that matches the full string with caching."""
     return compile_regex(r"^" + string + r"$")
+
+
+@lru_cache(maxsize=64)
+def match_compound_modifier(modifier: str) -> re.Match[str] | None:
+    """Match compound modifiers with caching for performance."""
+    return RE_COMPOUND_MODIFIER.match(modifier)
+
+
+@lru_cache(maxsize=128)
+def match_modifier_compound_part(part: str) -> re.Match[str] | None:
+    """Match modifier parts with caching for performance."""
+    return RE_MODIFIER_COMPOUND_PART.match(part)
+
+
+@lru_cache(maxsize=256)
+def extract_digits(text: str) -> list[str]:
+    """Extract all digits from text with caching for performance."""
+    return re.findall(r"(\d+)", text)
 
 
 _COMPILED_PATTERNS = {

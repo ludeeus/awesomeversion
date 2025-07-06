@@ -25,6 +25,7 @@ from .utils.regex import (
     RE_SIMPLE,
     compile_regex,
     generate_full_string_regex,
+    match_compound_modifier,
 )
 
 if TYPE_CHECKING:
@@ -390,9 +391,15 @@ class AwesomeVersion(str):
             return self._modifier_type
         if self.strategy == AwesomeVersionStrategy.HEXVER:
             return None
-        match = RE_MODIFIER.match(self.modifier or "")
+
+        modifier = self.modifier or ""
+        match = RE_MODIFIER.match(modifier)
         if match and len(match.groups()) >= 3:
             self._modifier_type = match.group(3)
+        else:
+            compound_match = match_compound_modifier(modifier)
+            if compound_match:
+                self._modifier_type = compound_match.group(1)
 
         return self._modifier_type
 
@@ -408,25 +415,19 @@ class AwesomeVersion(str):
         """Return the version strategy."""
         version_str = self.string
         if version_str:
-            # Fast-path optimization, but only if ensure_strategy allows it
             fast_path_strategy = None
 
-            # Special containers - exact match
             if version_str in ("latest", "dev", "stable", "beta"):
                 fast_path_strategy = AwesomeVersionStrategy.SPECIALCONTAINER
 
-            # HexVer - check prefix and basic format
             elif version_str.startswith("0x") and len(version_str) > 2:
-                # Quick validation - all chars after 0x should be hex
                 hex_part = version_str[2:]
                 if all(c in "0123456789ABCDEFabcdef" for c in hex_part):
                     fast_path_strategy = AwesomeVersionStrategy.HEXVER
 
-            # BuildVer - check if it's just digits
             elif version_str.isdigit():
                 fast_path_strategy = AwesomeVersionStrategy.BUILDVER
 
-            # If we found a fast-path strategy, check if it's allowed by ensure_strategy
             if fast_path_strategy is not None:
                 if (
                     not self._ensure_strategy
@@ -434,21 +435,17 @@ class AwesomeVersion(str):
                 ):
                     return fast_path_strategy
 
-        # Build strategy lookup dictionary
         version_strategies: dict[
             AwesomeVersionStrategy, AwesomeVersionStrategyDescription
         ] = {}
 
-        # Prioritize ensure_strategy if provided
         for strategy in self._ensure_strategy or []:
             version_strategies[strategy] = VERSION_STRATEGIES_DICT[strategy]
 
-        # Add remaining strategies (already ordered by likelihood)
         for description in VERSION_STRATEGIES:
             if description.strategy not in version_strategies:
                 version_strategies[description.strategy] = description
 
-        # Check patterns in order
         for description in version_strategies.values():
             if description.pattern.match(self.string) is not None and (
                 description.validate is None or description.validate(self.string)
