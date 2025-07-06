@@ -6,7 +6,7 @@
 	"features": {
 		"ghcr.io/va-h/devcontainers-features/uv:1": {
 			"version": "0.7.19",
-			"shellautocompletion": true,
+			"shellautocompletion": true
 		}
 	},
 	"customizations": {
