@@ -78,8 +78,8 @@ def test_modifier_parsing(
     @benchmark
     def _run_benchmark() -> None:
         for _ in range(DEFAULT_RUNS):
-            obj.modifier
-            obj.modifier_type
+            _ = obj.modifier
+            _ = obj.modifier_type
 
 
 @pytest.mark.parametrize(
@@ -101,8 +101,8 @@ def test_prefix_handling(
     @benchmark
     def _run_benchmark() -> None:
         for _ in range(DEFAULT_RUNS):
-            obj.prefix
-            obj.string
+            _ = obj.prefix
+            _ = obj.string
 
 
 @pytest.mark.parametrize(
@@ -124,10 +124,10 @@ def test_multi_section_versions(
     @benchmark
     def _run_benchmark() -> None:
         for _ in range(DEFAULT_RUNS):
-            obj.sections
-            obj.major
-            obj.minor
-            obj.patch
+            _ = obj.sections
+            _ = obj.major
+            _ = obj.minor
+            _ = obj.patch
 
 
 def test_version_nesting_performance(

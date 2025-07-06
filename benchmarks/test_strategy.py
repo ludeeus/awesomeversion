@@ -49,7 +49,7 @@ def test_strategy_detection(
     def _run_benchmark() -> None:
         for _ in range(DEFAULT_RUNS):
             obj = AwesomeVersion(version)
-            obj.strategy
+            _ = obj.strategy
 
 
 @pytest.mark.parametrize(

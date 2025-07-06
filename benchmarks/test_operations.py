@@ -153,8 +153,8 @@ def test_boolean_properties(
     @benchmark
     def _run_benchmark() -> None:
         for _ in range(DEFAULT_RUNS):
-            obj.alpha
-            obj.beta
-            obj.dev
-            obj.release_candidate
-            obj.valid
+            _ = obj.alpha
+            _ = obj.beta
+            _ = obj.dev
+            _ = obj.release_candidate
+            _ = obj.valid

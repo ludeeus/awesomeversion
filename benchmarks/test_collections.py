@@ -89,8 +89,8 @@ def test_version_set_operations(
     def _run_benchmark() -> None:
         for _ in range(DEFAULT_RUNS):
             version_set = set(duplicated_versions)
-            awesome_versions[0] in version_set
-            version_set | {awesome_versions[1]}
+            _ = awesome_versions[0] in version_set
+            _ = version_set | {awesome_versions[1]}
 
 
 @pytest.mark.parametrize(
@@ -109,7 +109,7 @@ def test_version_list_creation(
     @benchmark
     def _run_benchmark() -> None:
         for _ in range(DEFAULT_RUNS):
-            [AwesomeVersion(v) for v in version_list]
+            _ = [AwesomeVersion(v) for v in version_list]
 
 
 def test_version_min_max_operations(
