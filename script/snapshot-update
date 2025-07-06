@@ -1,0 +1,12 @@
+#!/bin/sh
+
+# script/snapshot-update: Update test snapshot files.
+
+set -e
+
+cd "$(dirname "$0")/.."
+
+echo "==> Updating test snapshots..."
+uv run --dev pytest tests --snapshot-update --timeout=10
+
+echo "==> Snapshot update completed!"

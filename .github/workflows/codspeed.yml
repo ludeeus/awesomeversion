@@ -25,7 +25,7 @@ jobs:
           python-version: 3.x
 
       - name: Install dependencies
-        run:  make requirements
+        run: script/bootstrap
 
       - name: Run benchmarks
         uses: CodSpeedHQ/action@0010eb0ca6e89b80c88e8edaaa07cfe5f3e6664d  # v3.5.0

@@ -1,0 +1,26 @@
+#!/bin/sh
+
+# script/motd: Display Message of the Day for development environment
+
+set -e
+
+cd "$(dirname "$0")/.."
+
+echo ""
+echo "🎉 Welcome to the AwesomeVersion development environment!"
+echo ""
+echo "📂 Project: $(pwd)"
+echo "🐍 Python: $(python3 --version 2>/dev/null || echo 'Not available')"
+if command -v uv >/dev/null 2>&1; then
+    echo "📦 UV: $(uv --version)"
+else
+    echo "📦 UV: Not installed (will be installed on first script run)"
+fi
+echo ""
+
+# Run the help script to show available commands
+script/help
+
+echo ""
+echo "💡 Tip: Run './script/setup' if this is your first time, or './script/test' to run tests."
+echo ""

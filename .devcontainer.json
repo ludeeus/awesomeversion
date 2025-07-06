@@ -1,7 +1,8 @@
 {
 	"name": "AwesomeVersion",
 	"image": "mcr.microsoft.com/vscode/devcontainers/python:0-3.11",
-	"postCreateCommand": "make requirements",
+	"postCreateCommand": "script/setup",
+	"postStartCommand": "script/motd",
 	"customizations": {
 		"vscode": {
 			"settings": { 

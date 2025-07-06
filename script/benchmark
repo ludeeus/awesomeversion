@@ -1,0 +1,12 @@
+#!/bin/sh
+
+# script/benchmark: Run performance benchmarks
+
+set -e
+
+cd "$(dirname "$0")/.."
+
+echo "==> Running benchmarks..."
+uv run --dev pytest -x --no-cov -vvvvv benchmarks
+
+echo "==> Benchmarks completed!"

@@ -16,6 +16,26 @@ Make anything a version object, and compare against a vast section of other vers
 python3 -m pip install awesomeversion
 ```
 
+## Development
+
+This project uses the ["Scripts to Rule Them All"](https://github.blog/engineering/scripts-to-rule-them-all/) pattern for development tasks:
+
+```bash
+# Set up the project for development
+./script/setup
+
+# Run tests
+./script/test
+
+# Run linting and formatting
+./script/lint
+
+# Run coverage
+./script/coverage
+```
+
+When using the devcontainer or GitHub Codespaces, a welcome message with available scripts is automatically displayed on startup.
+
 ## AwesomeVersion class
 
 The AwesomeVersion class takes a version as the first argument, you can also pass in additional kwargs to customize the version object.
@@ -265,9 +285,9 @@ print(AwesomeVersion("beta") > AwesomeVersion("dev"))
 1. Fork the repository
 2. Clone the repository locally and open the devcontainer or use GitHub codespaces
 3. Do your changes
-4. Lint the files with `make lint`
-5. Ensure all tests passes with `make test`
-6. Ensure 100% coverage with `make coverage`
+4. Lint the files with `script/lint`
+5. Ensure all tests passes with `script/test`
+6. Ensure 100% coverage with `script/coverage`
 7. Commit your work, and push it to GitHub
 8. Create a PR against the `main` branch
 
