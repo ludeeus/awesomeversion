@@ -1,0 +1,26 @@
+#!/bin/sh
+
+# script/test: Run test suite with optional file path argument
+
+set -e
+
+cd "$(dirname "$0")/.."
+
+[ -z "$DEBUG" ] || set -x
+
+if [ "$CI" = "true" ]; then
+  # CI environment - don't update, assume dependencies are already installed
+  echo "==> Running tests in CI environment..."
+else
+  # Development environment - ensure everything is up to date
+  script/update
+fi
+
+echo "==> Running tests..."
+if [ -n "$1" ]; then
+  # Run specific test file if provided
+  uv run --dev pytest --timeout=10 "$1" -rxf -x -vv -l -s --cov=./ --cov-report=xml
+else
+  # Run all tests
+  uv run --dev pytest --timeout=10 tests -rxf -x -vv -l -s --cov=./ --cov-report=xml
+fi

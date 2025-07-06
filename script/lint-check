@@ -1,0 +1,23 @@
+#!/bin/sh
+
+# script/lint-check: Check linting without making changes.
+
+set -e
+
+cd "$(dirname "$0")/.."
+
+echo "==> Checking linting..."
+
+echo "==> Checking isort..."
+uv run --dev isort awesomeversion tests benchmarks --check-only
+
+echo "==> Checking black..."
+uv run --dev black --check --fast awesomeversion tests benchmarks
+
+echo "==> Checking mypy..."
+uv run --dev mypy --strict awesomeversion tests benchmarks
+
+echo "==> Checking pylint..."
+uv run --dev pylint awesomeversion tests benchmarks
+
+echo "==> Linting check completed!"

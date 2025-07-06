@@ -1,0 +1,33 @@
+#!/bin/sh
+
+# script/set-version: Update the version in pyproject.toml
+
+set -e
+
+cd "$(dirname "$0")/.."
+
+if [ -z "$1" ]; then
+    echo "Error: Version argument is required"
+    echo "Usage: script/set-version <version>"
+    echo "Example: script/set-version 1.2.3"
+    exit 1
+fi
+
+VERSION="$1"
+
+echo "==> Updating version to $VERSION..."
+
+if [ -f "pyproject.toml" ]; then
+    sed -i "s/^version = .*/version = \"$VERSION\"/" pyproject.toml
+    echo "==> Updated pyproject.toml"
+else
+    echo "Error: pyproject.toml not found"
+    exit 1
+fi
+
+if grep -q "version = \"$VERSION\"" pyproject.toml; then
+    echo "==> Version successfully updated to $VERSION"
+else
+    echo "Error: Failed to update version"
+    exit 1
+fi
