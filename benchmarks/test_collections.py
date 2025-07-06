@@ -9,7 +9,6 @@ from awesomeversion import AwesomeVersion
 
 from .const import DEFAULT_RUNS
 
-
 SEMVER_VERSIONS = [
     "1.0.0",
     "1.0.1",

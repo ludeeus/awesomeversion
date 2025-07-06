@@ -81,7 +81,10 @@ def test_find_first_match_strategy(
     "version,strategies",
     (
         ("1.2.3", [AwesomeVersionStrategy.SEMVER]),
-        ("2020.12.1", [AwesomeVersionStrategy.CALVER, AwesomeVersionStrategy.SIMPLEVER]),
+        (
+            "2020.12.1",
+            [AwesomeVersionStrategy.CALVER, AwesomeVersionStrategy.SIMPLEVER],
+        ),
         ("999", [AwesomeVersionStrategy.BUILDVER]),
         ("1.2.3", [AwesomeVersionStrategy.SEMVER, AwesomeVersionStrategy.PEP440]),
     ),

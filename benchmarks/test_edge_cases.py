@@ -9,7 +9,6 @@ from awesomeversion import AwesomeVersion
 
 from .const import DEFAULT_RUNS
 
-
 COMPLEX_VERSIONS = [
     "1.0.post456.dev34",
     "1.0a12.dev456",
@@ -33,7 +32,7 @@ COMPLEX_VERSIONS = [
     "",
     "0.0.0",
     "latest",
-    "dev", 
+    "dev",
     "stable",
     "beta",
     "0xdeadbeef",
@@ -69,7 +68,6 @@ def test_complex_version_parsing(
         "1.2.3.4.5b0",
     ],
 )
-
 def test_modifier_parsing(
     benchmark: BenchmarkFixture,
     version: str,
@@ -93,7 +91,6 @@ def test_modifier_parsing(
         "V1.0.post456",
     ],
 )
-
 def test_prefix_handling(
     benchmark: BenchmarkFixture,
     version: str,
@@ -117,7 +114,6 @@ def test_prefix_handling(
         "2021.1.0.0",
     ],
 )
-
 def test_multi_section_versions(
     benchmark: BenchmarkFixture,
     version: str,
