@@ -5,48 +5,47 @@ help: ## Shows this help message
 	@awk 'BEGIN {FS = ":.*##";} /^[a-zA-Z_-]+:.*?##/ { printf " \033[36m make %-25s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' $(MAKEFILE_LIST);
 	@echo
 
-requirements: install-poetry ## Install requirements
-	@poetry install
-	@poetry check
+requirements: install-uv ## Install requirements
+	@uv sync --dev --all-extras
 
 install: ## Install awesomeversion
-	@poetry install
+	@uv sync --dev --all-extras
 
-install-poetry:
-	@curl -sSL https://install.python-poetry.org | python3 -
+install-uv:
+	@curl -LsSf https://astral.sh/uv/install.sh | sh
 
 test: ## Run all tests
-	@poetry run pytest --timeout=10 tests -rxf -x -vv -l -s --cov=./ --cov-report=xml
+	@uv run --dev pytest --timeout=10 tests -rxf -x -vv -l -s --cov=./ --cov-report=xml
 
 build: ## Build the package
-	@poetry build
+	@uv build
 
 lint: isort black mypy pylint ## Lint all files
 
 snapshot-update: ## Update test snapshot files
-	@poetry run pytest tests --snapshot-update  --timeout=10
+	@uv run --dev pytest tests --snapshot-update  --timeout=10
 
 benchmark:
-	@poetry run pytest -x --no-cov -vvvvv benchmarks
+	@uv run --dev pytest -x --no-cov -vvvvv benchmarks
 
 coverage: ## Check the coverage of the package
-	@poetry run pytest tests --timeout=10 -rxf -x -v -l --cov=./ --cov-report=xml > /dev/null
-	@poetry run coverage report
+	@uv run --dev pytest tests --timeout=10 -rxf -x -v -l --cov=./ --cov-report=xml > /dev/null
+	@uv run --dev coverage report
 
 isort:
-	@poetry run isort awesomeversion tests benchmarks
+	@uv run --dev isort awesomeversion tests benchmarks
 
 isort-check:
-	@poetry run isort awesomeversion tests benchmarks --check-only
+	@uv run --dev isort awesomeversion tests benchmarks --check-only
 
 black:
-	@poetry run black --fast awesomeversion tests benchmarks
+	@uv run --dev black --fast awesomeversion tests benchmarks
 
 black-check:
-	@poetry run black --check --fast awesomeversion tests benchmarks
+	@uv run --dev black --check --fast awesomeversion tests benchmarks
 
 mypy:
-	@poetry run mypy --strict awesomeversion tests benchmarks
+	@uv run --dev mypy --strict awesomeversion tests benchmarks
 
 pylint:
-	@poetry run pylint awesomeversion tests benchmarks
+	@uv run --dev pylint awesomeversion tests benchmarks

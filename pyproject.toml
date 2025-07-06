@@ -1,38 +1,44 @@
 [build-system]
-build-backend = "poetry.core.masonry.api"
-requires = ["poetry-core>=1.0.0"]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
-[tool.poetry]
-authors = ["Ludeeus <ludeeus@ludeeus.dev>"]
-classifiers = [
-  "Intended Audience :: Developers",
-  "Natural Language :: English",
-  "Topic :: Software Development :: Libraries :: Python Modules",
-]
-description = "One version package to rule them all, One version package to find them, One version package to bring them all, and in the darkness bind them."
-exclude = ['**/__pycache__']
-include = ["awesomeversion", "awesomeversion.*", "LICENCE.md"]
-keywords = ["calver", "semver", "0ver", "version", "pep440", "buildver"]
-license = "MIT"
-maintainers = ["Ludeeus <ludeeus@ludeeus.dev>"]
+[project]
 name = "awesomeversion"
-readme = "README.md"
-repository = "https://github.com/ludeeus/awesomeversion"
 version = "0"
+description = "One version package to rule them all, One version package to find them, One version package to bring them all, and in the darkness bind them."
+authors = [
+    {name = "Ludeeus", email = "joasoe@proton.me"},
+]
+maintainers = [
+    {name = "Ludeeus", email = "joasoe@proton.me"},
+]
+license = {text = "MIT"}
+readme = "README.md"
+keywords = ["calver", "semver", "0ver", "version", "pep440", "buildver"]
+classifiers = [
+    "Intended Audience :: Developers",
+    "Natural Language :: English",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+requires-python = ">=3.9"
+dependencies = []
 
-[tool.poetry.dependencies]
-python = "^3.9"
+[project.urls]
+Repository = "https://github.com/ludeeus/awesomeversion"
 
-[tool.poetry.dev-dependencies]
-black = "^25.1"
-isort = "^6.0.1"
-mypy = "^1.16"
-pylint = "^3.3.7"
-pytest = "^8.4.1"
-pytest-codspeed = "^3.2.0"
-pytest-cov = "^6.2.1"
-pytest-snapshot = "^0.9.0"
-pytest-timeout = "^2.4.0"
+[project.optional-dependencies]
+dev = [
+    "black>=25.1",
+    "isort>=6.0.1",
+    "mypy>=1.16",
+    "pylint>=3.3.7",
+    "pytest>=8.4.1",
+    "pytest-codspeed>=3.2.0",
+    "pytest-cov>=6.2.1",
+    "pytest-snapshot>=0.9.0",
+    "pytest-timeout>=2.4.0",
+]
+
 
 [tool.isort]
 combine_as_imports = true
@@ -49,3 +55,6 @@ omit = ["setup.py", "tests/*", "benchmarks/*"]
 
 [tool.coverage.report]
 exclude_lines = ["if TYPE_CHECKING:"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["awesomeversion"]
