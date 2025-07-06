@@ -49,25 +49,24 @@ def generate_full_string_regex(string: str) -> Pattern[str]:
     return compile_regex(r"^" + string + r"$")
 
 
-@lru_cache(maxsize=64)  # Cache for compound modifier matching
+@lru_cache(maxsize=64)
 def match_compound_modifier(modifier: str) -> re.Match[str] | None:
     """Match compound modifiers with caching for performance."""
     return RE_COMPOUND_MODIFIER.match(modifier)
 
 
-@lru_cache(maxsize=128)  # Cache for modifier part matching
+@lru_cache(maxsize=128)
 def match_modifier_compound_part(part: str) -> re.Match[str] | None:
     """Match modifier parts with caching for performance."""
     return RE_MODIFIER_COMPOUND_PART.match(part)
 
 
-@lru_cache(maxsize=256)  # Cache for digit extraction
+@lru_cache(maxsize=256)
 def extract_digits(text: str) -> list[str]:
     """Extract all digits from text with caching for performance."""
     return re.findall(r"(\d+)", text)
 
 
-# Pre-compile frequently used patterns for maximum performance
 _COMPILED_PATTERNS = {
     "BUILDVER_FULL": re.compile(r"^\d+$"),
     "HEXVER_FULL": re.compile(r"^0x[A-Fa-f0-9]+$"),

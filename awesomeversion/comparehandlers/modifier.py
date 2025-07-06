@@ -81,16 +81,14 @@ def _compare_compound_parts(part_a: str, part_b: str) -> bool | None:
 
 def _compare_compound_modifiers(full_mod_a: str, full_mod_b: str) -> bool | None:
     """Compare compound modifiers after the primary part."""
-    parts_a = full_mod_a.split("-")[1:]  # Skip first part (already compared)
+    parts_a = full_mod_a.split("-")[1:]
     parts_b = full_mod_b.split("-")[1:]
 
-    # Compare corresponding parts
     for part_a, part_b in zip(parts_a, parts_b):
         result = _compare_compound_parts(part_a, part_b)
         if result is not None:
             return result
 
-    # If all compared parts equal, more parts wins
     return len(parts_a) > len(parts_b) if len(parts_a) != len(parts_b) else None
 
 
@@ -106,29 +104,25 @@ def compare_handler_semver_modifier(
     ):
         return None
 
-    # Compare different modifier types
     if version_a.modifier_type != version_b.modifier_type:
         mod_a = SEMVER_MODIFIER_MAP.get(version_a.modifier_type)
         mod_b = SEMVER_MODIFIER_MAP.get(version_b.modifier_type)
         if mod_a is not None and mod_b is not None:
             return mod_a > mod_b
 
-    # Extract modifier information for same types
     mod_num_a, full_mod_a = _extract_modifier_info(version_a.string)
     mod_num_b, full_mod_b = _extract_modifier_info(version_b.string)
 
-    # Compare primary numbers or handle absence of numbers
     result = None
     if mod_num_a and mod_num_b:
         primary_diff = int(mod_num_a) - int(mod_num_b)
         if primary_diff != 0:
             result = primary_diff > 0
     elif mod_num_a and not mod_num_b:
-        result = False  # version without number wins
+        result = False
     elif not mod_num_a and mod_num_b:
-        result = True  # version without number wins
+        result = True
 
-    # If primary comparison is inconclusive, compare compound parts
     if result is None and full_mod_a and full_mod_b:
         compound_result = _compare_compound_modifiers(full_mod_a, full_mod_b)
         if compound_result is not None:
