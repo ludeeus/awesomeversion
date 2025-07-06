@@ -1,149 +1,588 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>AwesomeVersion Demo</title>
-  <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
-  <script defer src="https://pyscript.net/latest/pyscript.js"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🚀 AwesomeVersion interactive demo</title>
+  <link rel="stylesheet" href="https://pyscript.net/releases/2025.7.2/core.css" />
+  <script type="module" src="https://pyscript.net/releases/2025.7.2/core.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
   <style>
-    html {
-      --primary-text-color: #212121;
-      --secondary-text-color: #727272;
-      --primary-background-color: #fafafa;
+    :root {
+      --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      --warning-gradient: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+      --error-gradient: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+      --primary-text-color: #2d3748;
+      --secondary-text-color: #718096;
+      --primary-background-color: #f7fafc;
       --secondary-background-color: #ffffff;
-      --divider-color: rgba(0, 0, 0, 0.12);
-      --primary-color: #ffa500;
+      --divider-color: rgba(0, 0, 0, 0.1);
+      --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      --border-radius: 12px;
+      --border-radius-lg: 20px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      -webkit-text-size-adjust: 100%;
+      -moz-text-size-adjust: 100%;
+      text-size-adjust: 100%;
     }
 
     body {
-      font-family: "Segoe UI", Roboto, sans-serif;
-      font-size: 1em;
+      font-family: "Inter", "Segoe UI", Roboto, sans-serif;
+      font-size: 16px;
       padding: 0;
       margin: 0;
-      line-height: 1.4;
-      background-color: var(--primary-background-color);
+      line-height: 1.6;
+      background: var(--primary-background-color);
+      background-image: 
+        radial-gradient(circle at 25% 25%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 75% 75%, rgba(118, 75, 162, 0.1) 0%, transparent 50%);
       color: var(--primary-text-color);
+      min-height: 100vh;
     }
 
-    pre {
-      background-color: var(--secondary-background-color);
-      padding: 8px;
-      border-radius: 4px;
-      text-align: start;
-    }
-
-    a {
-      color: var(--primary-color);
-      text-decoration: none;
-    }
-
-    input, button {
-        background-color: var(--secondary-background-color);
-        color: var(--primary-text-color);
-    }
-
-    .content {
-      margin: 32px 0;
+    .hero {
       text-align: center;
+      padding: 4rem 2rem 2rem;
+      background: var(--primary-gradient);
+      color: white;
+      position: relative;
+      overflow: hidden;
     }
 
-    .content div{
-      margin: 0 8px;
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+      animation: float 20s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(180deg); }
+    }
+
+    .hero h1 {
+      font-size: 3.5rem;
+      font-weight: 800;
+      margin: 0 0 1rem;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero p {
+      font-size: 1.25rem;
+      opacity: 0.95;
+      max-width: 600px;
+      margin: 0 auto 2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .version-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.2);
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      backdrop-filter: blur(10px);
+      font-weight: 600;
+      margin-bottom: 2rem;
+      position: relative;
+      z-index: 1;
     }
 
     .container {
+      max-width: 1200px;
       margin: 0 auto;
-      padding: 16px 8px;
-      max-width: 750px;
+      padding: 0 2rem;
+    }
+
+    .section {
+      margin: 3rem 0;
+    }
+
+    .card {
+      background: var(--secondary-background-color);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: 2rem;
+      margin: 1.5rem 0;
+      border: 1px solid var(--divider-color);
+      transition: all 0.3s ease;
+    }
+
+    .card:hover {
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-2px);
+    }
+
+    .card h3 {
+      color: var(--primary-text-color);
+      margin: 0 0 1rem;
+      font-size: 1.5rem;
+      font-weight: 700;
       display: flex;
-      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .input-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+
+    .input-field {
+      position: relative;
+    }
+
+    .input-field label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--primary-text-color);
+    }
+
+    .input-field input {
+      width: 100%;
+      padding: 1rem;
+      border: 2px solid var(--divider-color);
+      border-radius: var(--border-radius);
+      font-size: 1.1rem;
+      background: var(--secondary-background-color);
+      color: var(--primary-text-color);
+      transition: all 0.3s ease;
+    }
+
+    .input-field input:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .btn {
+      background: var(--primary-gradient);
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: var(--border-radius);
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .btn-secondary {
+      background: var(--secondary-gradient);
+    }
+
+    .btn-success {
+      background: var(--success-gradient);
+    }
+
+    .result-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin: 2rem 0;
+    }
+
+    .result-card {
+      background: var(--secondary-background-color);
+      border-radius: var(--border-radius);
+      padding: 1.5rem;
+      border-left: 4px solid #667eea;
+      box-shadow: var(--shadow);
+    }
+
+    .result-card.success {
+      border-left-color: #48bb78;
+      background: linear-gradient(135deg, rgba(72, 187, 120, 0.1) 0%, transparent 100%);
+    }
+
+    .result-card.warning {
+      border-left-color: #ed8936;
+      background: linear-gradient(135deg, rgba(237, 137, 54, 0.1) 0%, transparent 100%);
+    }
+
+    .result-card.error {
+      border-left-color: #f56565;
+      background: linear-gradient(135deg, rgba(245, 101, 101, 0.1) 0%, transparent 100%);
+    }
+
+    pre {
+      background: #1a202c;
+      color: #e2e8f0;
+      padding: 1.5rem;
+      border-radius: var(--border-radius);
+      overflow-x: auto;
+      font-family: "Fira Code", "Consolas", monospace;
+      border: 1px solid #2d3748;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+
+    .examples-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+
+    .example-item {
+      background: var(--secondary-background-color);
+      border: 2px solid var(--divider-color);
+      border-radius: var(--border-radius);
+      padding: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: center;
+      min-height: 80px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .example-item:hover {
+      border-color: #667eea;
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, transparent 100%);
+      transform: translateY(-2px);
+    }
+
+    .example-item:active {
+      transform: scale(0.98);
+    }
+
+    .example-item code {
+      font-family: "Fira Code", monospace;
+      font-weight: 600;
+      color: #667eea;
+    }
+
+    .comparison-result {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      margin: 2rem 0;
+      background: var(--secondary-background-color);
+      border-radius: var(--border-radius-lg);
+      box-shadow: var(--shadow);
+      font-size: 2rem;
+      font-weight: 700;
+      gap: 1rem;
+    }
+
+    .comparison-result.greater {
+      background: linear-gradient(135deg, rgba(72, 187, 120, 0.1) 0%, transparent 100%);
+      color: #48bb78;
+    }
+
+    .comparison-result.lesser {
+      background: linear-gradient(135deg, rgba(245, 101, 101, 0.1) 0%, transparent 100%);
+      color: #f56565;
+    }
+
+    .comparison-result.equal {
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, transparent 100%);
+      color: #667eea;
+    }
+
+    .details-block {
+      margin-top: 1rem;
+    }
+
+    .details-block details {
+      background: var(--secondary-background-color);
+      border: 1px solid var(--divider-color);
+      border-radius: var(--border-radius);
+      overflow: hidden;
+    }
+
+    .details-block summary {
+      padding: 1rem;
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, transparent 100%);
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--primary-text-color);
+      border-bottom: 1px solid var(--divider-color);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .details-block summary:hover {
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, transparent 100%);
+    }
+
+    .details-block summary::marker {
+      display: none;
+    }
+
+    .details-block summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .details-block summary::before {
+      content: '▶';
+      transition: transform 0.3s ease;
+      color: #667eea;
+    }
+
+    .details-block details[open] summary::before {
+      transform: rotate(90deg);
+    }
+
+    .details-block .json-content {
+      padding: 1rem;
+      background: #1a202c;
+      color: #e2e8f0;
+      font-family: "Fira Code", "Consolas", monospace;
+      font-size: 0.9rem;
+      line-height: 1.4;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      border-top: 1px solid #2d3748;
     }
 
     .footer {
-      margin-top: 24px;
-      border-top: 1px solid var(--divider-color);
-      padding-top: 24px;
+      background: var(--primary-gradient);
+      color: white;
       text-align: center;
-      width: 100%;
+      padding: 3rem 2rem;
+      margin-top: 4rem;
     }
 
-    .footer > * {
-      white-space: nowrap;
+    .footer a {
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
     }
 
-    .footer .initiative {
-      font-style: italic;
-      margin-top: 16px;
+    .footer a:hover {
+      text-decoration: underline;
     }
 
     @media (prefers-color-scheme: dark) {
-      html {
-        --primary-text-color: #e1e1e1;
-        --secondary-text-color: #9b9b9b;
-        --primary-background-color: #111111;
-        --secondary-background-color: #202020;
-        --divider-color: rgba(225, 225, 225, 0.12);
+      :root {
+        --primary-text-color: #e2e8f0;
+        --secondary-text-color: #a0aec0;
+        --primary-background-color: #1a202c;
+        --secondary-background-color: #2d3748;
+        --divider-color: rgba(255, 255, 255, 0.1);
+      }
+      
+      .card, .result-card, .example-item {
+        background: var(--secondary-background-color);
+        border-color: var(--divider-color);
       }
     }
 
-    @media screen and (max-width: 500px) {
-      body {
-        font-size: 0.8em;
+    @media screen and (max-width: 768px) {
+      .hero {
+        padding: 2rem 1rem 1rem;
       }
-
+      
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+      
+      .hero p {
+        font-size: 1rem;
+      }
+      
+      .version-badge {
+        font-size: 0.9rem;
+        padding: 0.4rem 0.8rem;
+      }
+      
       .container {
-        padding: 0 8px;
+        padding: 0 1rem;
       }
-
-      .serperator {
-        display: none;
+      
+      .card {
+        padding: 1.5rem;
+        margin: 1rem 0;
+      }
+      
+      .input-group {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+      
+      .result-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+      
+      .examples-grid {
+        grid-template-columns: 1fr;
+        gap: 0.8rem;
+      }
+      
+      .example-item {
+        padding: 0.8rem;
+      }
+      
+      .example-item code {
+        font-size: 0.9rem;
+      }
+      
+      .comparison-result {
+        font-size: 1.3rem;
+        padding: 1.2rem;
+        text-align: center;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      
+      pre {
+        padding: 1rem;
+        font-size: 0.85rem;
+        overflow-x: auto;
+      }
+      
+      .input-field input {
+        padding: 0.8rem;
+        font-size: 1rem;
+      }
+      
+      .input-field label {
+        font-size: 0.9rem;
+      }
+      
+      .section {
+        margin: 2rem 0;
+      }
+      
+      .footer {
+        padding: 2rem 1rem;
+      }
+      
+      .footer p {
+        font-size: 0.9rem;
+      }
+      
+      .details-block summary {
+        padding: 0.8rem;
+        font-size: 0.9rem;
+      }
+      
+      .details-block .json-content {
+        padding: 0.8rem;
+        font-size: 0.8rem;
+      }
+    }
+    
+    @media screen and (max-width: 480px) {
+      .hero h1 {
+        font-size: 2rem;
+      }
+      
+      .hero p {
+        font-size: 0.95rem;
+      }
+      
+      .card {
+        padding: 1rem;
+      }
+      
+      .card h3 {
+        font-size: 1.2rem;
+      }
+      
+      .comparison-result {
+        font-size: 1.1rem;
+        padding: 1rem;
+      }
+      
+      .result-card {
+        padding: 1rem;
+      }
+      
+      pre {
+        padding: 0.8rem;
+        font-size: 0.8rem;
+      }
+      
+      .input-field input {
+        padding: 0.7rem;
+        font-size: 0.9rem;
+      }
+      
+      .container {
+        padding: 0 0.5rem;
       }
     }
   </style>
 </head>
 
 <body>
-  <py-config type="json">
-    {
-      "packages": ["awesomeversion"]
-    }
+  <py-config>
+    packages = ["awesomeversion"]
   </py-config>
+  
   <py-script>
     from awesomeversion import AwesomeVersion
     import json
+    from pyscript import document
+    import html
     
+    def escape_html(text):
+        """Escape HTML special characters to prevent XSS attacks."""
+        return html.escape(str(text), quote=True)
     
-    def _diff(versions: dict[str, AwesomeVersion]):
-        return json.dumps(
-            {
-                f"{versions['a'].string}>{versions['b'].string}": safe_compare(
-                    versions["a"], versions["b"]
-                ),
-                f"{versions['b'].string}>{versions['a'].string}": safe_compare(
-                    versions["b"], versions["a"]
-                ),
-                "diff": {
-                    "major": versions["a"].major != versions["b"].major,
-                    "minor": versions["a"].minor != versions["b"].minor,
-                    "patch": versions["a"].patch != versions["b"].patch,
-                    "modifier": versions["a"].modifier != versions["b"].modifier,
-                    "strategy": versions["a"].strategy != versions["b"].strategy,
-                },
-            },
-            indent=2,
-        )
-    
-    
-    def safe_compare(a, b):
+    def safe_compare(a, b, operation):
         try:
-            return a > b
-        except Exception:
-            return None
+            if operation == ">":
+                return a > b
+            elif operation == "<":
+                return a < b
+            elif operation == "==":
+                return a == b
+            elif operation == ">=":
+                return a >= b
+            elif operation == "<=":
+                return a <= b
+            else:
+                return None
+        except Exception as e:
+            return f"Error: {str(e)}"
     
-    
-    def version_json(version):
-        return json.dumps(
-            {
+    def get_version_info(version_str):
+        try:
+            if not version_str or version_str.strip() == "":
+                return {"error": "Empty version string", "valid": False}
+            
+            version = AwesomeVersion(version_str.strip())
+            return {
                 "string": version.string,
+                "valid": version.valid,
                 "alpha": version.alpha,
                 "beta": version.beta,
                 "dev": version.dev,
@@ -157,73 +596,341 @@
                 "release_candidate": version.release_candidate,
                 "sections": version.sections,
                 "simple": version.simple,
-                "strategy": version.strategy,
-                "valid": version.valid,
+                "strategy": version.strategy.value if hasattr(version.strategy, 'value') else str(version.strategy),
                 "year": version.year,
-            },
-            indent=2,
-        )
+            }
+        except Exception as e:
+            return {"error": str(e), "valid": False}
     
+    def format_version_info(info):
+        if "error" in info:
+            return f"❌ Error: {info['error']}"
+        
+        output = f"✅ Valid: {info['valid']}\n"
+        output += f"📦 Strategy: {info['strategy']}\n"
+        output += f"🔢 Version: {info['string']}\n\n"
+        
+        if info['valid']:
+            output += "📋 Properties:\n"
+            output += f"  • Major: {info['major']}\n"
+            output += f"  • Minor: {info['minor']}\n"
+            output += f"  • Patch: {info['patch']}\n"
+            if info['modifier']:
+                output += f"  • Modifier: {info['modifier']} ({info['modifier_type']})\n"
+            if info['prefix']:
+                output += f"  • Prefix: {info['prefix']}\n"
+            output += f"  • Sections: {info['sections']}\n"
+            output += f"  • Simple: {info['simple']}\n"
+            
+            # Special version types
+            if info['alpha']:
+                output += f"  • Alpha: {info['alpha']}\n"
+            if info['beta']:
+                output += f"  • Beta: {info['beta']}\n"
+            if info['dev']:
+                output += f"  • Dev: {info['dev']}\n"
+            if info['release_candidate']:
+                output += f"  • RC: {info['release_candidate']}\n"
+            if info['year']:
+                output += f"  • Year: {info['year']}\n"
+        
+        return output
     
-    def extract_awesomeversion_properties(*args, **kwargs):
-        versions = {
-            "a": AwesomeVersion(Element("version-input-a").element.value.strip() or None),
-            "b": AwesomeVersion(Element("version-input-b").element.value.strip() or None),
-        }
+    def compare_versions(*args, **kwargs):
+        try:
+            version_a_str = document.querySelector("#version-input-a").value.strip()
+            version_b_str = document.querySelector("#version-input-b").value.strip()
+            
+            if not version_a_str or not version_b_str:
+                document.querySelector("#comparison-result").innerHTML = ""
+                document.querySelector("#properties-output-a").innerText = ""
+                document.querySelector("#properties-output-b").innerText = ""
+                document.querySelector("#comparison-details").innerText = ""
+                document.querySelector("#raw-json-a").innerText = ""
+                document.querySelector("#raw-json-b").innerText = ""
+                return
+            
+            # Get version info
+            info_a = get_version_info(version_a_str)
+            info_b = get_version_info(version_b_str)
+            
+            # Display properties
+            document.querySelector("#properties-output-a").innerText = format_version_info(info_a)
+            document.querySelector("#properties-output-b").innerText = format_version_info(info_b)
+            
+            # Display raw JSON for each version
+            if "error" not in info_a:
+                json_output_a = json.dumps(info_a, indent=2, sort_keys=True)
+            else:
+                json_output_a = json.dumps(info_a, indent=2)
+            document.querySelector("#raw-json-a").innerText = json_output_a
+            
+            if "error" not in info_b:
+                json_output_b = json.dumps(info_b, indent=2, sort_keys=True)
+            else:
+                json_output_b = json.dumps(info_b, indent=2)
+            document.querySelector("#raw-json-b").innerText = json_output_b
+            
+            # Compare versions if both are valid
+            if info_a.get('valid') and info_b.get('valid'):
+                try:
+                    version_a = AwesomeVersion(version_a_str)
+                    version_b = AwesomeVersion(version_b_str)
+                    
+                    comparison_html = '<div class="comparison-result '
+                    if version_a > version_b:
+                        comparison_html += 'greater"><i class="fas fa-chevron-up"></i>'
+                        comparison_html += f'{escape_html(version_a_str)} > {escape_html(version_b_str)}'
+                    elif version_a < version_b:
+                        comparison_html += 'lesser"><i class="fas fa-chevron-down"></i>'
+                        comparison_html += f'{escape_html(version_a_str)} < {escape_html(version_b_str)}'
+                    else:
+                        comparison_html += 'equal"><i class="fas fa-equals"></i>'
+                        comparison_html += f'{escape_html(version_a_str)} = {escape_html(version_b_str)}'
+                    comparison_html += '</div>'
+                    
+                    document.querySelector("#comparison-result").innerHTML = comparison_html
+                    
+                    # Additional comparison details
+                    details = f"🔍 Detailed Comparison:\n"
+                    details += f"  • {version_a_str} > {version_b_str}: {safe_compare(version_a, version_b, '>')}\n"
+                    details += f"  • {version_a_str} < {version_b_str}: {safe_compare(version_a, version_b, '<')}\n"
+                    details += f"  • {version_a_str} == {version_b_str}: {safe_compare(version_a, version_b, '==')}\n"
+                    details += f"  • {version_a_str} >= {version_b_str}: {safe_compare(version_a, version_b, '>=')}\n"
+                    details += f"  • {version_a_str} <= {version_b_str}: {safe_compare(version_a, version_b, '<=')}\n\n"
+                    
+                    details += "🔄 Differences:\n"
+                    details += f"  • Major: {info_a['major']} vs {info_b['major']} ({'✓' if info_a['major'] == info_b['major'] else '✗'})\n"
+                    details += f"  • Minor: {info_a['minor']} vs {info_b['minor']} ({'✓' if info_a['minor'] == info_b['minor'] else '✗'})\n"
+                    details += f"  • Patch: {info_a['patch']} vs {info_b['patch']} ({'✓' if info_a['patch'] == info_b['patch'] else '✗'})\n"
+                    details += f"  • Strategy: {info_a['strategy']} vs {info_b['strategy']} ({'✓' if info_a['strategy'] == info_b['strategy'] else '✗'})\n"
+                    
+                    document.querySelector("#comparison-details").innerText = details
+                    
+                except Exception as e:
+                    document.querySelector("#comparison-result").innerHTML = f'<div class="comparison-result error">❌ Comparison Error: {escape_html(str(e))}</div>'
+                    document.querySelector("#comparison-details").innerText = ""
+            else:
+                document.querySelector("#comparison-result").innerHTML = '<div class="comparison-result error">❌ Cannot compare invalid versions</div>'
+                document.querySelector("#comparison-details").innerText = ""
+        except Exception as e:
+            document.querySelector("#comparison-result").innerHTML = f'<div class="comparison-result error">❌ Script Error: {escape_html(str(e))}</div>'
+            document.querySelector("#comparison-details").innerText = ""
     
-        for key, version in versions.items():
-            if version.string == "None":
-                Element(f"properties-output-{key}").element.innerText = ""
-                Element("properties-output-diff").element.innerText = ""
-                continue
-            Element(
-                f"properties-output-{key}"
-            ).element.innerText = (
-                f"Version {key.upper()} properties:\n{version_json(version)}"
-            )
+    def load_example(version_a, version_b):
+        try:
+            document.querySelector("#version-input-a").value = version_a
+            document.querySelector("#version-input-b").value = version_b
+            compare_versions()
+        except Exception as e:
+            print(f"Error loading example: {e}")
     
-        if versions["a"].string == "None" or versions["b"].string == "None":
-            Element("properties-output-diff").element.innerText = ""
-            return
+    def analyze_single_version(*args, **kwargs):
+        try:
+            version_str = document.querySelector("#single-version-input").value.strip()
+            
+            if not version_str:
+                document.querySelector("#single-version-output").innerText = ""
+                document.querySelector("#single-version-json").innerText = ""
+                return
+            
+            info = get_version_info(version_str)
+            
+            # Display formatted info
+            document.querySelector("#single-version-output").innerText = format_version_info(info)
+            
+            # Display raw JSON
+            if "error" not in info:
+                json_output = json.dumps(info, indent=2, sort_keys=True)
+            else:
+                json_output = json.dumps(info, indent=2)
+            
+            document.querySelector("#single-version-json").innerText = json_output
+            
+        except Exception as e:
+            document.querySelector("#single-version-output").innerText = f"❌ Error: {str(e)}"
+            document.querySelector("#single-version-json").innerText = f'{{"error": "{str(e)}"}}'
     
-        if "unknown" not in (versions["a"].strategy, versions["b"].strategy):
-            Element("properties-output-diff").element.innerText = f"Compare:\n{_diff(versions)}"
-        else:
-            Element("properties-output-diff").element.innerText = "Not valid for compare"
-    
-    
+    # Make functions available globally for onclick handlers
+    import js
+    js.load_example = load_example
+    js.analyze_single_version = analyze_single_version
+    js.compare_versions = compare_versions
   </py-script>
 
-  <div class="container content">
-    <div>
-      <div>Version A</div>
-      <input type="text" id="version-input-a" py-input="extract_awesomeversion_properties()"/>
+  <div class="hero">
+    <div class="container">
+      <div class="version-badge">🚀 AwesomeVersion Demo</div>
+      <h1>AwesomeVersion demo</h1>
+      <p>Make anything a version object, and compare against a vast section of other version formats. Explore the power of AwesomeVersion with this interactive demo!</p>
     </div>
-    <div>
-      <div>Version B</div>
-      <input type="text" id="version-input-b" py-input="extract_awesomeversion_properties()"/>
-    </div>
-  </div>
-  <div class="container content">
-    <pre id="properties-output-a"></pre>
-    <pre id="properties-output-diff"></pre>
-    <pre id="properties-output-b"></pre>
   </div>
 
-  
   <div class="container">
-    <div class="footer">
-      <p><a href="https://github.com/ludeeus/awesomeversion" target="_blank">AwesomeVersion</a> demo powered by <a href="https://pyscript.net/" target="_blank">PyScript</a></p>
+
+    <div class="section" id="examples-section">
+      <div class="card">
+        <h3><i class="fas fa-lightbulb"></i> Quick examples - click to try!</h3>
+        <div class="examples-grid">
+          <div class="example-item" onclick="load_example('1.0.0', '2.0.0')">
+            <code>1.0.0 vs 2.0.0</code>
+            <div>Semantic versions</div>
+          </div>
+          <div class="example-item" onclick="load_example('v1.2.3-alpha', 'v1.2.3-beta')">
+            <code>v1.2.3-alpha vs v1.2.3-beta</code>
+            <div>Pre-release versions</div>
+          </div>
+          <div class="example-item" onclick="load_example('2023.12.01', '2024.01.01')">
+            <code>2023.12.01 vs 2024.01.01</code>
+            <div>Date-based versions</div>
+          </div>
+          <div class="example-item" onclick="load_example('1.0.0-dev', '1.0.0')">
+            <code>1.0.0-dev vs 1.0.0</code>
+            <div>Development versions</div>
+          </div>
+          <div class="example-item" onclick="load_example('latest', 'stable')">
+            <code>latest vs stable</code>
+            <div>Container tags</div>
+          </div>
+          <div class="example-item" onclick="load_example('1.0.0rc1', '1.0.0')">
+            <code>1.0.0rc1 vs 1.0.0</code>
+            <div>Release candidates</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="card">
+        <h3><i class="fas fa-microscope"></i> Single version analysis</h3>
+        <div class="input-field">
+          <label for="single-version-input">Enter a version to analyze:</label>
+          <input type="text" id="single-version-input" placeholder="e.g., 1.2.3-alpha.1, v2.0.0-rc1, 2024.03.15, latest" py-input="analyze_single_version"/>
+        </div>
+        <pre id="single-version-output"></pre>
+        
+        <div class="details-block">
+          <details>
+            <summary>
+              <i class="fas fa-code"></i>
+              View raw JSON data
+            </summary>
+            <div class="json-content" id="single-version-json"></div>
+          </details>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="card">
+        <h3><i class="fas fa-balance-scale"></i> Version comparison tool</h3>
+        <div class="input-group">
+          <div class="input-field">
+            <label for="version-input-a">Version A:</label>
+            <input type="text" id="version-input-a" placeholder="e.g., 1.0.0, v2.1.3-beta" py-input="compare_versions"/>
+          </div>
+          <div class="input-field">
+            <label for="version-input-b">Version B:</label>
+            <input type="text" id="version-input-b" placeholder="e.g., 2.0.0, v2.1.3-alpha" py-input="compare_versions"/>
+          </div>
+        </div>
+        
+        <div id="comparison-result"></div>
+        
+        <div class="result-grid">
+          <div class="result-card">
+            <h4>📦 Version A details</h4>
+            <pre id="properties-output-a"></pre>
+            <details class="json-details">
+              <summary>📋 Raw JSON data</summary>
+              <pre id="raw-json-a" class="json-output"></pre>
+            </details>
+          </div>
+          <div class="result-card">
+            <h4>📦 Version B details</h4>
+            <pre id="properties-output-b"></pre>
+            <details class="json-details">
+              <summary>📋 Raw JSON data</summary>
+              <pre id="raw-json-b" class="json-output"></pre>
+            </details>
+          </div>
+        </div>
+        
+        <div class="card">
+          <h4><i class="fas fa-chart-line"></i> Comparison details</h4>
+          <pre id="comparison-details"></pre>
+        </div>
+      </div>
     </div>
   </div>
+
+  <div class="footer">
+    <div class="container">
+      <p>
+        <i class="fas fa-code"></i> 
+        <a href="https://github.com/ludeeus/awesomeversion" target="_blank">AwesomeVersion</a> 
+        demo powered by 
+        <a href="https://pyscript.net/" target="_blank">PyScript</a>
+      </p>
+      <p>
+        <i class="fas fa-heart"></i> 
+        Built with love for the developer community
+      </p>
+    </div>
+  </div>
+
   <script>
     const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get("a")) {
-      document.querySelector("#version-input-a").value = urlParams.get("a")
+    
+    const singleVersion = urlParams.get("v") || urlParams.get("version");
+    if (singleVersion) {
+      document.querySelector("#single-version-input").value = singleVersion;
     }
-    if (urlParams.get("b")) {
-      document.querySelector("#version-input-b").value = urlParams.get("b")
+    
+    const versionA = urlParams.get("a");
+    const versionB = urlParams.get("b");
+    if (versionA) {
+      document.querySelector("#version-input-a").value = versionA;
     }
+    if (versionB) {
+      document.querySelector("#version-input-b").value = versionB;
+    }
+    
+    if (singleVersion || versionA || versionB) {
+      document.querySelector("#examples-section").style.display = "none";
+    }
+    
+    document.addEventListener('py:ready', function() {
+      if (singleVersion) {
+        try {
+          analyze_single_version();
+        } catch (e) {
+          console.log("Waiting for PyScript to fully load for single version analysis...");
+          setTimeout(() => {
+            try {
+              analyze_single_version();
+            } catch (e2) {
+              console.error("Failed to call analyze_single_version:", e2);
+            }
+          }, 1000);
+        }
+      }
+      
+      if (versionA && versionB) {
+        try {
+          compare_versions();
+        } catch (e) {
+          console.log("Waiting for PyScript to fully load for comparison...");
+          setTimeout(() => {
+            try {
+              compare_versions();
+            } catch (e2) {
+              console.error("Failed to call compare_versions:", e2);
+            }
+          }, 1000);
+        }
+      }
+    });
   </script>
   </body>
 </html>
