@@ -22,6 +22,7 @@ from .strategy import (
 from .utils.regex import (
     RE_DIGIT,
     RE_MODIFIER,
+    RE_COMPOUND_MODIFIER,
     RE_SIMPLE,
     compile_regex,
     generate_full_string_regex,
@@ -390,9 +391,16 @@ class AwesomeVersion(str):
             return self._modifier_type
         if self.strategy == AwesomeVersionStrategy.HEXVER:
             return None
-        match = RE_MODIFIER.match(self.modifier or "")
+
+        modifier = self.modifier or ""
+        match = RE_MODIFIER.match(modifier)
         if match and len(match.groups()) >= 3:
             self._modifier_type = match.group(3)
+        else:
+            # Try to match compound modifiers like "beta1-dev127513"
+            compound_match = RE_COMPOUND_MODIFIER.match(modifier)
+            if compound_match:
+                self._modifier_type = compound_match.group(1)
 
         return self._modifier_type
 

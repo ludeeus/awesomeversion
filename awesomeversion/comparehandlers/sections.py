@@ -64,7 +64,7 @@ def compare_modifier_section(
             mod_b = MODIFIERS.get(version_b_modifier.group(3))
             if mod_a is not None and mod_b is not None:
                 return mod_a > mod_b
-            return version_a_modifier.group(3) > version_a_modifier.group(3)
+            return version_a_modifier.group(3) > version_b_modifier.group(3)
         if RE_IS_SINGLE_DIGIT.match(version_a.modifier) and RE_IS_SINGLE_DIGIT.match(
             version_b.modifier
         ):

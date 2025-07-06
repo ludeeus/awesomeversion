@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from ..strategy import VERSION_STRATEGIES_DICT, AwesomeVersionStrategy
-from ..utils.regex import RE_MODIFIER
+from ..utils.regex import RE_MODIFIER, RE_COMPOUND_MODIFIER
 
 SEMVER_MODIFIER_MAP = {"dev": 0, "alpha": 1, "beta": 2, "rc": 3}
 
@@ -39,12 +39,22 @@ def compare_handler_semver_modifier(
         modifier_match = RE_MODIFIER.match(semver_match.group(4))
         if modifier_match and len(modifier_match.groups()) >= 4:
             ver_a_modifier = modifier_match.group(4)
+        else:
+            # Try compound modifier pattern for cases like "beta1-dev127513"
+            compound_match = RE_COMPOUND_MODIFIER.match(semver_match.group(4))
+            if compound_match:
+                ver_a_modifier = compound_match.group(2)  # Extract the number part
 
     semver_match = semver_pattern.match(version_b.string)
     if semver_match and len(semver_match.groups()) >= 4:
         modifier_match = RE_MODIFIER.match(semver_match.group(4))
         if modifier_match and len(modifier_match.groups()) >= 4:
             ver_b_modifier = modifier_match.group(4)
+        else:
+            # Try compound modifier pattern for cases like "beta1-dev127513"
+            compound_match = RE_COMPOUND_MODIFIER.match(semver_match.group(4))
+            if compound_match:
+                ver_b_modifier = compound_match.group(2)  # Extract the number part
 
     if not ver_a_modifier or not ver_b_modifier:
         return True

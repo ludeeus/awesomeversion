@@ -10,6 +10,7 @@ from typing import Pattern
 RE_IS_SINGLE_DIGIT = re.compile(r"^\d$")  # Simplified from ^\d{1}$
 RE_DIGIT = re.compile(r"[a-z]*(\d+)[a-z]*")
 RE_MODIFIER = re.compile(r"^((?:\d+\-|\d|))(([a-z]+)\.?(\d*))$")
+RE_COMPOUND_MODIFIER = re.compile(r"^([a-z]+)(\d*)-.*$")
 
 
 # Version patterns - optimized for performance while maintaining compatibility
