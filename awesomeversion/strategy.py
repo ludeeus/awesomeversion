@@ -97,7 +97,6 @@ VERSION_STRATEGIES_DICT: dict[
 ] = {description.strategy: description for description in VERSION_STRATEGIES}
 
 
-# Strategies that support version section extraction (e.g., major, minor, patch).
 VERSIONED_STRATEGIES = frozenset(
     {
         AwesomeVersionStrategy.SEMVER,
@@ -107,7 +106,6 @@ VERSIONED_STRATEGIES = frozenset(
     }
 )
 
-# Strategies that support extracting the major version section.
 MAJOR_STRATEGIES = frozenset(
     {
         *VERSIONED_STRATEGIES,
