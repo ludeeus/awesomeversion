@@ -738,10 +738,6 @@
       document.querySelector("#version-input-b").value = versionB;
     }
     
-    if (singleVersion || versionA || versionB) {
-      document.querySelector("#examples-section").style.display = "none";
-    }
-    
     document.addEventListener('py:ready', function() {
       if (singleVersion) {
         try {
