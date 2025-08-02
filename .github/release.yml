@@ -1,6 +1,7 @@
 changelog:
   exclude:
     labels:
+      - demo
       - dependencies
       - repository
       - test
