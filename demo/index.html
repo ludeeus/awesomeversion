@@ -3,26 +3,22 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🚀 AwesomeVersion interactive demo</title>
+  <title>AwesomeVersion interactive demo</title>
   <link rel="stylesheet" href="https://pyscript.net/releases/2025.7.2/core.css" />
   <script type="module" src="https://pyscript.net/releases/2025.7.2/core.js"></script>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" rel="stylesheet">
   <style>
     :root {
-      --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-      --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-      --warning-gradient: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-      --error-gradient: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
-      --primary-text-color: #2d3748;
-      --secondary-text-color: #718096;
-      --primary-background-color: #f7fafc;
-      --secondary-background-color: #ffffff;
-      --divider-color: rgba(0, 0, 0, 0.1);
-      --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-      --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-      --border-radius: 12px;
-      --border-radius-lg: 20px;
+      --primary-color: #2563eb;
+      --primary-hover: #1d4ed8;
+      --success-color: #16a34a;
+      --warning-color: #ca8a04;
+      --error-color: #dc2626;
+      --text-color: #111827;
+      --text-muted: #6b7280;
+      --bg-color: #ffffff;
+      --bg-secondary: #f9fafb;
+      --border-color: #d1d5db;
+      --border-radius: 6px;
     }
 
     * {
@@ -36,516 +32,346 @@
     }
 
     body {
-      font-family: "Inter", "Segoe UI", Roboto, sans-serif;
-      font-size: 16px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 14px;
       padding: 0;
       margin: 0;
-      line-height: 1.6;
-      background: var(--primary-background-color);
-      background-image: 
-        radial-gradient(circle at 25% 25%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 75% 75%, rgba(118, 75, 162, 0.1) 0%, transparent 50%);
-      color: var(--primary-text-color);
-      min-height: 100vh;
+      line-height: 1.5;
+      background: var(--bg-color);
+      color: var(--text-color);
     }
 
-    .hero {
-      text-align: center;
-      padding: 4rem 2rem 2rem;
-      background: var(--primary-gradient);
+    header {
+      background: var(--primary-color);
       color: white;
-      position: relative;
-      overflow: hidden;
+      padding: 2rem 0;
+      text-align: center;
     }
 
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-      animation: float 20s ease-in-out infinite;
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0px) rotate(0deg); }
-      50% { transform: translateY(-20px) rotate(180deg); }
-    }
-
-    .hero h1 {
-      font-size: 3.5rem;
-      font-weight: 800;
-      margin: 0 0 1rem;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-      position: relative;
-      z-index: 1;
-    }
-
-    .hero p {
-      font-size: 1.25rem;
-      opacity: 0.95;
-      max-width: 600px;
-      margin: 0 auto 2rem;
-      position: relative;
-      z-index: 1;
-    }
-
-    .version-badge {
-      display: inline-block;
-      background: rgba(255,255,255,0.2);
-      padding: 0.5rem 1rem;
-      border-radius: 50px;
-      backdrop-filter: blur(10px);
+    header h1 {
+      margin: 0 0 0.5rem;
+      font-size: 2rem;
       font-weight: 600;
-      margin-bottom: 2rem;
-      position: relative;
-      z-index: 1;
+    }
+
+    header p {
+      margin: 0;
+      opacity: 0.9;
+      max-width: 600px;
+      margin: 0 auto;
     }
 
     .container {
-      max-width: 1200px;
+      max-width: 1000px;
       margin: 0 auto;
-      padding: 0 2rem;
+      padding: 0 1rem;
     }
 
     .section {
-      margin: 3rem 0;
+      margin: 2rem 0;
     }
 
     .card {
-      background: var(--secondary-background-color);
+      background: var(--bg-color);
+      border: 1px solid var(--border-color);
       border-radius: var(--border-radius);
-      box-shadow: var(--shadow);
-      padding: 2rem;
-      margin: 1.5rem 0;
-      border: 1px solid var(--divider-color);
-      transition: all 0.3s ease;
-    }
-
-    .card:hover {
-      box-shadow: var(--shadow-lg);
-      transform: translateY(-2px);
+      padding: 1.5rem;
+      margin: 1rem 0;
     }
 
     .card h3 {
-      color: var(--primary-text-color);
       margin: 0 0 1rem;
-      font-size: 1.5rem;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--text-color);
     }
 
     .input-group {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 2rem;
-      margin: 2rem 0;
-    }
-
-    .input-field {
-      position: relative;
+      gap: 1rem;
+      margin: 1rem 0;
     }
 
     .input-field label {
       display: block;
-      font-weight: 600;
+      font-weight: 500;
       margin-bottom: 0.5rem;
-      color: var(--primary-text-color);
+      color: var(--text-color);
     }
 
     .input-field input {
       width: 100%;
-      padding: 1rem;
-      border: 2px solid var(--divider-color);
+      padding: 0.75rem;
+      border: 1px solid var(--border-color);
       border-radius: var(--border-radius);
-      font-size: 1.1rem;
-      background: var(--secondary-background-color);
-      color: var(--primary-text-color);
-      transition: all 0.3s ease;
+      font-size: 14px;
+      background: var(--bg-color);
+      color: var(--text-color);
     }
 
     .input-field input:focus {
       outline: none;
-      border-color: #667eea;
-      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
     }
 
     .btn {
-      background: var(--primary-gradient);
+      background: var(--primary-color);
       color: white;
       border: none;
-      padding: 1rem 2rem;
+      padding: 0.75rem 1rem;
       border-radius: var(--border-radius);
-      font-size: 1rem;
-      font-weight: 600;
+      font-size: 14px;
+      font-weight: 500;
       cursor: pointer;
-      transition: all 0.3s ease;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
     }
 
     .btn:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-lg);
-    }
-
-    .btn-secondary {
-      background: var(--secondary-gradient);
-    }
-
-    .btn-success {
-      background: var(--success-gradient);
+      background: var(--primary-hover);
     }
 
     .result-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1.5rem;
-      margin: 2rem 0;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin: 1rem 0;
     }
 
     .result-card {
-      background: var(--secondary-background-color);
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
       border-radius: var(--border-radius);
-      padding: 1.5rem;
-      border-left: 4px solid #667eea;
-      box-shadow: var(--shadow);
+      padding: 1rem;
+    }
+
+    .result-card h4 {
+      margin: 0 0 0.5rem;
+      font-size: 1rem;
+      font-weight: 600;
     }
 
     .result-card.success {
-      border-left-color: #48bb78;
-      background: linear-gradient(135deg, rgba(72, 187, 120, 0.1) 0%, transparent 100%);
+      border-left: 3px solid var(--success-color);
     }
 
     .result-card.warning {
-      border-left-color: #ed8936;
-      background: linear-gradient(135deg, rgba(237, 137, 54, 0.1) 0%, transparent 100%);
+      border-left: 3px solid var(--warning-color);
     }
 
     .result-card.error {
-      border-left-color: #f56565;
-      background: linear-gradient(135deg, rgba(245, 101, 101, 0.1) 0%, transparent 100%);
+      border-left: 3px solid var(--error-color);
     }
 
     pre {
-      background: #1a202c;
-      color: #e2e8f0;
-      padding: 1.5rem;
+      background: #f8f9fa;
+      color: #495057;
+      padding: 1rem;
       border-radius: var(--border-radius);
       overflow-x: auto;
-      font-family: "Fira Code", "Consolas", monospace;
-      border: 1px solid #2d3748;
+      font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
+      font-size: 13px;
+      border: 1px solid var(--border-color);
       white-space: pre-wrap;
       word-wrap: break-word;
-    }
-
-    .examples-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1rem;
-      margin: 2rem 0;
-    }
-
-    .example-item {
-      background: var(--secondary-background-color);
-      border: 2px solid var(--divider-color);
-      border-radius: var(--border-radius);
-      padding: 1rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      text-align: center;
-      min-height: 80px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .example-item:hover {
-      border-color: #667eea;
-      background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, transparent 100%);
-      transform: translateY(-2px);
-    }
-
-    .example-item:active {
-      transform: scale(0.98);
-    }
-
-    .example-item code {
-      font-family: "Fira Code", monospace;
-      font-weight: 600;
-      color: #667eea;
     }
 
     .comparison-result {
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 2rem;
-      margin: 2rem 0;
-      background: var(--secondary-background-color);
-      border-radius: var(--border-radius-lg);
-      box-shadow: var(--shadow);
-      font-size: 2rem;
-      font-weight: 700;
-      gap: 1rem;
-    }
-
-    .comparison-result.greater {
-      background: linear-gradient(135deg, rgba(72, 187, 120, 0.1) 0%, transparent 100%);
-      color: #48bb78;
-    }
-
-    .comparison-result.lesser {
-      background: linear-gradient(135deg, rgba(245, 101, 101, 0.1) 0%, transparent 100%);
-      color: #f56565;
-    }
-
-    .comparison-result.equal {
-      background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, transparent 100%);
-      color: #667eea;
-    }
-
-    .details-block {
-      margin-top: 1rem;
-    }
-
-    .details-block details {
-      background: var(--secondary-background-color);
-      border: 1px solid var(--divider-color);
-      border-radius: var(--border-radius);
-      overflow: hidden;
-    }
-
-    .details-block summary {
       padding: 1rem;
-      background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, transparent 100%);
-      cursor: pointer;
+      margin: 1rem 0;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--border-radius);
+      font-size: 1.25rem;
       font-weight: 600;
-      color: var(--primary-text-color);
-      border-bottom: 1px solid var(--divider-color);
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
       gap: 0.5rem;
     }
 
+    .comparison-result.greater {
+      background: #dcfce7;
+      color: var(--success-color);
+      border-color: var(--success-color);
+    }
+
+    .comparison-result.lesser {
+      background: #fef2f2;
+      color: var(--error-color);
+      border-color: var(--error-color);
+    }
+
+    .comparison-result.equal {
+      background: #eff6ff;
+      color: var(--primary-color);
+      border-color: var(--primary-color);
+    }
+
+    .comparison-result.error {
+      background: #fef2f2;
+      color: var(--error-color);
+      border-color: var(--error-color);
+    }
+
+    .details-block details {
+      background: var(--bg-color);
+      border: 1px solid var(--border-color);
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      margin-top: 0.5rem;
+    }
+
+    .details-block summary {
+      padding: 0.75rem;
+      background: var(--bg-secondary);
+      cursor: pointer;
+      font-weight: 500;
+      color: var(--text-color);
+      border-bottom: 1px solid var(--border-color);
+    }
+
     .details-block summary:hover {
-      background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, transparent 100%);
-    }
-
-    .details-block summary::marker {
-      display: none;
-    }
-
-    .details-block summary::-webkit-details-marker {
-      display: none;
-    }
-
-    .details-block summary::before {
-      content: '▶';
-      transition: transform 0.3s ease;
-      color: #667eea;
-    }
-
-    .details-block details[open] summary::before {
-      transform: rotate(90deg);
+      background: #f3f4f6;
     }
 
     .details-block .json-content {
       padding: 1rem;
-      background: #1a202c;
-      color: #e2e8f0;
-      font-family: "Fira Code", "Consolas", monospace;
-      font-size: 0.9rem;
+      background: #f8f9fa;
+      color: #495057;
+      font-family: "Monaco", "Menlo", monospace;
+      font-size: 13px;
       line-height: 1.4;
       overflow-x: auto;
       white-space: pre-wrap;
-      border-top: 1px solid #2d3748;
     }
 
-    .footer {
-      background: var(--primary-gradient);
-      color: white;
+    footer {
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border-color);
       text-align: center;
-      padding: 3rem 2rem;
-      margin-top: 4rem;
+      padding: 2rem 1rem;
+      margin-top: 3rem;
+      color: var(--text-muted);
     }
 
-    .footer a {
-      color: white;
+    footer a {
+      color: var(--primary-color);
       text-decoration: none;
-      font-weight: 600;
     }
 
-    .footer a:hover {
+    footer a:hover {
       text-decoration: underline;
     }
 
     @media (prefers-color-scheme: dark) {
       :root {
-        --primary-text-color: #e2e8f0;
-        --secondary-text-color: #a0aec0;
-        --primary-background-color: #1a202c;
-        --secondary-background-color: #2d3748;
-        --divider-color: rgba(255, 255, 255, 0.1);
+        --text-color: #f9fafb;
+        --text-muted: #9ca3af;
+        --bg-color: #111827;
+        --bg-secondary: #1f2937;
+        --border-color: #374151;
       }
       
-      .card, .result-card, .example-item {
-        background: var(--secondary-background-color);
-        border-color: var(--divider-color);
+      pre {
+        background: #1f2937;
+        color: #e5e7eb;
+        border-color: #374151;
+      }
+      
+      .details-block .json-content {
+        background: #1f2937;
+        color: #e5e7eb;
       }
     }
 
     @media screen and (max-width: 768px) {
-      .hero {
-        padding: 2rem 1rem 1rem;
-      }
-      
-      .hero h1 {
-        font-size: 2.5rem;
-      }
-      
-      .hero p {
-        font-size: 1rem;
-      }
-      
-      .version-badge {
-        font-size: 0.9rem;
-        padding: 0.4rem 0.8rem;
-      }
-      
-      .container {
-        padding: 0 1rem;
-      }
-      
-      .card {
-        padding: 1.5rem;
-        margin: 1rem 0;
-      }
-      
       .input-group {
         grid-template-columns: 1fr;
-        gap: 1rem;
       }
       
       .result-grid {
         grid-template-columns: 1fr;
-        gap: 1rem;
-      }
-      
-      .examples-grid {
-        grid-template-columns: 1fr;
-        gap: 0.8rem;
-      }
-      
-      .example-item {
-        padding: 0.8rem;
-      }
-      
-      .example-item code {
-        font-size: 0.9rem;
       }
       
       .comparison-result {
-        font-size: 1.3rem;
-        padding: 1.2rem;
-        text-align: center;
-        flex-direction: column;
-        gap: 0.5rem;
-      }
-      
-      pre {
-        padding: 1rem;
-        font-size: 0.85rem;
-        overflow-x: auto;
-      }
-      
-      .input-field input {
-        padding: 0.8rem;
         font-size: 1rem;
-      }
-      
-      .input-field label {
-        font-size: 0.9rem;
-      }
-      
-      .section {
-        margin: 2rem 0;
-      }
-      
-      .footer {
-        padding: 2rem 1rem;
-      }
-      
-      .footer p {
-        font-size: 0.9rem;
-      }
-      
-      .details-block summary {
-        padding: 0.8rem;
-        font-size: 0.9rem;
-      }
-      
-      .details-block .json-content {
-        padding: 0.8rem;
-        font-size: 0.8rem;
-      }
-    }
-    
-    @media screen and (max-width: 480px) {
-      .hero h1 {
-        font-size: 2rem;
-      }
-      
-      .hero p {
-        font-size: 0.95rem;
-      }
-      
-      .card {
-        padding: 1rem;
-      }
-      
-      .card h3 {
-        font-size: 1.2rem;
-      }
-      
-      .comparison-result {
-        font-size: 1.1rem;
-        padding: 1rem;
-      }
-      
-      .result-card {
-        padding: 1rem;
-      }
-      
-      pre {
-        padding: 0.8rem;
-        font-size: 0.8rem;
-      }
-      
-      .input-field input {
-        padding: 0.7rem;
-        font-size: 0.9rem;
+        padding: 0.75rem;
       }
       
       .container {
         padding: 0 0.5rem;
       }
     }
+
+    /* Loader styles */
+    .loader-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.95);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+
+    .loader {
+      width: 40px;
+      height: 40px;
+      border: 4px solid var(--border-color);
+      border-top: 4px solid var(--primary-color);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 1rem;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .loader-text {
+      color: var(--text-color);
+      font-size: 14px;
+      text-align: center;
+    }
+
+    .main-content {
+      opacity: 0;
+      transition: opacity 0.3s ease-in-out;
+    }
+
+    .main-content.loaded {
+      opacity: 1;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .loader-overlay {
+        background: rgba(17, 24, 39, 0.95);
+      }
+    }
   </style>
 </head>
 
 <body>
-  <py-config>
-    packages = ["awesomeversion"]
-  </py-config>
+  <!-- Loader overlay -->
+  <div id="loader-overlay" class="loader-overlay">
+    <div class="loader"></div>
+    <div class="loader-text">
+      Loading AwesomeVersion...<br>
+      <small>Installing Python packages</small>
+    </div>
+  </div>
+
+  <!-- Main content -->
+  <div id="main-content" class="main-content">
+    <py-config>
+      packages = ["awesomeversion"]
+    </py-config>
   
   <py-script>
     from awesomeversion import AwesomeVersion
@@ -604,14 +430,14 @@
     
     def format_version_info(info):
         if "error" in info:
-            return f"❌ Error: {info['error']}"
+            return f"Error: {info['error']}"
         
-        output = f"✅ Valid: {info['valid']}\n"
-        output += f"📦 Strategy: {info['strategy']}\n"
-        output += f"🔢 Version: {info['string']}\n\n"
+        output = f"Valid: {info['valid']}\n"
+        output += f"Strategy: {info['strategy']}\n"
+        output += f"Version: {info['string']}\n\n"
         
         if info['valid']:
-            output += "📋 Properties:\n"
+            output += "Properties:\n"
             output += f"  • Major: {info['major']}\n"
             output += f"  • Minor: {info['minor']}\n"
             output += f"  • Patch: {info['patch']}\n"
@@ -679,27 +505,27 @@
                     
                     comparison_html = '<div class="comparison-result '
                     if version_a > version_b:
-                        comparison_html += 'greater"><i class="fas fa-chevron-up"></i>'
+                        comparison_html += 'greater">'
                         comparison_html += f'{escape_html(version_a_str)} > {escape_html(version_b_str)}'
                     elif version_a < version_b:
-                        comparison_html += 'lesser"><i class="fas fa-chevron-down"></i>'
+                        comparison_html += 'lesser">'
                         comparison_html += f'{escape_html(version_a_str)} < {escape_html(version_b_str)}'
                     else:
-                        comparison_html += 'equal"><i class="fas fa-equals"></i>'
+                        comparison_html += 'equal">'
                         comparison_html += f'{escape_html(version_a_str)} = {escape_html(version_b_str)}'
                     comparison_html += '</div>'
                     
                     document.querySelector("#comparison-result").innerHTML = comparison_html
                     
                     # Additional comparison details
-                    details = f"🔍 Detailed Comparison:\n"
+                    details = f"Detailed Comparison:\n"
                     details += f"  • {version_a_str} > {version_b_str}: {safe_compare(version_a, version_b, '>')}\n"
                     details += f"  • {version_a_str} < {version_b_str}: {safe_compare(version_a, version_b, '<')}\n"
                     details += f"  • {version_a_str} == {version_b_str}: {safe_compare(version_a, version_b, '==')}\n"
                     details += f"  • {version_a_str} >= {version_b_str}: {safe_compare(version_a, version_b, '>=')}\n"
                     details += f"  • {version_a_str} <= {version_b_str}: {safe_compare(version_a, version_b, '<=')}\n\n"
                     
-                    details += "🔄 Differences:\n"
+                    details += "Differences:\n"
                     details += f"  • Major: {info_a['major']} vs {info_b['major']} ({'✓' if info_a['major'] == info_b['major'] else '✗'})\n"
                     details += f"  • Minor: {info_a['minor']} vs {info_b['minor']} ({'✓' if info_a['minor'] == info_b['minor'] else '✗'})\n"
                     details += f"  • Patch: {info_a['patch']} vs {info_b['patch']} ({'✓' if info_a['patch'] == info_b['patch'] else '✗'})\n"
@@ -708,13 +534,13 @@
                     document.querySelector("#comparison-details").innerText = details
                     
                 except Exception as e:
-                    document.querySelector("#comparison-result").innerHTML = f'<div class="comparison-result error">❌ Comparison Error: {escape_html(str(e))}</div>'
+                    document.querySelector("#comparison-result").innerHTML = f'<div class="comparison-result error">Comparison Error: {escape_html(str(e))}</div>'
                     document.querySelector("#comparison-details").innerText = ""
             else:
-                document.querySelector("#comparison-result").innerHTML = '<div class="comparison-result error">❌ Cannot compare invalid versions</div>'
+                document.querySelector("#comparison-result").innerHTML = '<div class="comparison-result error">Cannot compare invalid versions</div>'
                 document.querySelector("#comparison-details").innerText = ""
         except Exception as e:
-            document.querySelector("#comparison-result").innerHTML = f'<div class="comparison-result error">❌ Script Error: {escape_html(str(e))}</div>'
+            document.querySelector("#comparison-result").innerHTML = f'<div class="comparison-result error">Script Error: {escape_html(str(e))}</div>'
             document.querySelector("#comparison-details").innerText = ""
     
     def load_example(version_a, version_b):
@@ -748,7 +574,7 @@
             document.querySelector("#single-version-json").innerText = json_output
             
         except Exception as e:
-            document.querySelector("#single-version-output").innerText = f"❌ Error: {str(e)}"
+            document.querySelector("#single-version-output").innerText = f"Error: {str(e)}"
             document.querySelector("#single-version-json").innerText = f'{{"error": "{str(e)}"}}'
     
     # Make functions available globally for onclick handlers
@@ -756,53 +582,32 @@
     js.load_example = load_example
     js.analyze_single_version = analyze_single_version
     js.compare_versions = compare_versions
+    
+    # Display AwesomeVersion version in footer
+    try:
+        from importlib.metadata import version
+        version_info = f"v{version('awesomeversion')}"
+        document.querySelector("#awesomeversion-version").innerText = version_info
+    except Exception as e:
+        document.querySelector("#awesomeversion-version").innerText = "v?"
+    
+    # Hide loader and show main content
+    document.querySelector("#loader-overlay").style.display = "none"
+    document.querySelector("#main-content").classList.add("loaded")
   </py-script>
 
-  <div class="hero">
+  <header>
     <div class="container">
-      <div class="version-badge">🚀 AwesomeVersion Demo</div>
-      <h1>AwesomeVersion demo</h1>
-      <p>Make anything a version object, and compare against a vast section of other version formats. Explore the power of AwesomeVersion with this interactive demo!</p>
+      <h1>AwesomeVersion Demo</h1>
+      <p>Compare version strings and explore version formats with this interactive tool</p>
     </div>
-  </div>
+  </header>
 
   <div class="container">
 
-    <div class="section" id="examples-section">
-      <div class="card">
-        <h3><i class="fas fa-lightbulb"></i> Quick examples - click to try!</h3>
-        <div class="examples-grid">
-          <div class="example-item" onclick="load_example('1.0.0', '2.0.0')">
-            <code>1.0.0 vs 2.0.0</code>
-            <div>Semantic versions</div>
-          </div>
-          <div class="example-item" onclick="load_example('v1.2.3-alpha', 'v1.2.3-beta')">
-            <code>v1.2.3-alpha vs v1.2.3-beta</code>
-            <div>Pre-release versions</div>
-          </div>
-          <div class="example-item" onclick="load_example('2023.12.01', '2024.01.01')">
-            <code>2023.12.01 vs 2024.01.01</code>
-            <div>Date-based versions</div>
-          </div>
-          <div class="example-item" onclick="load_example('1.0.0-dev', '1.0.0')">
-            <code>1.0.0-dev vs 1.0.0</code>
-            <div>Development versions</div>
-          </div>
-          <div class="example-item" onclick="load_example('latest', 'stable')">
-            <code>latest vs stable</code>
-            <div>Container tags</div>
-          </div>
-          <div class="example-item" onclick="load_example('1.0.0rc1', '1.0.0')">
-            <code>1.0.0rc1 vs 1.0.0</code>
-            <div>Release candidates</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <div class="section">
       <div class="card">
-        <h3><i class="fas fa-microscope"></i> Single version analysis</h3>
+        <h3>Single version analysis</h3>
         <div class="input-field">
           <label for="single-version-input">Enter a version to analyze:</label>
           <input type="text" id="single-version-input" placeholder="e.g., 1.2.3-alpha.1, v2.0.0-rc1, 2024.03.15, latest" py-input="analyze_single_version"/>
@@ -811,10 +616,7 @@
         
         <div class="details-block">
           <details>
-            <summary>
-              <i class="fas fa-code"></i>
-              View raw JSON data
-            </summary>
+            <summary>View raw JSON data</summary>
             <div class="json-content" id="single-version-json"></div>
           </details>
         </div>
@@ -823,7 +625,7 @@
 
     <div class="section">
       <div class="card">
-        <h3><i class="fas fa-balance-scale"></i> Version comparison tool</h3>
+        <h3>Version comparison</h3>
         <div class="input-group">
           <div class="input-field">
             <label for="version-input-a">Version A:</label>
@@ -839,45 +641,42 @@
         
         <div class="result-grid">
           <div class="result-card">
-            <h4>📦 Version A details</h4>
+            <h4>Version A Details</h4>
             <pre id="properties-output-a"></pre>
             <details class="json-details">
-              <summary>📋 Raw JSON data</summary>
+              <summary>Raw JSON data</summary>
               <pre id="raw-json-a" class="json-output"></pre>
             </details>
           </div>
           <div class="result-card">
-            <h4>📦 Version B details</h4>
+            <h4>Version B Details</h4>
             <pre id="properties-output-b"></pre>
             <details class="json-details">
-              <summary>📋 Raw JSON data</summary>
+              <summary>Raw JSON data</summary>
               <pre id="raw-json-b" class="json-output"></pre>
             </details>
           </div>
         </div>
         
         <div class="card">
-          <h4><i class="fas fa-chart-line"></i> Comparison details</h4>
+          <h4>Comparison Details</h4>
           <pre id="comparison-details"></pre>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="footer">
+  <footer>
     <div class="container">
       <p>
-        <i class="fas fa-code"></i> 
         <a href="https://github.com/ludeeus/awesomeversion" target="_blank">AwesomeVersion</a> 
+        <span id="awesomeversion-version"></span>
         demo powered by 
         <a href="https://pyscript.net/" target="_blank">PyScript</a>
       </p>
-      <p>
-        <i class="fas fa-heart"></i> 
-        Built with love for the developer community
-      </p>
     </div>
   </div>
+  <!-- End main content -->
 
   <script>
     const urlParams = new URLSearchParams(window.location.search);
@@ -894,10 +693,6 @@
     }
     if (versionB) {
       document.querySelector("#version-input-b").value = versionB;
-    }
-    
-    if (singleVersion || versionA || versionB) {
-      document.querySelector("#examples-section").style.display = "none";
     }
     
     document.addEventListener('py:ready', function() {
