@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AwesomeVersion interactive demo</title>
   <link rel="stylesheet" href="https://pyscript.net/releases/2025.7.2/core.css" />
-  <script type="module" src="https://pyscript.net/releases/2025.7.2/core.js"></script>
+  <script type="module" src="https://pyscript.net/releases/2025.7.2/core.js" crossorigin="anonymous"></script>
   <style>
     :root {
       --primary-color: #2563eb;
@@ -373,7 +373,7 @@
       packages = ["awesomeversion"]
     </py-config>
   
-  <py-script>
+  <script type="py">
     from awesomeversion import AwesomeVersion
     import json
     from pyscript import document
@@ -594,7 +594,7 @@
     # Hide loader and show main content
     document.querySelector("#loader-overlay").style.display = "none"
     document.querySelector("#main-content").classList.add("loaded")
-  </py-script>
+  </script>
 
   <header>
     <div class="container">
