@@ -141,7 +141,30 @@ class AwesomeVersion(str):
     def __eq__(self, compareto: VersionType) -> bool:
         """Check if equals to."""
         compareto = self._ensure_awesome_version(compareto)
-        return self.string == compareto.string
+        
+        # Fast path: if strings are identical
+        if self.string == compareto.string:
+            return True
+        
+        # Special containers should use string comparison
+        # (they have their own comparison logic and shouldn't be considered equal by section)
+        if (
+            self.strategy == AwesomeVersionStrategy.SPECIALCONTAINER
+            or compareto.strategy == AwesomeVersionStrategy.SPECIALCONTAINER
+        ):
+            return False
+        
+        # Semantic comparison: compare all sections and modifiers
+        # This allows "1.0" to equal "1.0.0" since trailing zeros are semantically equivalent
+        # but "1.0.0" != "1.0.0-beta" because modifiers differ
+        max_sections = max(self.sections, compareto.sections)
+        sections_equal = all(
+            self.section(i) == compareto.section(i) 
+            for i in range(max_sections)
+        )
+        
+        # Only consider equal if sections match AND modifiers match
+        return sections_equal and self.modifier == compareto.modifier
 
     def __lt__(self, compareto: VersionType) -> bool:
         """Check if less than."""
