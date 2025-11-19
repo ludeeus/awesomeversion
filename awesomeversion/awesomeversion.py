@@ -42,6 +42,7 @@ class AwesomeVersion(str):
     _modifier_type: str | None = None
     _sections: int | None = None
     _ensure_strategy: EnsureStrategyIterableType = []
+    _semantic_equality: bool = False
 
     def __init__(
         self,  # pylint: disable=unused-argument
@@ -49,6 +50,7 @@ class AwesomeVersion(str):
         *,
         ensure_strategy: EnsureStrategyType = None,
         find_first_match: bool = False,
+        semantic_equality: bool = False,
         **kwargs: Any,
     ) -> None:
         """
@@ -71,10 +73,17 @@ class AwesomeVersion(str):
             match of the given ensure_strategy. Raises
             AwesomeVersionStrategyException If it is not found
             for any of the given strategies.
+
+        semantic_equality:
+            If True, versions with trailing zeros are considered equal
+            (e.g., "1.0" == "1.0.0"). Defaults to False for backward
+            compatibility.
         """
         if isinstance(version, AwesomeVersion):
             self._version = version._version
+            self._semantic_equality = version._semantic_equality
         else:
+            self._semantic_equality = semantic_equality
             version_str = str(version)
             self._version = version_str.strip() if version_str else ""
 
@@ -145,6 +154,10 @@ class AwesomeVersion(str):
         # Fast path: if strings are identical
         if self.string == compareto.string:
             return True
+
+        # If semantic equality is not enabled, use strict string comparison
+        if not self._semantic_equality and not compareto._semantic_equality:
+            return False
 
         # Special containers should use string comparison
         # (they have their own comparison logic and shouldn't be considered equal by section)
