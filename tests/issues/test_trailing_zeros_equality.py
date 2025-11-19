@@ -48,3 +48,23 @@ def test_trailing_zeros_with_different_modifiers_not_equal() -> None:
         ver_b = AwesomeVersion(version_b)
         assert ver_a != ver_b, f"{version_a} should NOT equal {version_b}"
         assert ver_b != ver_a, f"{version_b} should NOT equal {version_a}"
+
+
+def test_different_versions_not_equal() -> None:
+    """Test that different versions (not just trailing zeros) are not equal."""
+    # Ensure that 1.0 != 1.0.1 and similar cases
+    test_cases = [
+        ("1.0", "1.0.1"),
+        ("1.0", "1.1"),
+        ("2.0.0", "2.0.1"),
+        ("1.5", "1.6"),
+    ]
+
+    for version_a, version_b in test_cases:
+        ver_a = AwesomeVersion(version_a)
+        ver_b = AwesomeVersion(version_b)
+        assert ver_a != ver_b, f"{version_a} should NOT equal {version_b}"
+        assert ver_b != ver_a, f"{version_b} should NOT equal {version_a}"
+        # Also test comparison operators
+        assert ver_a < ver_b, f"{version_a} should be less than {version_b}"
+        assert ver_b > ver_a, f"{version_b} should be greater than {version_a}"
