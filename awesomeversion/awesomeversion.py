@@ -371,7 +371,10 @@ class AwesomeVersion(str):
         ):
             match = self.strategy_description.pattern.match(self.string)
             if match and len(match.groups()) >= 4:
-                self._modifier = modifier_string = match.group(4)
+                # Check both pre-release (group 4) and build metadata (group 5)
+                self._modifier = modifier_string = match.group(4) or (
+                    match.group(5) if len(match.groups()) >= 5 else None
+                )
         else:
             modifier_string = self.string.split(".")[-1]
 
