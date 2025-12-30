@@ -27,7 +27,7 @@ jobs:
       - name: Install uv
         uses: astral-sh/setup-uv@681c641aba71e4a1c380be3ab5e12ad51f415867  # v7.1.6
         with:
-          version: "0.9.18"
+          version: "0.9.20"
 
       - name: 📦 Install dependencies
         run: script/bootstrap
@@ -70,7 +70,7 @@ jobs:
       - name: Install uv
         uses: astral-sh/setup-uv@681c641aba71e4a1c380be3ab5e12ad51f415867  # v7.1.6
         with:
-          version: "0.9.18"
+          version: "0.9.20"
 
       - name: 📦 Install dependencies
         run: script/bootstrap
@@ -99,7 +99,7 @@ jobs:
       - name: Install uv
         uses: astral-sh/setup-uv@681c641aba71e4a1c380be3ab5e12ad51f415867  # v7.1.6
         with:
-          version: "0.9.18"
+          version: "0.9.20"
 
       - name: 📦 Install dependencies
         run: script/bootstrap
