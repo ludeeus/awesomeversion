@@ -39,7 +39,7 @@ runs:
       shell: bash
       env:
         LOCAL_GITHUB_ACTION_PATH: ${{ github.action_path }}
-      run: echo "dir=$(cd "$LOCAL_GITHUB_ACTION_PATH/../.." && pwd)" >> "$GITHUB_OUTPUT"
+      run: echo "dir=$(cd "$LOCAL_GITHUB_ACTION_PATH/../../.." && pwd)" >> "$GITHUB_OUTPUT"
 
     - name: 🛠️ Set up minimum supported Python
       uses: actions/setup-python@v6
