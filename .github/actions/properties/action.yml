@@ -37,7 +37,9 @@ runs:
     - name: 📂 Locate the awesomeversion source
       id: locate
       shell: bash
-      run: echo "dir=$(cd "$GITHUB_ACTION_PATH/../.." && pwd)" >> "$GITHUB_OUTPUT"
+      env:
+        LOCAL_GITHUB_ACTION_PATH: ${{ github.action_path }}
+      run: echo "dir=$(cd "$LOCAL_GITHUB_ACTION_PATH/../.." && pwd)" >> "$GITHUB_OUTPUT"
 
     - name: 🛠️ Set up minimum supported Python
       uses: actions/setup-python@v6
@@ -46,7 +48,9 @@ runs:
 
     - name: 📦 Install awesomeversion
       shell: bash
-      run: pip install "${{ steps.locate.outputs.dir }}"
+      env:
+        SOURCE_DIR: ${{ steps.locate.outputs.dir }}
+      run: pip install "$SOURCE_DIR"
 
     - name: 🧪 Export version properties
       id: props
