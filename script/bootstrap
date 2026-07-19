@@ -13,6 +13,6 @@ if ! command -v uv >/dev/null 2>&1; then
 fi
 
 echo "==> Installing dependencies..."
-uv sync --dev --all-extras
+uv sync --locked --dev --all-extras
 
 echo "==> Bootstrap completed!"
