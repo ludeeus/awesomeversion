@@ -190,7 +190,11 @@ def test_compare_modifier_section(
         ),
         ("1.0.0-rc.2", "1.0.0-rc2", False),
         ("1.0.0-alpha5-123", "1.0.0-alpha5-456", False),
+        # Compound parts whose leading digits are equal are treated as equal:
+        # the trailing non-numeric text is not ordered, so neither direction
+        # is "greater" (both comparisons return False).
         ("1.0.0-alpha5-1x", "1.0.0-alpha5-1y", False),
+        ("1.0.0-alpha5-1y", "1.0.0-alpha5-1x", False),
     ),
 )
 def test_compare_handler_semver_modifier_extended(
