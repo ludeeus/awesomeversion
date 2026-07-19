@@ -8,7 +8,7 @@ cd "$(dirname "$0")/.."
 
 echo "==> Running linting tools..."
 
-echo "==> Running ruff (imports)..."
+echo "==> Running ruff check..."
 uv run --dev ruff check --fix awesomeversion tests benchmarks
 
 echo "==> Running ruff format..."
