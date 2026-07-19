@@ -39,6 +39,9 @@ dev = [
 ]
 
 
+[tool.ruff]
+required-version = "==0.15.22"
+
 [tool.ruff.lint]
 select = ["I"]
 
