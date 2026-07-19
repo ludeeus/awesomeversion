@@ -188,6 +188,13 @@ def test_compare_modifier_section(
             "1.0.0-alpha-test-dev",
             False,
         ),
+        ("1.0.0-rc.2", "1.0.0-rc2", False),
+        # SemVer vs non-SemVer side with the same modifier type.
+        ("1.0.0-beta.2", "1.0.beta2", False),
+        ("1.0.0-alpha5-123", "1.0.0-alpha5-456", False),
+        # Equal leading digits, unordered trailing text: neither is greater.
+        ("1.0.0-alpha5-1x", "1.0.0-alpha5-1y", False),
+        ("1.0.0-alpha5-1y", "1.0.0-alpha5-1x", False),
     ),
 )
 def test_compare_handler_semver_modifier_extended(
