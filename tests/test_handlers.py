@@ -189,14 +189,10 @@ def test_compare_modifier_section(
             False,
         ),
         ("1.0.0-rc.2", "1.0.0-rc2", False),
-        # A SemVer side compared against a non-SemVer side that still has the
-        # same modifier type: the non-SemVer string yields no modifier number,
-        # exercising the "one side has a number, the other does not" path.
+        # SemVer vs non-SemVer side with the same modifier type.
         ("1.0.0-beta.2", "1.0.beta2", False),
         ("1.0.0-alpha5-123", "1.0.0-alpha5-456", False),
-        # Compound parts whose leading digits are equal are treated as equal:
-        # the trailing non-numeric text is not ordered, so neither direction
-        # is "greater" (both comparisons return False).
+        # Equal leading digits, unordered trailing text: neither is greater.
         ("1.0.0-alpha5-1x", "1.0.0-alpha5-1y", False),
         ("1.0.0-alpha5-1y", "1.0.0-alpha5-1x", False),
     ),
