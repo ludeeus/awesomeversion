@@ -49,6 +49,7 @@ def test_awesomeversion() -> None:
 
     version = AwesomeVersion("1.0.0-build3")
     assert not version.dev
+    assert not version.beta
 
     version = AwesomeVersion("2020.12.1rc0")
     assert version.release_candidate
