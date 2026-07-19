@@ -42,6 +42,15 @@ def test_awesomeversion() -> None:
     assert version.dev
     assert version.valid
 
+    # A beta is not an alpha, and a build is not a dev version.
+    version = AwesomeVersion("1.0.0-beta.2")
+    assert not version.alpha
+    assert version.beta
+
+    version = AwesomeVersion("1.0.0-build3")
+    assert not version.dev
+    assert not version.beta
+
     version = AwesomeVersion("2020.12.1rc0")
     assert version.release_candidate
     assert version.prefix is None
