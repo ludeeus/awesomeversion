@@ -261,7 +261,7 @@ class AwesomeVersion(str):
     @property
     def alpha(self) -> bool:
         """Return a bool to indicate alpha version."""
-        return "a" in self.modifier if self.modifier else False
+        return self.modifier_type in ("a", "alpha")
 
     @property
     def beta(self) -> bool:
@@ -271,7 +271,11 @@ class AwesomeVersion(str):
     @property
     def dev(self) -> bool:
         """Return a bool to indicate dev version."""
-        return "d" in self.modifier if self.modifier else "dev" in self.string
+        return (
+            self.modifier_type in ("d", "dev")
+            if self.modifier
+            else "dev" in self.string
+        )
 
     @property
     def release_candidate(self) -> bool:
