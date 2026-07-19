@@ -33,9 +33,10 @@ jobs:
         run: script/bootstrap
 
       - name: 🐺 Lint with Ruff
-        run: |
-          uv run --dev ruff check awesomeversion tests benchmarks
-          uv run --dev ruff format --check awesomeversion tests benchmarks
+        run: uv run --dev ruff check awesomeversion tests benchmarks
+
+      - name: 🎨 Check formatting with Ruff
+        run: uv run --dev ruff format --check awesomeversion tests benchmarks
 
       - name: 🐍 Lint with mypy
         run: uv run --dev mypy --strict awesomeversion tests benchmarks
