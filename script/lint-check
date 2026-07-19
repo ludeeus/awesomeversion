@@ -8,7 +8,7 @@ cd "$(dirname "$0")/.."
 
 echo "==> Checking linting..."
 
-echo "==> Checking ruff (imports)..."
+echo "==> Checking ruff check..."
 uv run --dev ruff check awesomeversion tests benchmarks
 
 echo "==> Checking ruff format..."
