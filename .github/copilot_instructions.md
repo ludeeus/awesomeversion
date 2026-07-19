@@ -10,7 +10,7 @@ AwesomeVersion is a zero-dependency Python library that can parse and compare ve
 
 ### Required before each commit
 
-- Run `./script/lint` to format code with isort and black
+- Run `./script/lint` to format and sort imports with ruff
 - Run `./script/test` to ensure all tests pass
 - Use the provided scripts in the `script/` directory for consistency
 
@@ -18,7 +18,7 @@ AwesomeVersion is a zero-dependency Python library that can parse and compare ve
 
 - **Setup**: `./script/setup` - Install dependencies and set up development environment
 - **Test**: `./script/test` - Run the full test suite with pytest
-- **Lint**: `./script/lint` - Format and lint code (isort + black)
+- **Lint**: `./script/lint` - Format and lint code (ruff)
 - **Lint check**: `./script/lint-check` - Check code formatting without making changes
 - **Coverage**: `./script/coverage` - Generate test coverage reports
 - **Build**: `./script/build` - Build the package

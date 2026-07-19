@@ -36,9 +36,9 @@ def test() -> None:
     assert installed_awesome.modifier < latest_awesome.modifier
 
     # The main comparison should work (this was the reported issue)
-    assert (
-        installed_awesome < latest_awesome
-    ), f"{installed_awesome} should be less than {latest_awesome}"
+    assert installed_awesome < latest_awesome, (
+        f"{installed_awesome} should be less than {latest_awesome}"
+    )
 
     # Test some additional compound modifier scenarios
     dev_version = AwesomeVersion(

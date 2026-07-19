@@ -32,17 +32,16 @@ jobs:
       - name: 📦 Install dependencies
         run: script/bootstrap
 
-      - name: 🖤 Lint with Black
-        run: uv run --dev black --check --fast awesomeversion tests benchmarks
+      - name: 🐺 Lint with Ruff
+        run: |
+          uv run --dev ruff check awesomeversion tests benchmarks
+          uv run --dev ruff format --check awesomeversion tests benchmarks
 
       - name: 🐍 Lint with mypy
         run: uv run --dev mypy --strict awesomeversion tests benchmarks
 
       - name: ✨ Lint with pylint
         run: uv run --dev pylint awesomeversion tests benchmarks
-
-      - name: 🔤 Lint with isort
-        run: uv run --dev isort awesomeversion tests benchmarks --check-only
 
   test:
     name: Test with Python ${{ matrix.entry.version }}

@@ -8,11 +8,11 @@ cd "$(dirname "$0")/.."
 
 echo "==> Running linting tools..."
 
-echo "==> Running isort..."
-uv run --dev isort awesomeversion tests benchmarks
+echo "==> Running ruff (imports)..."
+uv run --dev ruff check --fix awesomeversion tests benchmarks
 
-echo "==> Running black..."
-uv run --dev black --fast awesomeversion tests benchmarks
+echo "==> Running ruff format..."
+uv run --dev ruff format awesomeversion tests benchmarks
 
 echo "==> Running mypy..."
 uv run --dev mypy --strict awesomeversion tests benchmarks
