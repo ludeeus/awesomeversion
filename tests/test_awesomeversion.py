@@ -60,6 +60,8 @@ def test_awesomeversion() -> None:
     assert repr(version) == "<AwesomeVersion CalVer '2020.12.1rc0'>"
 
     assert AwesomeVersion("1.0.0-beta.2").modifier == "beta.2"
+    assert AwesomeVersion("1.0.0+12").modifier == "12"
+    assert AwesomeVersion("1.0.0-alpha+build123").modifier == "alpha"
     assert AwesomeVersion("2020.2.0b1").modifier_type == "b"
 
     with AwesomeVersion("20.12.0") as current:
