@@ -1,0 +1,73 @@
+name: AwesomeVersion properties
+description: >-
+  Install awesomeversion (the version this action is referenced at) and export
+  common AwesomeVersion properties for a supplied version string as step outputs.
+
+inputs:
+  version:
+    description: The version string to inspect.
+    required: true
+
+outputs:
+  version:
+    description: Normalized version string.
+    value: ${{ steps.props.outputs.version }}
+  strategy:
+    description: Detected version strategy (e.g. SemVer, CalVer).
+    value: ${{ steps.props.outputs.strategy }}
+  alpha:
+    description: "true if an alpha version."
+    value: ${{ steps.props.outputs.alpha }}
+  beta:
+    description: "true if a beta version."
+    value: ${{ steps.props.outputs.beta }}
+  release_candidate:
+    description: "true if a release candidate."
+    value: ${{ steps.props.outputs.release_candidate }}
+  dev:
+    description: "true if a dev version."
+    value: ${{ steps.props.outputs.dev }}
+  modifier:
+    description: The version modifier (e.g. a1, rc0) or None.
+    value: ${{ steps.props.outputs.modifier }}
+
+runs:
+  using: composite
+  steps:
+    - name: 📂 Locate the awesomeversion source
+      id: locate
+      shell: bash
+      env:
+        LOCAL_GITHUB_ACTION_PATH: ${{ github.action_path }}
+      run: echo "dir=$(cd "$LOCAL_GITHUB_ACTION_PATH/../../.." && pwd)" >> "$GITHUB_OUTPUT"
+
+    - name: 🛠️ Set up minimum supported Python
+      uses: actions/setup-python@v6
+      with:
+        python-version-file: ${{ steps.locate.outputs.dir }}/pyproject.toml
+
+    - name: 📦 Install awesomeversion
+      shell: bash
+      env:
+        SOURCE_DIR: ${{ steps.locate.outputs.dir }}
+      run: pip install "$SOURCE_DIR"
+
+    - name: 🧪 Export version properties
+      id: props
+      shell: bash
+      working-directory: ${{ runner.temp }}
+      env:
+        VERSION: ${{ inputs.version }}
+      run: |
+        python - <<'EOF' >> "$GITHUB_OUTPUT"
+        import os
+        from awesomeversion import AwesomeVersion
+        v = AwesomeVersion(os.environ["VERSION"])
+        print(f"version={v.string}")
+        print(f"strategy={v.strategy.value}")
+        print(f"alpha={str(v.alpha).lower()}")
+        print(f"beta={str(v.beta).lower()}")
+        print(f"release_candidate={str(v.release_candidate).lower()}")
+        print(f"dev={str(v.dev).lower()}")
+        print(f"modifier={v.modifier}")
+        EOF

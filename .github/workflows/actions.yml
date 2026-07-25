@@ -108,3 +108,51 @@ jobs:
         run: |
           script/coverage
           curl -sfSL https://codecov.io/bash | bash -
+
+  smoke:
+    name: Smoke test ${{ matrix.version }}
+    needs: coverage
+    runs-on: ubuntu-slim
+    permissions: {}
+    strategy:
+      fail-fast: false
+      matrix:
+        version:
+          - "1.2.3"          # stable / SemVer
+          - "1.2.3a1"        # alpha
+          - "1.2.3b2"        # beta
+          - "2020.12.1rc0"   # release candidate / CalVer
+    steps:
+      - name: 📥 Checkout the repository
+        uses: actions/checkout@v6.0.2
+        with:
+          persist-credentials: false
+
+      - name: 🧪 Compute version properties
+        id: props
+        uses: ./.github/actions/properties
+        with:
+          version: ${{ matrix.version }}
+
+      - name: 📝 Add properties to job summary
+        env:
+          VERSION: ${{ matrix.version }}
+          STRATEGY: ${{ steps.props.outputs.strategy }}
+          ALPHA: ${{ steps.props.outputs.alpha }}
+          BETA: ${{ steps.props.outputs.beta }}
+          RELEASE_CANDIDATE: ${{ steps.props.outputs.release_candidate }}
+          DEV: ${{ steps.props.outputs.dev }}
+          MODIFIER: ${{ steps.props.outputs.modifier }}
+        run: |
+          {
+            echo "### \`${VERSION}\`"
+            echo ""
+            echo "| Property | Value |"
+            echo "| --- | --- |"
+            echo "| Strategy | ${STRATEGY} |"
+            echo "| Alpha | ${ALPHA} |"
+            echo "| Beta | ${BETA} |"
+            echo "| Release candidate | ${RELEASE_CANDIDATE} |"
+            echo "| Dev | ${DEV} |"
+            echo "| Modifier | ${MODIFIER} |"
+          } >> "$GITHUB_STEP_SUMMARY"
