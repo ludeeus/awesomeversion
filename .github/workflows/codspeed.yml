@@ -33,7 +33,7 @@ jobs:
         run: script/bootstrap
 
       - name: Run benchmarks
-        uses: CodSpeedHQ/action@fa0c9b1770f933c1bc025c83a9b42946b102f4e6  # v4.10.4
+        uses: CodSpeedHQ/action@f22792bfac16f3e14eb9fbea76f4a48e9cc22b93  # v4.19.1
         with:
           token: ${{ secrets.CODSPEED_TOKEN }}
           run: uv run --dev pytest -x --no-cov -vvvvv --codspeed benchmarks
