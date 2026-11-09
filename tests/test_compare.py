@@ -47,7 +47,9 @@ from awesomeversion.typing import VersionType
         ("latest", "2020.21.1"),
         ("latest", "beta"),
         ("1.0.0-beta0", "1.0.0-alpha1"),
-        ("1.0.0-beta", "1.0.0-beta.1"),
+        # per semver.org §11, a larger set of pre-release fields has higher
+        # precedence: 1.0.0-beta < 1.0.0-beta.1 (issue #549)
+        ("1.0.0-beta.1", "1.0.0-beta"),
         ("1.0.0-beta1", "1.0.0-beta"),
         ("1.0.0-beta.2", "1.0.0-beta.1"),
         ("1.0.0-rc0", "1.0.0-alpha1"),
