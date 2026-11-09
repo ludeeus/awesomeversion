@@ -18,6 +18,85 @@ if TYPE_CHECKING:
     from awesomeversion import AwesomeVersion
 
 
+def _semver_prerelease_atoms(version_string: str) -> list[str] | None:
+    """Return the comparison atoms of a SemVer pre-release.
+
+    The pre-release is split on '.' and on '-', the way the compound
+    modifier comparison splits its parts, so that 'alpha.1' and 'alpha-dev1'
+    both yield their individual pieces to compare pairwise.
+    """
+    semver_pattern = VERSION_STRATEGIES_DICT[AwesomeVersionStrategy.SEMVER].pattern
+    semver_match = semver_pattern.match(version_string)
+
+    if not semver_match or len(semver_match.groups()) < 4 or not semver_match.group(4):
+        return None
+
+    atoms: list[str] = []
+    for identifier in semver_match.group(4).split("."):
+        atoms.extend(identifier.split("-"))
+    return atoms
+
+
+def _compare_prerelease_atom(atom_a: str, atom_b: str) -> bool | None:
+    """Compare two pre-release atoms. Returns None if equal."""
+    if atom_a == atom_b:
+        return None
+
+    numeric_a = atom_a.isdigit()
+    numeric_b = atom_b.isdigit()
+    if numeric_a and numeric_b:
+        num_val_a, num_val_b = int(atom_a), int(atom_b)
+        return num_val_a > num_val_b if num_val_a != num_val_b else None
+    if numeric_a:
+        return False
+    if numeric_b:
+        return True
+
+    mod_match_a = match_modifier_compound_part(atom_a)
+    mod_match_b = match_modifier_compound_part(atom_b)
+    if mod_match_a and mod_match_b:
+        type_a, num_a = mod_match_a.groups()
+        type_b, num_b = mod_match_b.groups()
+        if type_a != type_b:
+            return _compare_modifier_types(type_a, type_b)
+        num_val_a = int(num_a) if num_a else None
+        num_val_b = int(num_b) if num_b else None
+        if num_val_a is not None and num_val_b is not None:
+            return num_val_a > num_val_b if num_val_a != num_val_b else None
+        if num_val_a is not None:
+            return True
+        if num_val_b is not None:
+            return False
+        return None
+
+    return atom_a > atom_b
+
+
+def _compare_semver_prerelease(version_a: str, version_b: str) -> bool | None:
+    """Compare two SemVer pre-releases per the precedence rules of §11.
+
+    The pre-release pieces are compared pairwise; numeric pieces compare
+    numerically and have lower precedence than alphanumeric ones, a larger
+    set of pre-release pieces has higher precedence than a smaller set, and
+    the established modifier ordering (dev < alpha < beta < rc) applies to
+    the alphabetic part of each piece.  Returns None when the pre-releases
+    are equal (or missing), so the caller can fall through.
+    """
+    atoms_a = _semver_prerelease_atoms(version_a)
+    atoms_b = _semver_prerelease_atoms(version_b)
+    if atoms_a is None or atoms_b is None:
+        return None
+
+    for atom_a, atom_b in zip(atoms_a, atoms_b):
+        result = _compare_prerelease_atom(atom_a, atom_b)
+        if result is not None:
+            return result
+
+    if len(atoms_a) != len(atoms_b):
+        return len(atoms_a) > len(atoms_b)
+    return None
+
+
 def _extract_modifier_info(version_string: str) -> tuple[str | None, str | None]:
     """Extract modifier number and full modifier string from version."""
     semver_pattern = VERSION_STRATEGIES_DICT[AwesomeVersionStrategy.SEMVER].pattern
@@ -97,6 +176,16 @@ def compare_handler_semver_modifier(
     version_b: AwesomeVersion,
 ) -> bool | None:
     """Compare handler sections."""
+    if (
+        version_a.strategy == AwesomeVersionStrategy.SEMVER
+        and version_b.strategy == AwesomeVersionStrategy.SEMVER
+    ):
+        # Both sides are SemVer: the pre-release identifiers decide the
+        # ordering, per semver.org §11.
+        semver_result = _compare_semver_prerelease(version_a.string, version_b.string)
+        if semver_result is not None:
+            return semver_result
+
     if (
         AwesomeVersionStrategy.SEMVER not in (version_a.strategy, version_b.strategy)
         or version_a.modifier_type is None

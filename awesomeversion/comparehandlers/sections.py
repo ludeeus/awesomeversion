@@ -53,6 +53,11 @@ def compare_modifier_section(
     if version_a.modifier is None and version_b.modifier is not None:
         return True
     if version_a.modifier is not None and version_b.modifier is not None:
+        if "." in version_a.modifier or "." in version_b.modifier:
+            # Multi-part pre-release identifiers ('alpha.1', 'alpha.beta', ...)
+            # are ordered by the SemVer pre-release comparison; comparing only
+            # the last dotted segment here would decide on the wrong pieces.
+            return None
         version_a_modifier = RE_MODIFIER.match(version_a.string.split(".")[-1])
         version_b_modifier = RE_MODIFIER.match(version_b.string.split(".")[-1])
         if version_a_modifier and version_b_modifier:
